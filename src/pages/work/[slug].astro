@@ -1,18 +1,45 @@
 ---
 import {getCollection,type CollectionEntry} from 'astro:content';
-import type { GetStaticPaths } from 'astro';
+import type {GetStaticPaths} from 'astro';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import EvidenceLabel from '../../components/content/EvidenceLabel.astro';
 import RelatedEvidence from '../../components/content/RelatedEvidence.astro';
+import ComparisonChart from '../../components/content/ComparisonChart.astro';
+import LatticeConcept from '../../components/illustrations/LatticeConcept.astro';
+import ConceptualSystem from '../../components/illustrations/ConceptualSystem.astro';
 import {caseSections} from '../../lib/content/model';
 import {loadCatalog,related} from '../../lib/content/catalog';
-export const getStaticPaths= (async()=> (await getCollection('case-studies')).map(entry=>({params:{slug:entry.data.slug},props:{entry}}))) satisfies GetStaticPaths;
+import {routeHref} from '../../lib/site';
+export const getStaticPaths=(async()=> (await getCollection('case-studies')).map(entry=>({params:{slug:entry.data.slug},props:{entry}}))) satisfies GetStaticPaths;
 interface Props {entry:CollectionEntry<'case-studies'>}
 const {entry}=Astro.props;const d=entry.data;const catalog=await loadCatalog();
+const headings=[...caseSections,{id:'references',label:'Supporting evidence'}];
 ---
-<ArticleLayout title={d.title} description={d.summary} route={'work/'+d.slug} eyebrow={'Selected work / '+d.id} headings={[...caseSections]}>
-  <EvidenceLabel type={d.evidenceType}/>
-  {caseSections.map(s=><section aria-labelledby={s.id}><h2 id={s.id}>{s.label}</h2><p class="whitespace-pre-line">{d.sections[s.id]}</p></section>)}
-  {d.references.length>0 && <section aria-label="Public references"><h2>References</h2><ul>{d.references.map(ref=><li><a class="inline-flex min-h-11 items-center" href={ref.url}>{ref.label}</a></li>)}</ul></section>}
-  <RelatedEvidence entries={related(catalog,d)}/>
+<ArticleLayout title={d.title} description={d.summary} route={'work/'+d.slug} eyebrow={'Selected work / '+d.id+' / '+d.pillar} headings={headings}>
+ <div slot="intro-extra" class="page-container pb-10">
+  <div class="editorial-grid">
+   <div class="span-half">
+    <dl class="grid grid-cols-2 gap-5 border-t border-slate pt-5">
+     {([{label:'Role',value:d.role},{label:'Institution / context',value:d.context},{label:'Publication period',value:d.period}]).map(item=><div class="min-w-0"><dt class="technical-label">{item.label}</dt><dd class="mt-2 font-medium">{item.value}</dd></div>)}
+     <div><dt class="technical-label">Evidence</dt><dd class="mt-2"><EvidenceLabel type={d.evidenceType}/></dd></div>
+    </dl>
+   </div>
+   <div class="span-half">{d.illustration==='lattice'&&<LatticeConcept/>}{d.illustration==='system'&&<ConceptualSystem/>}</div>
+  </div>
+ </div>
+ <a class="inline-flex min-h-11 items-center" href={routeHref('work')}>← All selected work</a>
+ {caseSections.map((s,i)=><section aria-labelledby={s.id} data-case-section={s.id} class="case-section border-t border-structural mt-8 pt-2">
+   <h2 id={s.id}><span class="technical-label block mb-2">{String(i+1).padStart(2,'0')}</span>{s.label}</h2>
+   {s.id==='methodology'&&d.methodSteps.length>0&&<ol class="grid gap-4 mb-6">{d.methodSteps.map((step,j)=><li class="flex gap-4 items-start"><span class="technical-label border border-structural p-2">{String(j+1).padStart(2,'0')}</span><div><h3 class="text-lg">{step.title}</h3><p class="secondary-text text-sm mt-1">{step.description}</p></div></li>)}</ol>}
+   {d.sections[s.id].split('\n\n').map(p=><p>{p}</p>)}
+   {s.id==='contribution'&&d.evidenceType==='published-research'&&d.references[0]&&<p class="technical-caption"><a class="inline-flex min-h-11 items-center" href={d.references[0].url}>Source: published author-contribution statement</a></p>}
+   {s.id==='outcomes'&&d.comparison&&<ComparisonChart comparison={d.comparison}/>}
+   {s.id==='demonstration'&&d.illustration==='lattice'&&<LatticeConcept/>}
+   {s.id==='reflection'&&d.competencies.length>0&&<ul class="grid gap-2 list-disc pl-5 mt-4">{d.competencies.map(c=><li>{c}</li>)}</ul>}
+ </section>)}
+ <section aria-labelledby="references"><h2 id="references">Supporting evidence</h2><ul class="grid gap-4">{d.references.map(ref=><li class="border-t border-structural pt-3"><a class="inline-flex min-h-11 items-center" href={ref.url}>{ref.label}</a></li>)}</ul></section>
+ <RelatedEvidence entries={related(catalog,d)}/>
 </ArticleLayout>
+<style>
+ .case-section{scroll-margin-top:24px;}
+</style>

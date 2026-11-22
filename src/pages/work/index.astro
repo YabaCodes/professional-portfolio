@@ -1,0 +1,16 @@
+---
+import {getCollection} from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/content/PageIntro.astro';
+import CaseStudyCards from '../../components/content/CaseStudyCards.astro';
+import {loadCatalog} from '../../lib/content/catalog';
+await loadCatalog();
+const entries=(await getCollection('case-studies')).sort((a,b)=>a.data.id.localeCompare(b.data.id));
+---
+<BaseLayout title="Selected work" description="Selected work, engineering methodology and authorized professional evidence." route="work">
+ <PageIntro eyebrow="Selected work" title="Engineering in practice." description="Selected work, engineering methodology and authorized professional evidence."/>
+ <section class="page-container section-space" aria-label="Approved case studies">
+  <CaseStudyCards entries={entries} headingLevel={2}/>
+  {entries.length<4&&<p class="technical-caption mt-6">Additional case studies remain under separate review.</p>}
+ </section>
+</BaseLayout>

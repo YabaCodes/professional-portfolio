@@ -45,7 +45,7 @@ try {
     assert.equal(metrics.headingCount,1);
     assert.equal(await page.locator('.credibility-grid dd').count(),4);
     assert.deepEqual(await page.locator('.credibility-grid dd').allTextContents(),['M.Sc.','PMP®','03','01']);
-    assert.equal(await page.locator('main section[aria-labelledby="selected-work"] article').count(),0);
+    assert.equal(await page.locator('main section[aria-labelledby="selected-work"] [data-case-id="CS-004"]').count(),1);
     assert.ok((await page.locator('main h1').innerText()).includes('Engineering complex systems.'));
 
     await page.keyboard.press('Tab');
@@ -85,7 +85,7 @@ try {
     await page.evaluate(()=>document.activeElement?.blur());
     await page.screenshot({path:`test-results/design-${width}.png`,fullPage:true});
     if (width === 390 || width === 1440) {
-      const routes = ['about','work','expertise','insights','research','contact','insights/lab','design-system'];
+      const routes = ['about','work','work/advanced-lattice-structures','expertise','insights','research','contact','insights/lab','design-system'];
       const origin = `http://127.0.0.1:${server.address().port}`;
       for (const route of routes) {
         const response = await page.goto(origin + base + route + '/', {waitUntil:'networkidle'});
@@ -94,14 +94,14 @@ try {
         assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex, nofollow',route);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > document.documentElement.clientWidth),false,route);
         const links = await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
-        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/')),route+' base path');
+        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || href.startsWith('https://doi.org/')),route+' base path');
         if(route !== 'design-system') {
           assert.ok(await page.locator('meta[name="description"]').getAttribute('content'),route);
           assert.ok(await page.locator('meta[property="og:title"]').getAttribute('content'),route);
           assert.equal(await page.locator('header').count(),1);
           assert.equal(await page.locator('footer').count(),1);
           const nav=page.locator(mobile?'header .mobile-nav':'header .desktop-nav');
-          const expected=route==='insights/lab'?'insights':route;
+          const expected=route.split('/')[0];
           assert.equal(await nav.locator('a[aria-current]').getAttribute('href'),base+expected+'/');
         }
         if(route==='about'){
@@ -111,6 +111,24 @@ try {
           assert.ok((await page.locator('[data-record-id="CAR-004"]').innerText()).includes('Additional leadership assignment'));
           assert.ok((await page.locator('main').innerText()).includes('My approach to technical leadership is grounded in clarity of requirements'));
           await page.screenshot({path:`test-results/profile-${width}.png`,fullPage:true});
+        }
+        if(route==='work'){
+          assert.equal(await page.locator('[data-case-id="CS-004"]').count(),1);
+          assert.equal(await page.locator('[data-case-id="CS-004"] a').getAttribute('href'),base+'work/advanced-lattice-structures/');
+        }
+        if(route==='work/advanced-lattice-structures'){
+          assert.deepEqual(await page.locator('[data-case-section]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-section'))),['overview','challenge','contribution','methodology','decisions','outcomes','demonstration','reflection']);
+          assert.equal(await page.locator('ul[aria-label="Relative torsional stiffness values"] > li[data-comparison-row]').count(),3);
+          assert.deepEqual(await page.locator('[data-comparison-row] [data-comparison-value]').allTextContents(),['≈109','100','≈55']);
+          assert.equal(await page.locator('#references + ul a').count(),2);
+          assert.ok((await page.locator('[data-comparison]').innerText()).includes('not raw experimental measurements'));
+          const toc=page.locator(mobile?'.mobile-toc':'.desktop-toc');
+          if(mobile) await toc.locator('summary').click();
+          await toc.getByRole('link',{name:'Results & outcomes',exact:true}).click();
+          assert.equal(new URL(page.url()).hash,'#outcomes');
+          if(mobile) await toc.locator('summary').click();
+          await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);});
+          await page.screenshot({path:`test-results/case-study-${width}.png`,fullPage:true});
         }
         const scan = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
         assert.deepEqual(scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[],route);

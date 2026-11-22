@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.6.0 — candidate (not released)
+## 0.6.1 — candidate (not released)
+- Implement approved CS-004 research case study, reusable case-study cards and detail presentation, original conceptual illustration and sourced normalized comparison.
+- Extend schema and browser regression checks for case-study content and navigation.
+- Other three case studies remain pending individual approvals; v0.7.0 reserved for full milestone. No deployment.
+
+## 0.6.0 — accepted 2026-11-22 (PR #7; not deployed)
 - Implement approved homepage, credibility indicators and professional profile.
 - Render collection-backed career progression and education/certifications, with functional leadership assignment and leadership philosophy.
 - Preserve actual date precision; distinguish owner-confirmed credentials from independently sourced records.

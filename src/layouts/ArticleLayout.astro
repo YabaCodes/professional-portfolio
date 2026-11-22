@@ -6,6 +6,7 @@ const {title, description, route, eyebrow, headings=[]} = Astro.props;
 ---
 <BaseLayout title={title} description={description} route={route}>
   <PageIntro eyebrow={eyebrow} title={title} description={description}/>
+  {Astro.slots.has('intro-extra') && <div class="technical-surface"><slot name="intro-extra"/></div>}
   <div class="page-container editorial-grid section-space items-start">
     {headings.length > 0 && <aside class="span-one-third article-toc">
       <details class="mobile-toc">
@@ -26,5 +27,5 @@ const {title, description, route, eyebrow, headings=[]} = Astro.props;
   .article-toc a,.article-toc summary {display:flex;min-height:44px;align-items:center;}
   .article-toc summary {cursor:pointer;font-weight:600;display:list-item;padding-block:10px;}
   .desktop-toc {display:none;}
-  @media(min-width:1024px) {.article-toc{position:sticky;top:24px;}.desktop-toc{display:block;}.mobile-toc{display:none;}}
+  @media(min-width:1024px) {.article-toc{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow:auto;}.desktop-toc{display:block;}.mobile-toc{display:none;}}
 </style>

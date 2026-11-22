@@ -1,1 +1,91 @@
-[]
+[
+  {
+    "id": "CS-004",
+    "slug": "advanced-lattice-structures",
+    "title": "Engineering the Mechanics of Advanced Lattice Structures",
+    "summary": "Investigating the relationship between structural geometry, material distribution and mechanical performance under torsional loading.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "relatedIds": [],
+    "references": [
+      {
+        "label": "The Effect of Functional Gradient Material Distribution and Patterning on Torsional Properties of Lattice Structures Manufactured Using MultiJet Fusion Technology — Materials (2021), first author",
+        "url": "https://doi.org/10.3390/ma14216521"
+      },
+      {
+        "label": "Investigation of torsional properties of surface- and strut-based lattice structures manufactured using MultiJet Fusion technology — The International Journal of Advanced Manufacturing Technology (2022), first author",
+        "url": "https://doi.org/10.1007/s00170-022-08681-8"
+      }
+    ],
+    "role": "First-author researcher",
+    "context": "Taiwan Tech",
+    "period": "2021–2022",
+    "illustration": "lattice",
+    "sections": {
+      "overview": "My graduate research investigated how lattice architecture influences mechanical response under torsion, combining computational geometry, additive manufacturing and experimental characterization.\n\nThe work resulted in two first-author journal publications examining surface-based and strut-based lattices, including functionally graded configurations.",
+      "challenge": "Designing lightweight structures requires balancing material usage against mechanical performance. Conventional material selection alone cannot fully address the design opportunities introduced by complex cellular geometries.\n\nThe central engineering question was how geometric topology, density distribution and unit-cell arrangement influence stiffness, energy absorption and structural failure under twisting loads.",
+      "contribution": "As first author of both studies, I contributed to the research and its scientific dissemination.\n\nFor the 2021 study, my documented contributions included software implementation, experimental investigation, data preparation, collaborative quantitative analysis, visualization and manuscript development.\n\nThese activities formed part of a collaborative research program, with distinct contributions from the other authors.",
+      "methodology": "The research also addressed the challenge of calculating the polar second moment of area for lattice structures with varying cross-sections.",
+      "decisions": "The investigation demonstrates why structural optimization must consider multiple performance criteria simultaneously.\n\nA geometry that maximizes rigidity may not provide the best deformation capacity or energy absorption. Material distribution and topology must therefore be evaluated against the intended loading conditions and acceptable failure mechanisms.",
+      "outcomes": "Two peer-reviewed publications documented the research outcomes.\n\nGyroid exhibited the greatest torsional stiffness among the three configurations, whereas primitive lattice geometry demonstrated stronger energy-absorption capability and greater plastic deformation.\n\nThe graded-lattice investigation additionally demonstrated that tailored density could improve stiffness, although increased rigidity could be accompanied by less ductile failure. Circular unit-cell arrangements increased permissible angular deformation without a corresponding stiffness advantage.",
+      "demonstration": "The proposed EL-010 — Interactive TPMS & Lattice Structure Explorer will extend this case study into an independently developed educational engineering tool.\n\nGeometry selection, unit-cell visualization, relative-density exploration and simplified mechanical interpretation.\n\nPlanned for Phase 6. Not yet implemented.",
+      "reflection": "This research reinforced my approach to engineering: connect design intent with measurable performance, understand the limitations of analytical models and evaluate technical trade-offs through experimental evidence.\n\nThe resulting capabilities extend beyond additive manufacturing into mechanical systems development, engineering verification, structured experimentation and evidence-based technical decision-making."
+    },
+    "methodSteps": [
+      {
+        "title": "Geometry development",
+        "description": "Define lattice topologies and material distribution."
+      },
+      {
+        "title": "Additive manufacturing",
+        "description": "Fabricate cylindrical specimens using MultiJet Fusion."
+      },
+      {
+        "title": "Experimental characterization",
+        "description": "Apply torsional loading through structural failure."
+      },
+      {
+        "title": "Quantitative analysis",
+        "description": "Evaluate stiffness, energy absorption and fracture behavior."
+      },
+      {
+        "title": "Engineering interpretation",
+        "description": "Relate mechanical response to geometry and loading conditions."
+      }
+    ],
+    "comparison": {
+      "title": "Comparative torsional performance",
+      "subtitle": "2022 study · Relative torsional stiffness · Primitive normalized to 100",
+      "rows": [
+        {
+          "label": "Gyroid",
+          "value": 109,
+          "approximate": true
+        },
+        {
+          "label": "Primitive",
+          "value": 100,
+          "approximate": false
+        },
+        {
+          "label": "Vertical-inclined",
+          "value": 55,
+          "approximate": true
+        }
+      ],
+      "sourceUrl": "https://doi.org/10.1007/s00170-022-08681-8",
+      "note": "Approximate relative values reconstructed from the published abstract, not raw experimental measurements. Gyroid is reported as almost 9% stiffer than primitive and nearly twice as stiff as vertical-inclined; the latter index uses the approximate ratio 109 ÷ 2 ≈ 55."
+    },
+    "competencies": [
+      "Mechanical engineering & structural mechanics",
+      "Computational geometry and engineering design",
+      "Design for additive manufacturing",
+      "Experimental characterization",
+      "Quantitative engineering analysis",
+      "Technical trade-off evaluation",
+      "Scientific communication"
+    ]
+  }
+]
