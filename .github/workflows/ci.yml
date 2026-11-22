@@ -4,6 +4,7 @@ on:
     branches: [main]
 permissions:
   contents: read
+  actions: read
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -13,15 +14,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Generate initial lockfile if absent
-        if: ${{ hashFiles('package-lock.json') == '' }}
-        run: npm install --package-lock-only --ignore-scripts
-      - name: Preserve generated lockfile
-        if: ${{ hashFiles('package-lock.json') != '' }}
-        uses: actions/upload-artifact@v4
+      - name: Restore validated bootstrap lockfile
+        if: ${{ hashFiles('package-lock.json') == '' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/pp-004a-project-foundation' }}
+        uses: actions/download-artifact@v4
         with:
           name: dependency-lockfile
-          path: package-lock.json
+          run-id: 44996470290
+          github-token: ${{ github.token }}
+      - name: Verify bootstrap artifact and expose public lockfile for branch commit
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/pp-004a-project-foundation' }}
+        run: |
+          echo '6643f85254c18c39d01bb63edaab12a993c7011a931a590dc95dcfb3350288cf  package-lock.json' | sha256sum -c -
+          base64 -w 1000 package-lock.json | sed 's/^/LOCKFILE_DATA:/'
       - run: npm ci
       - run: npm run check
       - run: npm run build
