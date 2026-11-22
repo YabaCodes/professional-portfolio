@@ -12,3 +12,5 @@ PP-004D: v0.4.0 candidate, eight strict JSON-backed Astro content collections; a
 
 PP-004D accepted 2026-11-22: final CI 45001992732 passed; owner merged PR #4 and deleted branch. Main merge commit 4f6a923beb6c14d4fbb5c8954c926737a70478d3.
 PP-004E: v0.5.0 release-readiness candidate. Publication manifest disabled; manual-only Pages workflow, separate preflight and deploy permissions. CI on PRs and main pushes, static output/size budgets and browser link audit. No Pages activation or deployment authorized. No new dependencies. Final CI/owner acceptance pending.
+
+PP-004E accepted 2026-11-22: final CI 45002722201 passed; owner merged PR #5 and deleted branch. Main merge commit 9ae4114010577837709ed3230bb81f8fbb3ef567. Phase 4 complete; v0.5.0 accepted, not deployed. PP-005A active: private inventory, verification and item-level approval. PP-005B–F milestone breakdown proposed; no professional records added; separate release approval remains required.

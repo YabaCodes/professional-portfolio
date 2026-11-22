@@ -2,7 +2,7 @@
 
 Static-first professional portfolio for Yeabsra Mekdim.
 
-**Status:** v0.5.0 quality/release candidate. v0.4.0 accepted; website not deployed.
+**Status:** v0.5.0 accepted technical foundation. Phase 5 content review active; website not deployed.
 
 ## Development
 Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
