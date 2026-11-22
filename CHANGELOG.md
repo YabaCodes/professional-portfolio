@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.3.0 — candidate (not released)
+## 0.4.0 — candidate (not released)
+- Add eight strict, approval-only content collections and cross-record integrity validation.
+- Add content-backed index lists, detail route templates, evidence labels and relationship displays.
+- Add pure TypeScript OEE calculations with input validation and synthetic native unit tests.
+- Keep collections empty pending explicit publication approval; no interactive lab UI or deployment.
+
+## 0.3.0 — accepted 2026-11-22 (PR #3; not deployed)
 - Introduce shared application shell, accessible responsive navigation, footer, metadata and article layout.
 - Add all seven primary route shells and nested lab; preserve design specimen.
 - Add reusable content cards and evidence disclosures, plus navigation and page accessibility verification.

@@ -1,0 +1,7 @@
+---
+import type { GraphEntry } from '../../lib/content/model';
+import RecordList from './RecordList.astro';
+interface Props { entries:readonly GraphEntry[]; }
+const {entries}=Astro.props;
+---
+{entries.length>0 && <section class="mt-8" aria-label="Related evidence"><h2>Related evidence</h2><RecordList entries={entries}/></section>}

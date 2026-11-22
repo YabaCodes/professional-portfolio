@@ -2,7 +2,7 @@
 
 Static-first professional portfolio for Yeabsra Mekdim.
 
-**Status:** v0.3.0 application shell candidate. v0.2.0 accepted; website not deployed.
+**Status:** v0.4.0 content/engineering candidate. v0.3.0 accepted; website not deployed.
 
 ## Development
 Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
@@ -10,7 +10,10 @@ Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
 - `npm run check` — Astro and TypeScript diagnostics.
 - `npm run build` — static output in `dist/`.
 - `npm run preview` — inspect built output.
+- `npm run test:unit` — synthetic content integrity and engineering calculation tests.
 - `npm run test:design` — approved color and contrast checks.
 - `npx playwright install chromium`, then `npm run test:responsive` after building — browser smoke tests.
 
 Project Pages base: `/professional-portfolio`. No deployment workflow enabled; custom domain unapproved. Application routes are development shells, not completed professional content. Design specimen: /design-system/ under configured base. See [AGENTS.md](AGENTS.md) and [project documentation](docs/PRODUCT_SPEC.md) before changes. Only publication-safe material may enter this public repository.
+
+Content collections are empty by design. Add only externally reviewed and authorized public records; do not insert private draft data. See docs/CONTENT_GOVERNANCE.md and docs/ARCHITECTURE.md. OEE calculation module is not yet a published interactive demonstration.

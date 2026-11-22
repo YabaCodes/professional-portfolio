@@ -1,0 +1,15 @@
+---
+import { routes,type GraphEntry } from '../../lib/content/model';
+import { routeHref } from '../../lib/site';
+import EvidenceLabel from './EvidenceLabel.astro';
+interface Props { entries:readonly GraphEntry[]; }
+const {entries}=Astro.props;
+---
+{entries.length>0 && <ul class="grid gap-6 mt-8">
+  {entries.map(({kind,data})=><li class="border border-structural p-5">
+    <EvidenceLabel type={data.evidenceType}/>
+    <h2 class="mt-2">{routes[kind] ? <a href={routeHref(routes[kind]+'/'+data.slug)}>{data.title}</a> : data.title}</h2>
+    <p class="secondary-text mt-3">{data.summary}</p>
+    {data.references.length>0 && <ul class="mt-3">{data.references.map(ref=><li><a class="inline-flex min-h-11 items-center" href={ref.url}>{ref.label}</a></li>)}</ul>}
+  </li>)}
+</ul>}

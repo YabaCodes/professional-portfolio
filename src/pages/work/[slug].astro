@@ -1,0 +1,18 @@
+---
+import {getCollection,type CollectionEntry} from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import EvidenceLabel from '../../components/content/EvidenceLabel.astro';
+import RelatedEvidence from '../../components/content/RelatedEvidence.astro';
+import {caseSections} from '../../lib/content/model';
+import {loadCatalog,related} from '../../lib/content/catalog';
+export const getStaticPaths= (async()=> (await getCollection('case-studies')).map(entry=>({params:{slug:entry.data.slug},props:{entry}}))) satisfies GetStaticPaths;
+interface Props {entry:CollectionEntry<'case-studies'>}
+const {entry}=Astro.props;const d=entry.data;const catalog=await loadCatalog();
+---
+<ArticleLayout title={d.title} description={d.summary} route={'work/'+d.slug} eyebrow={'Selected work / '+d.id} headings={[...caseSections]}>
+  <EvidenceLabel type={d.evidenceType}/>
+  {caseSections.map(s=><section aria-labelledby={s.id}><h2 id={s.id}>{s.label}</h2><p class="whitespace-pre-line">{d.sections[s.id]}</p></section>)}
+  {d.references.length>0 && <section aria-label="Public references"><h2>References</h2><ul>{d.references.map(ref=><li><a class="inline-flex min-h-11 items-center" href={ref.url}>{ref.label}</a></li>)}</ul></section>}
+  <RelatedEvidence entries={related(catalog,d)}/>
+</ArticleLayout>
