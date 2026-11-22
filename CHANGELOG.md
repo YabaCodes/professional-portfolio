@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.6.3 — candidate (not released)
+## 0.7.0 — candidate (not released)
+- Implement approved CS-003 technical program leadership case study with functional team leadership, general methodology and qualitative outcomes.
+- Add independent readiness decision-support example, original conceptual program architecture, pure validation and exhaustive maturity-combination tests, browser interaction and reset checks.
+- Complete four flagship case-study implementations; preserve previous research and OEE examples. No confidential information or authorized deployment.
+
+## 0.6.3 — accepted 2026-11-22 (PR #10; not deployed)
 - Implement approved CS-002 thematic performance optimization case study and original illustrative analytics artwork.
 - Add interactive synthetic OEE percentage-factor example, independently tested loss decomposition and reset/keyboard regression checks; full EL-001 remains planned.
 - Preserve existing case studies, no actual employer performance data or new deployment authorization.

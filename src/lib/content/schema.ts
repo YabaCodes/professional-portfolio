@@ -17,7 +17,7 @@ export const schemas = {
   'case-studies':base.extend({
     sections:z.object(caseFields).strict(),
     role:text,context:text,period:text,
-    illustration:z.enum(['lattice','system','performance']).optional(),
+    illustration:z.enum(['lattice','system','performance','leadership']).optional(),
     methodSteps:z.array(z.object({title:text,description:text}).strict()).default([]),
     comparison:z.object({
       title:text,subtitle:text,rows:z.array(z.object({label:text,value:z.number().finite().nonnegative(),approximate:z.boolean()}).strict()).min(1),
@@ -34,6 +34,10 @@ export const schemas = {
     oeeExample:z.object({
       title:text,defaults:z.object({availability:z.number().int().min(0).max(100),performance:z.number().int().min(0).max(100),quality:z.number().int().min(0).max(100)}).strict(),
       disclosure:text,interpretation:text,status:text,
+    }).strict().optional(),
+    readinessExample:z.object({
+      title:text,criteria:z.array(z.object({label:text,maturity:z.number().int().min(0).max(3),mandatory:z.boolean()}).strict()).length(6).refine(items=>new Set(items.map(item=>item.label)).size===items.length,'Duplicate readiness criterion'),
+      disclosure:text,interpretation:text,limitation:text,
     }).strict().optional(),
     plannedTools:z.array(z.object({id:z.string().regex(/^EL-[0-9]{3,}$/),title:text,description:text}).strict()).default([]),
     competencies:z.array(text).default([]),

@@ -45,7 +45,7 @@ try {
     assert.equal(metrics.headingCount,1);
     assert.equal(await page.locator('.credibility-grid dd').count(),4);
     assert.deepEqual(await page.locator('.credibility-grid dd').allTextContents(),['M.Sc.','PMP®','03','01']);
-    assert.deepEqual(await page.locator('main section[aria-labelledby="selected-work"] [data-case-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-id'))),['CS-001','CS-002','CS-004']);
+    assert.deepEqual(await page.locator('main section[aria-labelledby="selected-work"] [data-case-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-id'))),['CS-001','CS-002','CS-003','CS-004']);
     assert.ok((await page.locator('main h1').innerText()).includes('Engineering complex systems.'));
 
     await page.keyboard.press('Tab');
@@ -85,7 +85,7 @@ try {
     await page.evaluate(()=>document.activeElement?.blur());
     await page.screenshot({path:`test-results/design-${width}.png`,fullPage:true});
     if (width === 390 || width === 1440) {
-      const routes = ['about','work','work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance','work/advanced-lattice-structures','expertise','insights','research','contact','insights/lab','design-system'];
+      const routes = ['about','work','work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance','work/leading-complex-engineering-programs','work/advanced-lattice-structures','expertise','insights','research','contact','insights/lab','design-system'];
       const origin = `http://127.0.0.1:${server.address().port}`;
       for (const route of routes) {
         const response = await page.goto(origin + base + route + '/', {waitUntil:'networkidle'});
@@ -113,9 +113,10 @@ try {
           await page.screenshot({path:`test-results/profile-${width}.png`,fullPage:true});
         }
         if(route==='work'){
-          assert.deepEqual(await page.locator('[data-case-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-id'))),['CS-001','CS-002','CS-004']);
+          assert.deepEqual(await page.locator('[data-case-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-id'))),['CS-001','CS-002','CS-003','CS-004']);
           assert.equal(await page.locator('[data-case-id="CS-001"] a').getAttribute('href'),base+'work/requirements-to-manufacturing-readiness/');
           assert.equal(await page.locator('[data-case-id="CS-002"] a').getAttribute('href'),base+'work/engineering-for-manufacturing-performance/');
+          assert.equal(await page.locator('[data-case-id="CS-003"] a').getAttribute('href'),base+'work/leading-complex-engineering-programs/');
           assert.equal(await page.locator('[data-case-id="CS-004"] a').getAttribute('href'),base+'work/advanced-lattice-structures/');
         }
         if(route==='work/requirements-to-manufacturing-readiness'){
@@ -177,6 +178,61 @@ try {
           if(mobile)await toc.locator('summary').click();
           await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);});
           await page.screenshot({path:`test-results/case-study-cs002-${width}.png`,fullPage:true});
+        }
+        if(route==='work/leading-complex-engineering-programs'){
+          assert.deepEqual(await page.locator('[data-case-section]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-section'))),['overview','challenge','contribution','methodology','decisions','outcomes','demonstration','reflection']);
+          assert.equal(await page.locator('[data-contributions] > li').count(),8);
+          assert.ok((await page.locator('[data-case-section="contribution"]').innerText()).includes('functional and technical in nature'));
+          assert.equal(await page.locator('[data-case-section="methodology"] ol > li').count(),7);
+          assert.equal(await page.locator('[data-tradeoffs] tbody tr').count(),6);
+          assert.equal(await page.locator('[data-planned-tools] li').count(),4);
+          assert.match(await page.locator('[data-planned-tools] .technical-label').innerText(),/planned independent demonstrations\s*—\s*not implemented/i);
+          assert.equal(await page.locator('[data-case-section="reflection"] ul > li').count(),10);
+          assert.ok((await page.locator('[data-professional-evidence]').innerText()).includes('does not present independent validation'));
+          const example=page.locator('[data-readiness-example]');
+          assert.equal(await example.locator('[data-criterion]').count(),6);
+          assert.equal(await example.locator('input[type="radio"]').count(),24);
+          assert.equal(await example.locator('input[type="checkbox"]').count(),6);
+          assert.ok((await example.innerText()).includes('do not represent employer procedures or regulatory release requirements'));
+          assert.ok((await example.innerText()).includes('not an automated release authorization system'));
+          assert.equal(await example.locator('[data-ready-count]').textContent(),'2/6');
+          assert.equal(await example.locator('[data-blocked-count]').textContent(),'2');
+          assert.equal(await example.locator('[data-readiness-status]').textContent(),'Gate blocked');
+          assert.deepEqual(await example.locator('[data-blockers] li').allTextContents(),['Verification evidence','Manufacturing readiness']);
+          assert.deepEqual(await example.locator('[data-maturity-count]').allTextContents(),['0','2','2','2']);
+          for(const label of await example.locator('label.choice').all()){
+            const b=await label.boundingBox();assert.ok(b&&b.width>=44&&b.height>=44,'readiness choice target size');
+          }
+          for(const i of [2,3,4]){
+            const radio=example.locator('input[name="maturity-'+i+'"][value="3"]');
+            assert.equal(await radio.isEnabled(),true);
+            await radio.check();
+          }
+          assert.equal(await example.locator('[data-ready-count]').textContent(),'5/6');
+          assert.equal(await example.locator('[data-readiness-status]').textContent(),'Gate blocked');
+          assert.deepEqual(await example.locator('[data-blockers] li').allTextContents(),['Manufacturing readiness']);
+          const lastMandatory=example.locator('input[name="mandatory-5"]');
+          await lastMandatory.focus();
+          await lastMandatory.press('Space');
+          assert.equal(await example.locator('[data-readiness-status]').textContent(),'Review required');
+          assert.equal(await example.locator('[data-blocked-count]').textContent(),'0');
+          assert.equal(await example.locator('[data-blockers-panel]').isVisible(),false);
+          await example.locator('input[name="maturity-5"][value="3"]').check();
+          assert.equal(await example.locator('[data-readiness-status]').textContent(),'Ready for review');
+          assert.equal(await example.locator('[data-ready-count]').textContent(),'6/6');
+          await example.getByRole('button',{name:'Reset example',exact:true}).click();
+          assert.equal(await example.locator('[data-readiness-status]').textContent(),'Gate blocked');
+          assert.equal(await example.locator('[data-ready-count]').textContent(),'2/6');
+          assert.deepEqual(await example.locator('[data-blockers] li').allTextContents(),['Verification evidence','Manufacturing readiness']);
+          assert.deepEqual(await example.locator('input[type="radio"]:checked').evaluateAll(nodes=>nodes.map(n=>n.value)),['3','3','2','1','2','1']);
+          assert.deepEqual(await example.locator('input[type="checkbox"]:checked').evaluateAll(nodes=>nodes.map(n=>n.name)),['mandatory-3','mandatory-5']);
+          const toc=page.locator(mobile?'.mobile-toc':'.desktop-toc');
+          if(mobile)await toc.locator('summary').click();
+          await toc.getByRole('link',{name:'Technical decisions & trade-offs',exact:true}).click();
+          assert.equal(new URL(page.url()).hash,'#decisions');
+          if(mobile)await toc.locator('summary').click();
+          await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);});
+          await page.screenshot({path:`test-results/case-study-cs003-${width}.png`,fullPage:true});
         }
         if(route==='work/advanced-lattice-structures'){
           assert.deepEqual(await page.locator('[data-case-section]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-section'))),['overview','challenge','contribution','methodology','decisions','outcomes','demonstration','reflection']);

@@ -1,0 +1,96 @@
+---
+import {assessReadiness,maturityLabels,type ReadinessCriterion} from '../../lib/engineering/readiness';
+interface Props {example:{title:string;criteria:ReadinessCriterion[];disclosure:string;interpretation:string;limitation:string}}
+const {example}=Astro.props;
+const initial=assessReadiness(example.criteria);
+---
+<section class="border border-structural p-5 my-6" aria-label={example.title} data-readiness-example>
+ <p class="technical-label">Independent engineering example / Hypothetical program</p>
+ <h3>{example.title}</h3>
+ <p class="font-semibold">Technical milestone readiness</p>
+ <p class="secondary-text text-sm">Adjust the evidence maturity and identify mandatory release conditions.</p>
+ <form data-readiness-form>
+  <fieldset disabled data-readiness-controls>
+   <legend class="sr-only">Hypothetical readiness criteria</legend>
+   {example.criteria.map((criterion,i)=><fieldset class="criterion" data-criterion data-label={criterion.label}>
+    <legend class="font-semibold">{criterion.label}</legend>
+    <div class="maturity-options">
+     {maturityLabels.map((label,j)=><label class="choice"><input type="radio" name={'maturity-'+i} value={j} checked={criterion.maturity===j}/><span>{label}</span></label>)}
+    </div>
+    <label class="choice mt-2"><input type="checkbox" name={'mandatory-'+i} checked={criterion.mandatory}/><span>Mandatory gate condition</span></label>
+   </fieldset>)}
+   <button type="reset" class="action-link mt-4">Reset example</button>
+  </fieldset>
+ </form>
+ <noscript><p class="technical-caption">JavaScript is disabled; the default hypothetical assessment remains visible.</p></noscript>
+ <div role="status" aria-live="polite" aria-atomic="true" class="border-t border-structural mt-5 pt-5">
+  <div class="summary-grid">
+   <div><p class="technical-label">Accepted criteria</p><p class="font-display text-3xl font-bold" data-ready-count>{initial.accepted}/{example.criteria.length}</p></div>
+   <div><p class="technical-label">Mandatory conditions open</p><p class="font-display text-3xl font-bold" data-blocked-count>{initial.blockers.length}</p></div>
+  </div>
+  <p class="technical-label">Illustrative assessment</p>
+  <p class="font-display font-bold text-xl" data-readiness-status>{initial.status}</p>
+  <div data-blockers-panel hidden={initial.blockers.length===0}>
+   <p class="font-semibold">Outstanding mandatory conditions:</p>
+   <ul class="list-disc pl-5" data-blockers>{initial.blockers.map(label=><li>{label}</li>)}</ul>
+  </div>
+ </div>
+ <div class="readiness-bar mt-4" aria-hidden="true">{[3,2,1,0].map(i=><span data-maturity-bar={i} style={`width:${100*initial.counts[i]/example.criteria.length}%`}/>)}</div>
+ <ul class="grid gap-2 mt-3" aria-label="Evidence maturity distribution">
+  {maturityLabels.map((label,i)=><li class="flex justify-between gap-2"><span class="flex items-center gap-2"><span class="maturity-key" data-maturity-key={i} aria-hidden="true"/>{label}</span><span class="font-technical tabular-nums" data-maturity-count={i}>{initial.counts[i]}</span></li>)}
+ </ul>
+ <p class="technical-caption mt-4">{example.disclosure}</p>
+ <p>{example.interpretation}</p>
+ <p class="technical-caption">{example.limitation}</p>
+</section>
+<script>
+ import {assessReadiness} from '../../lib/engineering/readiness';
+ for(const root of document.querySelectorAll<HTMLElement>('[data-readiness-example]')){
+  const form=root.querySelector<HTMLFormElement>('[data-readiness-form]');
+  const controls=root.querySelector<HTMLFieldSetElement>('[data-readiness-controls]');
+  if(!form||!controls)continue;
+  const update=()=>{
+   const criteria=Array.from(root.querySelectorAll<HTMLFieldSetElement>('[data-criterion]')).map(row=>{
+    const radio=row.querySelector<HTMLInputElement>('input[type="radio"]:checked');
+    const mandatory=row.querySelector<HTMLInputElement>('input[type="checkbox"]');
+    return {label:row.dataset.label??'',maturity:Number(radio?.value),mandatory:mandatory?.checked??false};
+   });
+   const result=assessReadiness(criteria);
+   const write=(selector:string,value:string)=>{const el=root.querySelector(selector);if(el)el.textContent=value;};
+   write('[data-ready-count]',result.accepted+'/'+criteria.length);
+   write('[data-blocked-count]',String(result.blockers.length));
+   write('[data-readiness-status]',result.status);
+   const panel=root.querySelector<HTMLElement>('[data-blockers-panel]');
+   const list=root.querySelector('[data-blockers]');
+   if(panel)panel.hidden=result.blockers.length===0;
+   if(list)list.replaceChildren(...result.blockers.map(label=>{const li=document.createElement('li');li.textContent=label;return li;}));
+   result.counts.forEach((count,i)=>{
+    write(`[data-maturity-count="${i}"]`,String(count));
+    const bar=root.querySelector<HTMLElement>(`[data-maturity-bar="${i}"]`);
+    if(bar)bar.style.width=100*count/criteria.length+'%';
+   });
+  };
+  controls.disabled=false;
+  form.addEventListener('change',update);
+  form.addEventListener('reset',event=>{
+   event.preventDefault();
+   for(const input of form.querySelectorAll<HTMLInputElement>('input'))input.checked=input.defaultChecked;
+   update();
+  });
+ }
+</script>
+<style>
+ .criterion{min-width:0;border:1px solid var(--color-structural);padding:12px;margin-block:12px}
+ .criterion legend{padding-inline:4px;max-width:100%;overflow-wrap:anywhere}
+ .maturity-options,.summary-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 12px}
+ .choice{display:flex;align-items:center;min-height:44px;gap:10px;cursor:pointer;font-size:.875rem;overflow-wrap:anywhere}
+ .choice input{width:18px;height:18px;flex-shrink:0;accent-color:var(--color-deep-teal)}
+ @media(min-width:640px){.maturity-options,.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+ .readiness-bar{display:flex;height:20px;border:1px solid var(--color-structural);overflow:hidden}
+ .readiness-bar span{height:100%;display:block}
+ .maturity-key{width:12px;height:12px;display:inline-block;flex-shrink:0}
+ [data-maturity-bar="0"],[data-maturity-key="0"]{background:#A65B59}
+ [data-maturity-bar="1"],[data-maturity-key="1"]{background:#A07A4D}
+ [data-maturity-bar="2"],[data-maturity-key="2"]{background:#78909C}
+ [data-maturity-bar="3"],[data-maturity-key="3"]{background:var(--color-teal)}
+</style>
