@@ -8,4 +8,7 @@ PP-004B accepted 2026-11-22: final CI run 44997297761 passed all checks; owner m
 PP-004C: v0.3.0 candidate; native details navigation to avoid client JS, shared layouts and metadata, route shells only. Retain noindex, preserve separate design specimen, no employer claims and no deployment. No new dependencies. Final CI passed after skip-link overlap and touch-target corrections.
 
 PP-004C accepted 2026-11-22: final CI 45000430191 passed; owner merged PR #3 and deleted feature branch. Main merge commit 0c7653f768432a979bf0e320123a5b42725f71ef.
-PP-004D: v0.4.0 candidate, eight strict JSON-backed Astro content collections; approval-only public records; pure TS calculation logic and Node native unit tests; no new dependencies. Real content remains empty. Case-study, article, demo detail templates activate only when approved records exist. Final CI/owner acceptance pending. No deployment.
+PP-004D: v0.4.0 candidate, eight strict JSON-backed Astro content collections; approval-only public records; pure TS calculation logic and Node native unit tests; no new dependencies. Real content remains empty. Case-study, article, demo detail templates activate only when approved records exist. Final CI passed. No deployment.
+
+PP-004D accepted 2026-11-22: final CI 45001992732 passed; owner merged PR #4 and deleted branch. Main merge commit 4f6a923beb6c14d4fbb5c8954c926737a70478d3.
+PP-004E: v0.5.0 release-readiness candidate. Publication manifest disabled; manual-only Pages workflow, separate preflight and deploy permissions. CI on PRs and main pushes, static output/size budgets and browser link audit. No Pages activation or deployment authorized. No new dependencies. Final CI/owner acceptance pending.

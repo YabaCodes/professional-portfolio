@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.4.0 — candidate (not released)
+## 0.5.0 — candidate (not released)
+- Add static output integrity and size budgets, internal link/fragment/asset audit, main-branch CI regression.
+- Add disabled launch manifest, fail-closed release gate and manual-only Pages deployment workflow.
+- No activation or publication; no new dependencies.
+
+## 0.4.0 — accepted 2026-11-22 (PR #4; not deployed)
 - Add eight strict, approval-only content collections and cross-record integrity validation.
 - Add content-backed index lists, detail route templates, evidence labels and relationship displays.
 - Add pure TypeScript OEE calculations with input validation and synthetic native unit tests.
