@@ -35,7 +35,7 @@ try {
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
       columns: getComputedStyle(document.querySelector('[data-grid]')).gridTemplateColumns.split(' ').length,
       fonts: await Promise.all(['700 32px "Manrope Variable"','400 16px "Inter Variable"','400 12px "IBM Plex Mono"'].map(async font => (await document.fonts.load(font)).length > 0 && document.fonts.check(font))),
-      target: document.querySelector('main .action-link').getBoundingClientRect().height,
+      target: document.querySelector('main section[aria-labelledby="hero-heading"] .action-link').getBoundingClientRect().height,
       headingCount: document.querySelectorAll('h1').length
     }));
     assert.equal(metrics.overflow,false,`horizontal overflow at ${width}`);
@@ -122,8 +122,20 @@ try {
       assert.ok(page.url().endsWith(base+'work/'));
       await page.locator('header .brand-link').click();
       assert.ok(page.url().endsWith(base));
-      await page.locator('main .action-link').click();
-      assert.ok(page.url().endsWith(base+'work/'));
+      const actions = [
+        ['Explore selected work','work/'],
+        ['Explore Engineering Lab','insights/lab/'],
+        ['Résumé & contact','contact/'],
+      ];
+      for (const [label,destination] of actions) {
+        await page.goto(origin+base,{waitUntil:'networkidle'});
+        const link=page.locator('main').getByRole('link',{name:label,exact:true});
+        assert.equal(await link.count(),1,label);
+        const box=await link.boundingBox();
+        assert.ok(box && box.width>=44 && box.height>=44,label+' target size');
+        await link.click();
+        assert.ok(page.url().endsWith(base+destination),label+' destination');
+      }
     }
     assert.deepEqual(errors,[]);
     await context.close();
