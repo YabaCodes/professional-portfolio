@@ -139,7 +139,16 @@ try {
           }
           // Hero anchor must reveal a group hidden by the current filter.
           await page.locator('a[href="#pillar-engineering"]').click();
-          assert.equal(await page.locator('#pillar-engineering').isVisible(),true);
+          await page.locator('#pillar-engineering').waitFor({state:'visible'});
+          assert.equal(new URL(page.url()).hash,'#pillar-engineering');
+          assert.equal(await page.locator('[data-pillar-filter="engineering"]').getAttribute('aria-pressed'),'true');
+          assert.equal(await page.locator('[data-competency-id]:visible').count(),4);
+          // Same-hash navigation must restore the target after a filter change.
+          await page.locator('[data-pillar-filter="research"]').click();
+          assert.equal(await page.locator('#pillar-engineering').isVisible(),false);
+          await page.locator('a[href="#pillar-engineering"]').click();
+          await page.locator('#pillar-engineering').waitFor({state:'visible'});
+          assert.equal(await page.locator('[data-pillar-filter="engineering"]').getAttribute('aria-pressed'),'true');
           assert.equal(await page.locator('[data-competency-id]:visible').count(),4);
           await page.locator('[data-pillar-filter="all"]').click();
           assert.equal(await page.locator('[data-competency-id]:visible').count(),16);

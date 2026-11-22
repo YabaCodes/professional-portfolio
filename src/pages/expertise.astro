@@ -55,13 +55,21 @@ const description='A multidisciplinary engineering capability spanning mechanica
    const visible=groups.filter(g=>!g.hidden).reduce((sum,g)=>sum+g.querySelectorAll('[data-competency-id]').length,0);
    if(count)count.textContent=visible+' competency groups';
   };
-  const revealHash=()=>{
-   const id=location.hash.slice(1);
+  const revealTarget=(id:string)=>{
    if(!id)return;
    const target=document.getElementById(id);
    const group=target?.closest<HTMLElement>('[data-pillar-group]');
-   if(group?.hidden){apply(group.dataset.pillarGroup??'all');target?.scrollIntoView();}
+   if(group?.hidden){apply(group.dataset.pillarGroup??'all');return target;}
   };
+  const revealHash=()=>revealTarget(location.hash.slice(1))?.scrollIntoView();
+  // Reveal filtered targets before the browser performs native anchor navigation.
+  // This also handles repeated clicks on the current hash, which emit no hashchange.
+  for(const link of document.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Professional pillars"] a[href^="#"]')){
+   link.addEventListener('click',event=>{
+    if(event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+    revealTarget(link.hash.slice(1));
+   });
+  }
   for(const button of buttons)button.addEventListener('click',()=>apply(button.dataset.pillarFilter??'all'));
   if(filters)filters.hidden=false;
   window.addEventListener('hashchange',revealHash);
