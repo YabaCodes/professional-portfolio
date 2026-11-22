@@ -118,7 +118,8 @@ try {
         }
         if(route==='work/advanced-lattice-structures'){
           assert.deepEqual(await page.locator('[data-case-section]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-section'))),['overview','challenge','contribution','methodology','decisions','outcomes','demonstration','reflection']);
-          assert.deepEqual(await page.locator('[data-comparison-row] dd').allTextContents(),['≈109','100','≈55']);
+          assert.equal(await page.locator('ul[aria-label="Relative torsional stiffness values"] > li[data-comparison-row]').count(),3);
+          assert.deepEqual(await page.locator('[data-comparison-row] [data-comparison-value]').allTextContents(),['≈109','100','≈55']);
           assert.equal(await page.locator('#references + ul a').count(),2);
           assert.ok((await page.locator('[data-comparison]').innerText()).includes('not raw experimental measurements'));
           const toc=page.locator(mobile?'.mobile-toc':'.desktop-toc');

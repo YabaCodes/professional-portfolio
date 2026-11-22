@@ -6,11 +6,11 @@ const max=Math.ceil(Math.max(...c.rows.map(r=>r.value))/20)*20;
 <figure class="border border-structural p-5 my-6" data-comparison>
  <h3>{c.title}</h3>
  <p class="technical-caption mt-2">{c.subtitle}</p>
- <dl class="grid gap-4 mt-5">
- {c.rows.map(r=><div data-comparison-row>
-  <div class="flex justify-between gap-3"><dt class="font-medium">{r.label}</dt><dd class="font-technical tabular-nums">{r.approximate?'≈':''}{r.value}</dd></div>
+ <ul class="grid gap-4 mt-5" aria-label="Relative torsional stiffness values">
+ {c.rows.map(r=><li data-comparison-row>
+  <div class="flex justify-between gap-3"><span class="font-medium">{r.label}</span><span class="font-technical tabular-nums" data-comparison-value>{r.approximate?'≈':''}{r.value}</span></div>
   <div class="bg-structural h-5 mt-2" aria-hidden="true"><div class="bg-deep-teal h-full" style={`width:${100*r.value/max}%`}/></div>
- </div>)}
- </dl>
+ </li>)}
+ </ul>
  <figcaption class="technical-caption mt-5">{c.note} <a class="inline-flex min-h-11 items-center" href={c.sourceUrl}>Source: published study (DOI)</a></figcaption>
 </figure>
