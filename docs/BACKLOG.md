@@ -5,8 +5,8 @@
 - [x] PP-004D: content collections and evidence links, pure engineering modules.
 - [x] PP-004E: static build/links/budgets and disabled manual release workflow.
 - [x] PP-005A: editorial review v1.0.
-- PP-005B: homepage/profile (candidate; CI pending).
-- PP-005C: develop and individually approve case studies; research-based CS-004 first recommended.
+- [x] PP-005B: homepage/profile.
+- PP-005C: CS-004 approved and implemented, verification pending; privately develop and individually approve CS-001, CS-002, CS-003.
 - Reconfirm ORCID before including a link.
 - PP-007: activate Pages only after approval, replace development fixtures/checks with production launch gates, validate actual Core Web Vitals, device/accessibility review and approved domain.
 - Verify public bibliography and patent records; review each content item externally.

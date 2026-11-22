@@ -3,9 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ConceptualSystem from '../components/illustrations/ConceptualSystem.astro';
 import CredibilityStrip from '../components/content/CredibilityStrip.astro';
 import { identity,pillars,routeHref } from '../lib/site';
-import {loadCatalog,ofKind} from '../lib/content/catalog';
-import RecordList from '../components/content/RecordList.astro';
-const work=ofKind(await loadCatalog(),'case-studies');
+import {getCollection} from 'astro:content';
+import {loadCatalog} from '../lib/content/catalog';
+import CaseStudyCards from '../components/content/CaseStudyCards.astro';
+await loadCatalog();
+const work=(await getCollection('case-studies')).sort((a,b)=>a.data.id.localeCompare(b.data.id));
 ---
 <BaseLayout title={identity.name} description={identity.introduction} home>
  <section class="technical-surface section-space" aria-labelledby="hero-heading">
@@ -33,7 +35,7 @@ const work=ofKind(await loadCatalog(),'case-studies');
   <hr class="rule mb-10"/>
   <p class="technical-label mb-3">02 / Selected work</p><h2 id="selected-work">Engineering in practice.</h2>
   <p class="secondary-text mt-4 reading-width">Selected work, engineering methodology and authorized professional evidence.</p>
-  <RecordList entries={work.slice(0,4)}/>
+  <CaseStudyCards entries={work.slice(0,4)}/>
   {work.length===0&&<p class="technical-caption mt-5">Case study content is under development and separate review.</p>}
   <a class="inline-flex min-h-11 items-center mt-5" href={routeHref('work')}>Selected work <span aria-hidden="true">→</span></a>
  </section>

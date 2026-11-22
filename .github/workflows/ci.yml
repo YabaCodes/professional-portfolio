@@ -36,5 +36,6 @@ jobs:
           path: |
             test-results/design-*.png
             test-results/profile-*.png
+            test-results/case-study-*.png
           if-no-files-found: error
           retention-days: 14

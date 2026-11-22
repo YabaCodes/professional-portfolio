@@ -14,7 +14,17 @@ const base = z.object({
 }).strict();
 const caseFields = Object.fromEntries(caseSections.map(s=>[s.id,text])) as Record<typeof caseSections[number]['id'],typeof text>;
 export const schemas = {
-  'case-studies':base.extend({sections:z.object(caseFields).strict()}),
+  'case-studies':base.extend({
+    sections:z.object(caseFields).strict(),
+    role:text,context:text,period:text,
+    illustration:z.enum(['lattice','system']).optional(),
+    methodSteps:z.array(z.object({title:text,description:text}).strict()).default([]),
+    comparison:z.object({
+      title:text,subtitle:text,rows:z.array(z.object({label:text,value:z.number().finite().nonnegative(),approximate:z.boolean()}).strict()).min(1),
+      sourceUrl:z.string().url().refine(v=>/^https:\/\//i.test(v)),note:text,
+    }).strict().refine(v=>v.rows.some(r=>r.value>0),'Comparison must contain a positive value').optional(),
+    competencies:z.array(text).default([]),
+  }).refine(v=>!v.comparison||v.references.some(r=>r.url===v.comparison?.sourceUrl),'Comparison source must be a listed reference'),
   competencies:base,
   insights:base.extend({body:text}),
   demonstrations:base.extend({inputs:z.array(text).min(1),outputs:z.array(text).min(1),assumptions:z.array(text).min(1),limitations:z.array(text).min(1),method:text}),

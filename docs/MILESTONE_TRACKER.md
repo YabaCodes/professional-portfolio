@@ -12,8 +12,9 @@
 | PP-004D | Accepted 2026-11-22; PR #4 merged |
 | PP-004E | Accepted 2026-11-22; PR #5 merged |
 | PP-005A | Accepted 2026-11-22; CR-001–007 editorial direction approved |
-| PP-005B | v0.6.0 homepage/profile candidate; verification pending |
-| PP-005C–F | Planned |
+| PP-005B | Accepted 2026-11-22; PR #7 merged |
+| PP-005C | Active — CS-004 first increment v0.6.1 candidate; CS-001–003 pending their own approvals |
+| PP-005D–F | Planned |
 | PP-006–008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
@@ -39,3 +40,7 @@ PP-005A: inventory and verification take place outside the public repository. On
 PP-005A: documentation transition PR #6 merged (51c0980965b4bc30c417ff58840be478b0b063ca); final CI 45003775794 passed. Owner approved editorial review v1.0 CR-001–007. Approved scope is reviewed wording only; CR-007 is editorial direction and does not authorize employer-related case studies. No external employer permission inferred. ORCID remains unreconfirmed and excluded.
 
 PP-005B acceptance: approved hero and credibility indicators, homepage sections in approved sequence, About narrative, chronological timeline with separate functional leadership assignment, leadership philosophy and five areas, four approved credentials, date precision preserved, collection-backed rendering, no case-study claims, no unverified ORCID, all previous quality gates and new profile browser checks pass; owner review and merge required. Publication remains disabled.
+
+PP-005B: final head 59e0a84b6c9386bbdab22bfea283daaf112502c3, CI 45004609189 passed after explicit homepage CTA selector correction; owner merged PR #7 (5ebc60c82d027590522d97ff185e01ce37d61405) and deleted branch.
+
+PP-005C / CS-004: editorial review v1.0 approved all six areas, no corrections. First implementation increment v0.6.1 (v0.7.0 reserved for completion of all four case studies). Acceptance requires approved eight-section wording, two DOI references, explicit first-author/collaborative attribution, original conceptual illustration, five methodology steps, approximate abstract-derived normalized stiffness comparison, proposed rather than implemented EL-010, homepage/work cards, dynamic route, contents navigation, browser/axe and prior checks passing. Other case studies remain unapproved; no publication/deployment. Final CI and owner review pending.
