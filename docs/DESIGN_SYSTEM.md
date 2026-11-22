@@ -19,3 +19,6 @@ Manrope headings, Inter body, IBM Plex Mono metadata; local hosting subject to l
 Homepage sequence: hero, profile/credentials, selected work, expertise, lab, research, contact. Case study dark hero, disclosure caption, metadata, eight editorial sections, desktop sticky TOC and mobile expandable TOC. Reusable cards, citations, figures, tables, equations, navigation and footer; accessible error states. Lab workspace: clear inputs, outputs, formulas, assumptions, units, reference material and limitations; visibly label simulated information.
 
 Targets: WCAG 2.2 AA; review 320/390/768/1024/1440px; LCP <=2.5s, CLS <=0.1, INP <=200ms (real-user metrics when available). Targets are not measured results.
+
+## Implementation — PP-004B
+Use Fontsource packages bundled as local assets by Astro/Vite; Manrope Variable and Inter Variable for display/body and IBM Plex Mono 400 for metadata. The package lock records exact versions and SIL OFL-1.1 license metadata; build copies each package's OFL notice to dist/licenses. No runtime external font service. Central tokens and responsive utilities live in src/styles/global.css. Browser screenshot artifacts are development specimens, not approved publication content.
