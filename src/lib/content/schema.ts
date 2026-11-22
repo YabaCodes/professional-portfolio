@@ -17,7 +17,7 @@ export const schemas = {
   'case-studies':base.extend({
     sections:z.object(caseFields).strict(),
     role:text,context:text,period:text,
-    illustration:z.enum(['lattice','system']).optional(),
+    illustration:z.enum(['lattice','system','performance']).optional(),
     methodSteps:z.array(z.object({title:text,description:text}).strict()).default([]),
     comparison:z.object({
       title:text,subtitle:text,rows:z.array(z.object({label:text,value:z.number().finite().nonnegative(),approximate:z.boolean()}).strict()).min(1),
@@ -30,6 +30,10 @@ export const schemas = {
       title:text,illustration:z.literal('positioning'),objective:text,
       concepts:z.tuple([z.object({title:text,description:text}).strict(),z.object({title:text,description:text}).strict()]),
       interpretation:text,disclosure:text,
+    }).strict().optional(),
+    oeeExample:z.object({
+      title:text,defaults:z.object({availability:z.number().int().min(0).max(100),performance:z.number().int().min(0).max(100),quality:z.number().int().min(0).max(100)}).strict(),
+      disclosure:text,interpretation:text,status:text,
     }).strict().optional(),
     plannedTools:z.array(z.object({id:z.string().regex(/^EL-[0-9]{3,}$/),title:text,description:text}).strict()).default([]),
     competencies:z.array(text).default([]),

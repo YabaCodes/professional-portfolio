@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.6.2 — candidate (not released)
+## 0.6.3 — candidate (not released)
+- Implement approved CS-002 thematic performance optimization case study and original illustrative analytics artwork.
+- Add interactive synthetic OEE percentage-factor example, independently tested loss decomposition and reset/keyboard regression checks; full EL-001 remains planned.
+- Preserve existing case studies, no actual employer performance data or new deployment authorization.
+
+## 0.6.2 — accepted 2026-11-22 (PR #9; not deployed)
 - Implement approved CS-001 thematic equipment development case study: contributions, lifecycle, generic trade-offs, independent positioning schematics and planned tools.
 - Add reusable engineering trade-off, conceptual system and positioning example components; distinguish professional experience from independently verified research.
 - Preserve CS-004, expand browser regression to both case studies. No confidential details or quantitative employer outcomes; no deployment.

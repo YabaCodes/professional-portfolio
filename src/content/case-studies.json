@@ -132,6 +132,136 @@
     ]
   },
   {
+    "id": "CS-002",
+    "slug": "engineering-for-manufacturing-performance",
+    "title": "Engineering for Manufacturing Performance",
+    "summary": "Applying structured engineering analysis, systematic problem-solving and process optimization to improve manufacturing equipment performance and operational reliability.",
+    "pillar": "Leadership & Operational Excellence",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "relatedIds": [],
+    "references": [],
+    "role": "Process Development Engineer",
+    "context": "Manufacturing performance",
+    "period": "Process optimization & reliability",
+    "illustration": "performance",
+    "sections": {
+      "overview": "My experience in manufacturing process development includes evaluating and improving the performance of automated assembly systems through structured problem-solving, equipment data analysis and systematic engineering investigations.\n\nMy approach focuses on understanding the underlying mechanisms contributing to equipment losses rather than addressing isolated symptoms.",
+      "challenge": "Manufacturing equipment performance is influenced by interactions between mechanical systems, automation sequences, component variability, process parameters and operating conditions.\n\nThe primary engineering challenge is to identify the dominant performance constraints, distinguish recurring technical problems from isolated disturbances and develop corrective actions that improve performance without compromising product quality or process stability.",
+      "contribution": "My responsibilities in manufacturing performance optimization include:",
+      "methodology": "The methodology is iterative. New evidence may invalidate an initial hypothesis and require the investigation to return to an earlier stage.",
+      "decisions": "Manufacturing performance optimization requires balancing equipment productivity with process robustness, product quality and long-term reliability.",
+      "outcomes": "Through my process development and optimization responsibilities, I have contributed to technical issue resolution, equipment performance evaluation and manufacturing process stabilization.\n\nMy approach emphasizes measurable performance indicators, systematic investigation of recurring losses and verification of corrective action effectiveness under representative operating conditions.",
+      "demonstration": "Each planned tool will use independently defined engineering assumptions and synthetic data.",
+      "reflection": "My experience in manufacturing performance optimization has reinforced the importance of distinguishing symptoms from underlying technical causes.\n\nEffective process improvement requires understanding how mechanical systems, automation sequences, product variability and operating conditions interact. Sustainable improvements depend on valid measurements, sound engineering hypotheses, controlled verification and continued evaluation of process behavior.\n\nThese principles are transferable across manufacturing industries, equipment development, new product introduction and operational excellence programs."
+    },
+    "contributions": [
+      "Evaluating equipment performance through operational data and engineering observations.",
+      "Investigating recurring assembly, material handling and component-feeding issues.",
+      "Analyzing equipment interruptions, rejected components and process variability.",
+      "Conducting structured root cause investigations and engineering trials.",
+      "Coordinating technical corrective actions with equipment development partners.",
+      "Evaluating the effectiveness of implemented improvements.",
+      "Supporting process stabilization and manufacturing readiness."
+    ],
+    "contributionNote": "These activities are conducted within multidisciplinary engineering programs, with clearly defined individual and collaborative responsibilities.",
+    "methodSteps": [
+      {
+        "title": "Establish the performance baseline",
+        "description": "Define metrics, observation boundaries and representative operating conditions."
+      },
+      {
+        "title": "Identify dominant losses",
+        "description": "Classify downtime, speed losses, quality losses and recurring technical interruptions."
+      },
+      {
+        "title": "Prioritize engineering investigations",
+        "description": "Evaluate frequency, duration, impact and recurrence of identified problems."
+      },
+      {
+        "title": "Determine root causes",
+        "description": "Develop technical hypotheses and investigate mechanical, process and automation interactions."
+      },
+      {
+        "title": "Implement corrective actions",
+        "description": "Evaluate proposed solutions through controlled engineering trials."
+      },
+      {
+        "title": "Verify improvement effectiveness",
+        "description": "Compare performance under comparable operating conditions."
+      },
+      {
+        "title": "Support sustained performance",
+        "description": "Evaluate recurrence, residual risks and opportunities for further optimization."
+      }
+    ],
+    "tradeoffs": [
+      {
+        "decision": "Cycle-time reduction",
+        "tradeoff": "Throughput vs. process stability"
+      },
+      {
+        "decision": "Inspection sensitivity",
+        "tradeoff": "Defect detection vs. false rejection"
+      },
+      {
+        "decision": "Feeding system optimization",
+        "tradeoff": "Feeding speed vs. reliability"
+      },
+      {
+        "decision": "Automatic fault recovery",
+        "tradeoff": "Availability vs. controlled recovery"
+      },
+      {
+        "decision": "Mechanical adjustment",
+        "tradeoff": "Immediate improvement vs. long-term robustness"
+      },
+      {
+        "decision": "Corrective action selection",
+        "tradeoff": "Implementation effort vs. effectiveness"
+      }
+    ],
+    "oeeExample": {
+      "title": "Understanding manufacturing performance losses",
+      "defaults": {
+        "availability": 90,
+        "performance": 95,
+        "quality": 98
+      },
+      "disclosure": "This example uses synthetic inputs. It does not represent actual employer equipment, processes or manufacturing results.",
+      "interpretation": "The engineering interpretation is more important than the calculated OEE value itself. Identifying the largest loss category establishes an investigation priority, but does not establish its root cause.",
+      "status": "This is an analytical preview of EL-001, not the completed Engineering Lab tool."
+    },
+    "plannedTools": [
+      {
+        "id": "EL-001",
+        "title": "Manufacturing Performance & OEE Analyzer",
+        "description": "Equipment performance and loss decomposition"
+      },
+      {
+        "id": "EL-002",
+        "title": "Cycle-Time & Bottleneck Simulator",
+        "description": "Throughput constraints and system interactions"
+      },
+      {
+        "id": "EL-006",
+        "title": "Downtime Pareto & Root Cause Analysis",
+        "description": "Performance-loss prioritization and structured investigation"
+      }
+    ],
+    "competencies": [
+      "Manufacturing performance analysis",
+      "Overall Equipment Effectiveness (OEE)",
+      "Root cause analysis",
+      "Equipment reliability and process robustness",
+      "Engineering experimentation",
+      "Cycle-time and bottleneck analysis",
+      "Corrective action effectiveness verification",
+      "Continuous improvement"
+    ]
+  },
+  {
     "id": "CS-004",
     "slug": "advanced-lattice-structures",
     "title": "Engineering the Mechanics of Advanced Lattice Structures",
