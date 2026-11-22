@@ -1,0 +1,13 @@
+---
+import { credibility } from '../../lib/profile';
+---
+<dl class="credibility-grid mt-9" aria-label="Professional credentials and research">
+  {credibility.map(item=><div class="border-t border-structural pt-5 pb-3 min-w-0">
+    <dt class="technical-caption">{item.label}</dt>
+    <dd class="font-display font-bold text-3xl sm:text-4xl mt-2 leading-tight">{item.value}</dd>
+  </div>)}
+</dl>
+<style>
+  .credibility-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px;}
+  @media(min-width:1024px){.credibility-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;}}
+</style>

@@ -11,8 +11,9 @@
 | PP-004C | Accepted 2026-11-22; PR #3 merged |
 | PP-004D | Accepted 2026-11-22; PR #4 merged |
 | PP-004E | Accepted 2026-11-22; PR #5 merged |
-| PP-005A | Active — private content inventory and verification |
-| PP-005B–F | Proposed |
+| PP-005A | Accepted 2026-11-22; CR-001–007 editorial direction approved |
+| PP-005B | v0.6.0 homepage/profile candidate; verification pending |
+| PP-005C–F | Planned |
 | PP-006–008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
@@ -34,3 +35,7 @@ PP-004E acceptance: retained all existing checks, new static output and internal
 PP-004E: final head b5367050e6433ae201adb329761fea8390fc9a97; CI run 45002722201 passed. Owner merged PR #5 (9ae4114010577837709ed3230bb81f8fbb3ef567) and deleted branch. Phase 4 accepted. Publication remains disabled; end-to-end production deployment not validated.
 
 PP-005A: inventory and verification take place outside the public repository. Only explicitly authorized final content may enter collections. No version bump or content publication in this documentation-only transition.
+
+PP-005A: documentation transition PR #6 merged (51c0980965b4bc30c417ff58840be478b0b063ca); final CI 45003775794 passed. Owner approved editorial review v1.0 CR-001–007. Approved scope is reviewed wording only; CR-007 is editorial direction and does not authorize employer-related case studies. No external employer permission inferred. ORCID remains unreconfirmed and excluded.
+
+PP-005B acceptance: approved hero and credibility indicators, homepage sections in approved sequence, About narrative, chronological timeline with separate functional leadership assignment, leadership philosophy and five areas, four approved credentials, date precision preserved, collection-backed rendering, no case-study claims, no unverified ORCID, all previous quality gates and new profile browser checks pass; owner review and merge required. Publication remains disabled.

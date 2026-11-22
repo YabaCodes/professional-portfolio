@@ -15,9 +15,17 @@ export const caseSections = [
   {id:'demonstration',label:'Independent technical demonstration'},
   {id:'reflection',label:'Reflection & competencies'},
 ] as const;
+/** Calendar precision is preserved; missing months/days are never invented. */
+export function validPartialDate(value:string):boolean {
+  if(!/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/.test(value))return false;
+  const full=value.length===4?value+'-01-01':value.length===7?value+'-01':value;
+  const d=new Date(full+'T00:00:00Z');
+  return Number.isFinite(d.valueOf())&&d.toISOString().slice(0,10)===full;
+}
 export interface PublicRecord {
   id:string; slug:string; title:string; summary:string; evidenceType:EvidenceType; pillar:typeof pillarNames[number];
   publicationStatus:'approved'; published:string; revised?:string;
+  verificationBasis?:'owner-confirmed'|'public-reference';
   relatedIds:string[]; references:{label:string;url:string}[];
 }
 export interface GraphEntry { kind:Kind; data:PublicRecord; }
@@ -42,7 +50,7 @@ export function validateGraph(entries:readonly GraphEntry[]): void {
     if (byRoute.has(key)) throw new Error('Duplicate slug: '+key);
     if (d.publicationStatus!=='approved') throw new Error('Unapproved record: '+d.id);
     if (!allowedEvidence[kind].includes(d.evidenceType)) throw new Error('Invalid evidence type: '+d.id);
-    if (['published-research','public-invention','public-credential'].includes(d.evidenceType) && d.references.length===0) throw new Error('Public reference required: '+d.id);
+    if (['published-research','public-invention','public-credential'].includes(d.evidenceType) && d.references.length===0 && !(kind==='credentials' && d.evidenceType==='public-credential' && d.verificationBasis==='owner-confirmed')) throw new Error('Public reference required: '+d.id);
     if(d.revised && d.revised<d.published) throw new Error('Revision precedes publication: '+d.id);
     if(new Set(d.relatedIds).size!==d.relatedIds.length) throw new Error('Duplicate relationship: '+d.id);
     byId.set(d.id,entry); byRoute.add(key);
