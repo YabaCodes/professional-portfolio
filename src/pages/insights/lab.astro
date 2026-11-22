@@ -1,11 +1,15 @@
 ---
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import EvidenceDisclosure from '../../components/content/EvidenceDisclosure.astro';
+import RecordList from '../../components/content/RecordList.astro';
+import {loadCatalog,ofKind} from '../../lib/content/catalog';
 import {routeHref} from '../../lib/site';
+const entries=ofKind(await loadCatalog(),'demonstrations');
 ---
 <ArticleLayout title="Engineering Lab" description="Original engineering tools, transparent assumptions and independently developed demonstrations." route="insights/lab" eyebrow="Engineering insights / Lab" headings={[{id:'principles',label:'Engineering purpose'},{id:'disclosure',label:'Evidence disclosure'}]}>
   <h2 id="principles">Engineering purpose</h2>
   <p>Tools will document inputs, units, calculations, assumptions, outputs and limitations. The application shell does not yet contain a functional engineering model.</p>
+  <RecordList entries={entries}/>
   <h2 id="disclosure">Evidence disclosure</h2>
   <EvidenceDisclosure kind="independent"/>
   <div class="mt-4"><EvidenceDisclosure kind="simulated"/></div>

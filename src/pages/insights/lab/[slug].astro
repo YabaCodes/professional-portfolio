@@ -1,0 +1,18 @@
+---
+import {getCollection,type CollectionEntry} from 'astro:content';
+import type {GetStaticPaths} from 'astro';
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+import EvidenceDisclosure from '../../../components/content/EvidenceDisclosure.astro';
+import RelatedEvidence from '../../../components/content/RelatedEvidence.astro';
+import {loadCatalog,related} from '../../../lib/content/catalog';
+export const getStaticPaths=(async()=> (await getCollection('demonstrations')).map(entry=>({params:{slug:entry.data.slug},props:{entry}}))) satisfies GetStaticPaths;
+interface Props{entry:CollectionEntry<'demonstrations'>}
+const {entry}=Astro.props;const d=entry.data;const catalog=await loadCatalog();
+---
+<ArticleLayout title={d.title} description={d.summary} route={'insights/lab/'+d.slug} eyebrow={'Engineering lab / '+d.id}>
+  <EvidenceDisclosure kind="independent"/><div class="mt-4"><EvidenceDisclosure kind="simulated"/></div>
+  <h2>Method</h2><p>{d.method}</p>
+  {(['inputs','outputs','assumptions','limitations'] as const).map(key=><section><h2 class="capitalize">{key}</h2><ul class="list-disc pl-6">{d[key].map(v=><li>{v}</li>)}</ul></section>)}
+  {d.references.length>0 && <section aria-label="Public references"><h2>References</h2><ul>{d.references.map(ref=><li><a class="inline-flex min-h-11 items-center" href={ref.url}>{ref.label}</a></li>)}</ul></section>}
+  <RelatedEvidence entries={related(catalog,d)}/>
+</ArticleLayout>

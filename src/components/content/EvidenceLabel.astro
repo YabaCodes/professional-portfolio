@@ -1,0 +1,14 @@
+---
+import type { EvidenceType } from '../../lib/content/model';
+interface Props { type:EvidenceType; }
+const labels:Record<EvidenceType,string> = {
+ 'professional-experience':'Authorized professional experience',
+ 'published-research':'Published research',
+ 'public-invention':'Public invention',
+ 'independent-demonstration':'Independent technical demonstration',
+ 'illustrative-simulation':'Illustrative or simulated results',
+ 'public-credential':'Public professional credential',
+};
+const {type}=Astro.props;
+---
+<p class="technical-label">{labels[type]}</p>

@@ -17,6 +17,7 @@ jobs:
         run: git ls-files --error-unmatch package-lock.json
       - run: npm ci
       - run: npm run check
+      - run: npm run test:unit
       - run: npm run test:design
       - run: npm run build
       - run: npx playwright install --with-deps chromium
