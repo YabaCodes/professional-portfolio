@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 — candidate (not released)
+- Implement approved homepage, credibility indicators and professional profile.
+- Render collection-backed career progression and education/certifications, with functional leadership assignment and leadership philosophy.
+- Preserve actual date precision; distinguish owner-confirmed credentials from independently sourced records.
+- No case-study content, detailed publication records, ORCID, or new deployment authorization.
+
 ## 0.5.0 — accepted 2026-11-22 (PR #5; not deployed)
 - Add static output integrity and size budgets, internal link/fragment/asset audit, main-branch CI regression.
 - Add disabled launch manifest, fail-closed release gate and manual-only Pages deployment workflow.

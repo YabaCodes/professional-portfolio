@@ -1,0 +1,45 @@
+---
+import {getCollection} from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/content/PageIntro.astro';
+import CareerTimeline from '../components/content/CareerTimeline.astro';
+import CredentialList from '../components/content/CredentialList.astro';
+import {biography,leadershipAreas,leadershipStatement} from '../lib/profile';
+import {loadCatalog} from '../lib/content/catalog';
+import {routeHref} from '../lib/site';
+await loadCatalog();
+const career=await getCollection('career');
+const credentials=(await getCollection('credentials')).sort((a,b)=>a.data.id.localeCompare(b.data.id));
+const education=credentials.filter(c=>c.data.category==='education');
+---
+<BaseLayout title="About me" description="Professional journey, engineering philosophy and leadership approach." route="about">
+ <PageIntro eyebrow="Professional profile" title="About me" description={biography[0]}/>
+ <section class="page-container section-space" aria-labelledby="about-narrative">
+  <div class="editorial-grid items-start">
+   <div class="span-one-third"><p class="technical-label mb-3">01 / Professional narrative</p><h2 id="about-narrative">Engineering, technology and delivery.</h2></div>
+   <div class="span-two-thirds reading-width space-y-5">{biography.slice(1).map(p=><p>{p}</p>)}</div>
+  </div>
+ </section>
+ <section class="page-container pb-16" aria-labelledby="journey">
+  <hr class="rule mb-10"/>
+  <p class="technical-label mb-3">02 / Professional journey</p><h2 id="journey">Career progression.</h2>
+  <CareerTimeline career={career} education={education}/>
+ </section>
+ <section class="technical-surface section-space" aria-labelledby="leadership">
+  <div class="page-container editorial-grid items-start">
+   <div class="span-one-third"><p class="technical-label mb-3">03 / Leadership</p><h2 id="leadership">My approach to technical leadership.</h2></div>
+   <div class="span-two-thirds reading-width space-y-5">{leadershipStatement.map(p=><p>{p}</p>)}</div>
+   <dl class="span-full leadership-grid mt-6">{leadershipAreas.map(area=><div class="border-t border-slate pt-5"><dt class="font-display text-lg font-bold">{area.title}</dt><dd class="secondary-text text-sm mt-2">{area.description}</dd></div>)}</dl>
+  </div>
+ </section>
+ <section class="page-container section-space" aria-labelledby="credentials">
+  <p class="technical-label mb-3">04 / Qualifications</p><h2 id="credentials">Education & professional credentials.</h2>
+  <CredentialList entries={credentials}/>
+  <a class="action-link mt-8" href={routeHref('research')}>Explore research & innovation <span aria-hidden="true">→</span></a>
+ </section>
+</BaseLayout>
+<style>
+ .leadership-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;}
+ @media(min-width:768px){.leadership-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+ @media(min-width:1024px){.leadership-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+</style>

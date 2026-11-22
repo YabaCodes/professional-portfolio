@@ -43,6 +43,11 @@ try {
     assert.ok(metrics.fonts.every(Boolean), 'local fonts not loaded');
     assert.ok(metrics.target>=44);
     assert.equal(metrics.headingCount,1);
+    assert.equal(await page.locator('.credibility-grid dd').count(),4);
+    assert.deepEqual(await page.locator('.credibility-grid dd').allTextContents(),['M.Sc.','PMP®','03','01']);
+    assert.equal(await page.locator('main section[aria-labelledby="selected-work"] article').count(),0);
+    assert.ok((await page.locator('main h1').innerText()).includes('Engineering complex systems.'));
+
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(() => document.activeElement?.textContent?.trim()),'Skip to content');
     const skip = page.locator('.skip-link');
@@ -98,6 +103,14 @@ try {
           const nav=page.locator(mobile?'header .mobile-nav':'header .desktop-nav');
           const expected=route==='insights/lab'?'insights':route;
           assert.equal(await nav.locator('a[aria-current]').getAttribute('href'),base+expected+'/');
+        }
+        if(route==='about'){
+          assert.equal(await page.locator('[data-record-id]').count(),6);
+          assert.equal(await page.locator('[data-credential-id]').count(),4);
+          assert.deepEqual(await page.locator('[data-record-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-record-id'))),['CAR-004','CAR-003','CAR-002','CAR-001','CRED-001','CRED-002']);
+          assert.ok((await page.locator('[data-record-id="CAR-004"]').innerText()).includes('Additional leadership assignment'));
+          assert.ok((await page.locator('main').innerText()).includes('My approach to technical leadership is grounded in clarity of requirements'));
+          await page.screenshot({path:`test-results/profile-${width}.png`,fullPage:true});
         }
         const scan = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
         assert.deepEqual(scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[],route);
