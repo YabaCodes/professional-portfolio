@@ -1,0 +1,33 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+import { currentSection, routeHref, sections } from '../../lib/site';
+interface Props { current: string }
+const { current } = Astro.props;
+---
+<header class="technical-surface site-header">
+  <div class="page-container header-row">
+    <a href={routeHref('')} class="brand-link" aria-label="Yeabsra Mekdim — home" aria-current={current === '' ? 'page' : undefined}><Wordmark /></a>
+    <nav aria-label="Primary navigation" class="desktop-nav">
+      {sections.map(s => <a href={routeHref(s.slug)} class:list={['nav-link', { active: currentSection(s.slug,current) }]} aria-current={current === s.slug ? 'page' : currentSection(s.slug,current) ? 'location' : undefined}>{s.label}</a>)}
+    </nav>
+    <details class="mobile-nav">
+      <summary class="menu-toggle">Menu <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"><path d="M3 5h14M3 10h14M3 15h14" stroke-width="1.5"/></svg></summary>
+      <nav aria-label="Mobile primary navigation" class="mobile-links">
+        {sections.map(s => <a href={routeHref(s.slug)} class:list={['nav-link', { active: currentSection(s.slug,current) }]} aria-current={current === s.slug ? 'page' : currentSection(s.slug,current) ? 'location' : undefined}>{s.label}</a>)}
+      </nav>
+    </details>
+  </div>
+</header>
+<style>
+  .site-header { border-bottom: 1px solid var(--color-slate); }
+  .header-row { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:80px; padding-block:12px; }
+  .brand-link { display:inline-flex; align-items:center; min-height:44px; color:var(--color-ivory); text-decoration:none; font-size:clamp(.94rem,2.1vw,1.1rem); }
+  .desktop-nav { display:none; align-items:center; gap:clamp(6px,1.25vw,18px); }
+  .nav-link { display:flex; align-items:center; min-height:44px; padding:6px 4px; color:var(--color-structural); text-decoration:none; font-size:.88rem; }
+  .nav-link:hover,.nav-link.active { color:var(--color-jade); text-decoration:underline; text-underline-offset:6px; }
+  .mobile-nav { position:relative; flex-shrink:0; }
+  .menu-toggle { cursor:pointer; display:flex; align-items:center; gap:8px; min-height:44px; padding-inline:8px; color:var(--color-ivory); list-style:none; font-size:.9rem; }
+  .menu-toggle::-webkit-details-marker { display:none; }
+  .mobile-links { position:absolute; inset-inline-end:0; top:calc(100% + 8px); width:min(240px,calc(100vw - 40px)); background:var(--color-navy); border:1px solid var(--color-slate); padding:8px 16px; z-index:5; }
+  @media(min-width:1024px) { .desktop-nav {display:flex;} .mobile-nav {display:none;} }
+</style>

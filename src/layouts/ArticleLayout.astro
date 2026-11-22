@@ -1,0 +1,30 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageIntro from '../components/content/PageIntro.astro';
+interface Props { title:string; description:string; route:string; eyebrow:string; headings?: {id:string;label:string}[]; }
+const {title, description, route, eyebrow, headings=[]} = Astro.props;
+---
+<BaseLayout title={title} description={description} route={route}>
+  <PageIntro eyebrow={eyebrow} title={title} description={description}/>
+  <div class="page-container editorial-grid section-space items-start">
+    {headings.length > 0 && <aside class="span-one-third article-toc">
+      <details class="mobile-toc">
+        <summary>In this article</summary>
+        <nav aria-label="Article contents, mobile"><ul>{headings.map(h=><li><a href={'#'+h.id}>{h.label}</a></li>)}</ul></nav>
+      </details>
+      <nav class="desktop-toc" aria-label="Article contents"><p class="technical-label mb-3">Contents</p><ul>{headings.map(h=><li><a href={'#'+h.id}>{h.label}</a></li>)}</ul></nav>
+    </aside>}
+    <article class:list={[headings.length?'span-two-thirds':'span-full','reading-width article-body']}>
+      <slot/>
+    </article>
+  </div>
+</BaseLayout>
+<style>
+  .article-body :global(h2) { margin-block: 2rem 1rem; }
+  .article-body :global(h2:first-child) { margin-block-start:0; }
+  .article-body :global(p) { margin-block-end:1rem; }
+  .article-toc a,.article-toc summary {display:flex;min-height:44px;align-items:center;}
+  .article-toc summary {cursor:pointer;font-weight:600;display:list-item;padding-block:10px;}
+  .desktop-toc {display:none;}
+  @media(min-width:1024px) {.article-toc{position:sticky;top:24px;}.desktop-toc{display:block;}.mobile-toc{display:none;}}
+</style>

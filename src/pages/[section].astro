@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageIntro from '../components/content/PageIntro.astro';
+import EvidenceDisclosure from '../components/content/EvidenceDisclosure.astro';
+import { sections, routeHref, pillars } from '../lib/site';
+export const getStaticPaths = (() => sections.map(section=>({params:{section:section.slug},props:{section}}))) satisfies GetStaticPaths;
+const {section} = Astro.props;
+---
+<BaseLayout route={section.slug} title={section.title} description={section.description}>
+  <PageIntro eyebrow={section.label} title={section.title} description={section.description}/>
+  <section class="page-container section-space" aria-label="Section foundation">
+    <EvidenceDisclosure kind="development"/>
+    {section.slug === 'expertise' && <ul class="editorial-grid mt-8">{pillars.map(p=><li class="span-half border-t border-structural pt-4 font-display font-bold">{p}</li>)}</ul>}
+    {section.slug === 'insights' && <a class="action-link mt-8" href={routeHref('insights/lab')}>Engineering Lab →</a>}
+    {section.slug !== 'insights' && <a class="action-link mt-8" href={routeHref('')}>Return home</a>}
+  </section>
+</BaseLayout>

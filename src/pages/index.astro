@@ -1,80 +1,40 @@
 ---
-import '@fontsource-variable/manrope';
-import '@fontsource-variable/inter';
-import '@fontsource/ibm-plex-mono/400.css';
-import '../styles/global.css';
-import Wordmark from '../components/brand/Wordmark.astro';
-import Monogram from '../components/brand/Monogram.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import ConceptualSystem from '../components/illustrations/ConceptualSystem.astro';
-const tokens = [
-  { name: 'Midnight Navy', color: '#101E2A' }, { name: 'Archival Ivory', color: '#F6F5F0' },
-  { name: 'Graphite', color: '#23313A' }, { name: 'Engineering Teal', color: '#347D73' },
-  { name: 'Deep Teal', color: '#286B62' }, { name: 'Muted Jade', color: '#83BAB3' },
-  { name: 'Structural Grey', color: '#CDD2CC' }, { name: 'Slate', color: '#52636A' },
-];
+import ContentCard from '../components/content/ContentCard.astro';
+import EvidenceDisclosure from '../components/content/EvidenceDisclosure.astro';
+import { identity, pillars, routeHref, sections } from '../lib/site';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Technical Editorial — development specimen</title>
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} />
-  </head>
-  <body>
-    <a class="skip-link action-link" href="#main-content">Skip to content</a>
-    <header class="technical-surface">
-      <div class="page-container flex min-h-20 flex-wrap items-center justify-between gap-3 py-4">
-        <Wordmark />
-        <p class="technical-label">Design specimen / PP-004B</p>
+<BaseLayout title={identity.name} description={identity.introduction} home>
+  <section class="technical-surface section-space" aria-labelledby="hero-heading">
+    <div class="page-container editorial-grid items-center" data-grid="responsive">
+      <div class="span-two-thirds">
+        <p class="technical-label mb-6">{identity.positioning}</p>
+        <h1 id="hero-heading" class="hero-title max-w-[16ch]">{identity.headline[0]}<span class="mt-4 block text-jade">{identity.headline[1]}</span></h1>
+        <p class="secondary-text reading-width mt-6">{identity.introduction}</p>
+        <div class="flex flex-wrap gap-4 mt-8">
+          <a href={routeHref('work')} class="action-link">Explore selected work <span aria-hidden="true">→</span></a>
+          <a href={routeHref('about')} class="inline-flex min-h-11 items-center">Professional profile</a>
+        </div>
       </div>
-      <hr class="rule" />
-    </header>
-    <main id="main-content">
-      <section class="technical-surface section-space" aria-labelledby="hero-heading">
-        <div class="page-container editorial-grid items-center" data-grid="responsive">
-          <div class="span-two-thirds">
-            <p class="technical-label mb-6">Engineering &amp; Technical Program Leadership</p>
-            <h1 id="hero-heading" class="hero-title max-w-[16ch]">Engineering complex systems.<span class="mt-4 block text-jade">Delivering meaningful outcomes.</span></h1>
-            <p class="secondary-text reading-width mt-6">Mechanical engineer and technical leader with expertise in manufacturing automation, equipment development, industrialization and the delivery of complex engineering programs.</p>
-            <a href="#design-tokens" class="action-link mt-8">Explore the design system <span aria-hidden="true">→</span></a>
-          </div>
-          <ConceptualSystem class="span-one-third" />
-        </div>
-      </section>
-      <section id="design-tokens" class="section-space page-container" aria-labelledby="palette-heading">
-        <p class="technical-label mb-3">01 / Visual language</p>
-        <h2 id="palette-heading">Precision in every detail.</h2>
-        <p class="secondary-text mt-4 reading-width">Development specimen only. This is not the completed homepage or a published professional case study.</p>
-        <div class="editorial-grid mt-8">
-          {tokens.map((token) => <div class="span-half border border-structural p-4 flex items-center gap-4">
-            <span class="h-12 w-12 shrink-0 border border-structural" style={`background-color: ${token.color}`} aria-hidden="true"></span>
-            <div><p class="font-display font-bold">{token.name}</p><p class="font-technical text-xs secondary-text">{token.color}</p></div>
-          </div>)}
-        </div>
-      </section>
-      <section class="page-container pb-16" aria-labelledby="type-heading">
-        <hr class="rule mb-12" />
-        <p class="technical-label mb-3">02 / Typography &amp; brand</p>
-        <h2 id="type-heading">Clarity through hierarchy.</h2>
-        <div class="editorial-grid mt-8">
-          <div class="span-half">
-            <h3>Manrope — display</h3><p class="mt-3 reading-width">Inter — editorial reading. The design system prioritizes legible technical communication and consistent spacing.</p>
-            <p class="technical-label mt-4">IBM Plex Mono / technical metadata</p>
-          </div>
-          <div class="span-half flex items-center gap-4 border border-structural p-6">
-            <Monogram class="w-16 shrink-0 text-deep-teal" />
-            <div><Wordmark /><p class="technical-caption mt-2">Secondary brand mark</p></div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <footer class="technical-surface py-8">
-      <div class="page-container">
-        <Wordmark />
-        <p class="technical-caption mt-2">Development only / Not authorized for production deployment.</p>
-      </div>
-    </footer>
-  </body>
-</html>
+      <ConceptualSystem class="span-one-third"/>
+    </div>
+  </section>
+  <section class="page-container section-space" aria-labelledby="pillars-title">
+    <p class="technical-label mb-3">01 / Professional expertise</p>
+    <h2 id="pillars-title">Four professional pillars.</h2>
+    <div class="editorial-grid mt-8">
+      {pillars.map((pillar,index)=><div class="span-half border-t border-structural pt-5 pb-4"><p class="technical-label mb-3">{String(index+1).padStart(2,'0')}</p><h3>{pillar}</h3></div>)}
+    </div>
+    <a class="inline-flex min-h-11 items-center mt-6" href={routeHref('expertise')}>Explore expertise →</a>
+  </section>
+  <section class="page-container pb-16" aria-labelledby="sections-title">
+    <hr class="rule mb-12"/>
+    <p class="technical-label mb-3">02 / Explore</p>
+    <h2 id="sections-title">Portfolio sections.</h2>
+    <div class="editorial-grid mt-8">
+      {sections.map(s=><ContentCard class="span-half" title={s.title} description={s.description} route={s.slug}/>)}
+    </div>
+    <div class="mt-8"><EvidenceDisclosure kind="development"/></div>
+  </section>
+</BaseLayout>
