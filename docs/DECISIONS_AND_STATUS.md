@@ -1,0 +1,4 @@
+# Decisions and status
+
+2026-11-22: PP-001 professional name, positioning, four pillars, headline and introduction approved; PP-002 sitemap, flagship topic candidates, evidence framework, lab roadmap, governance and MVP scope approved; PP-003A Technical Editorial creative direction approved; PP-003B brand, palette/type, layouts, templates, lab design and quality targets approved. See PRODUCT_SPEC and DESIGN_SYSTEM for detail.
+PP-004A: owner created public YabaCodes/professional-portfolio repository and authorized foundation work. Dedicated branch, no automatic merge or deployment. No employer-specific content authorized. Future domain not selected/purchased. v0.1.0 is a candidate, not an accepted release. Current blocker: local registry unavailable; use CI to verify dependency resolution and tests before accepting.

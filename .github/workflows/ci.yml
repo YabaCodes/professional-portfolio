@@ -1,0 +1,29 @@
+name: Foundation CI
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Generate initial lockfile if absent
+        if: ${{ hashFiles('package-lock.json') == '' }}
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Preserve generated lockfile
+        if: ${{ hashFiles('package-lock.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-lockfile
+          path: package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - name: Lockfile must be committed before acceptance
+        run: git ls-files --error-unmatch package-lock.json
