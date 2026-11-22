@@ -13,7 +13,7 @@
 | PP-004E | Accepted 2026-11-22; PR #5 merged |
 | PP-005A | Accepted 2026-11-22; CR-001–007 editorial direction approved |
 | PP-005B | Accepted 2026-11-22; PR #7 merged |
-| PP-005C | Active — CS-004 and CS-001 accepted; CS-002 v0.6.3 candidate; CS-003 pending approval |
+| PP-005C | v0.7.0 candidate — CS-001, CS-002, CS-004 accepted; CS-003 implemented, final CI and owner acceptance pending |
 | PP-005D–F | Planned |
 | PP-006–008 | Planned |
 
@@ -52,3 +52,7 @@ PP-005C.2 / CS-001: editorial review v1.0 all eight categories approved without 
 PP-005C.2 / CS-001: final head 994907c2e58dec1f8dd2c71d372c911263e62119; CI run 45024963427 passed after correcting case-sensitive assertion for uppercase disclosure. Owner merged PR #9 (65ebf43f6f4e34233ca866490db2dd5e5b88b1a5) and deleted branch. v0.6.2 accepted, not deployed.
 
 PP-005C.3 / CS-002: editorial review v1.0 all eight categories approved with no corrections. v0.6.3 candidate. Acceptance: approved eight-section narrative, seven responsibilities and seven methodology steps, six generic trade-offs, eight competency labels, original analytics artwork, interactive hypothetical OEE factors with default 90/95/98 and 83.79% result, loss conservation/validation, accessible keyboard input/reset, explicit synthetic-data and planned-tool disclosures, qualitative outcomes only, three cards and detail routes, retained earlier case studies and quality gates. EL-001 full Lab tool remains Phase 6. Owner review, green CI and separate launch approval required.
+
+PP-005C.3 / CS-002: final head 97debc714270cf0fcb5a42a87240b66ec0373759; CI 45032315915 passed. Owner merged PR #10 (5328452460e2623d69f7821f0f68db78242d6404) and deleted branch. v0.6.3 accepted, not deployed.
+
+PP-005C.4 / CS-003: editorial review v1.0 approved all eight categories without corrections. v0.7.0 candidate, completing implementation of four flagship case studies. Acceptance: exact approved narrative, eight contributions including functional guidance of three engineers (not formal line management), seven methodology steps, six generic trade-offs, ten competencies, four planned tools, original conceptual program architecture, six-criterion hypothetical readiness assessment with mandatory blockers, no automated release authorization, qualitative outcomes only, case cards and detail routes, preserved earlier examples and all prior gates. Unit tests cover 4096 maturity combinations, invalid inputs and three states; browser checks cover keyboard, reset, disclosure and layouts. CI and owner acceptance pending. Public deployment disabled. PP-005D next after acceptance.

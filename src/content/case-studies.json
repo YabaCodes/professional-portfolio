@@ -262,6 +262,171 @@
     ]
   },
   {
+    "id": "CS-003",
+    "slug": "leading-complex-engineering-programs",
+    "title": "Leading Complex Engineering Programs",
+    "summary": "Connecting technical decision-making, multidisciplinary engineering teams and program execution to achieve complex engineering objectives.",
+    "pillar": "Technical Program Delivery",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "relatedIds": [],
+    "references": [],
+    "role": "Senior Process Development Engineer / Functional Team Lead",
+    "context": "Technical program execution",
+    "period": "Engineering leadership & cross-functional integration",
+    "illustration": "leadership",
+    "sections": {
+      "overview": "My professional experience combines technical engineering responsibilities with the coordination and execution of complex equipment development and industrialization programs.\n\nAs a Senior Process Development Engineer with functional engineering team leadership responsibilities, my work extends beyond individual technical deliverables to include engineering prioritization, multidisciplinary coordination, supplier alignment and technical risk management.\n\nMy approach is to connect engineering decisions with overall program objectives while maintaining accountability for technical quality and execution readiness.",
+      "challenge": "Complex engineering programs involve interconnected technical requirements, multiple stakeholders, external development partners and competing execution priorities.\n\nIndividual engineering workstreams may progress independently, but their interfaces and dependencies ultimately determine the readiness of the overall system.\n\nThe leadership challenge is to maintain technical alignment, identify emerging risks, resolve dependencies and support timely decisions without compromising engineering integrity.",
+      "contribution": "My technical leadership and program execution responsibilities include:",
+      "methodology": "Technical program execution requires continuous feedback between engineering workstreams, risk management and milestone evaluation. Progress should be assessed through technical evidence rather than schedule completion alone.",
+      "decisions": "These represent general engineering leadership considerations, not disclosures of specific employer decisions.",
+      "outcomes": "Through my technical program execution and functional leadership responsibilities, I have contributed to coordinated engineering development, technical issue resolution, supplier alignment and manufacturing readiness activities.\n\nMy approach emphasizes clear technical ownership, transparent communication, evidence-based decisions and systematic management of engineering risks and dependencies.",
+      "demonstration": "These demonstrations will use independently defined scenarios and original engineering models.",
+      "reflection": "My experience has reinforced the understanding that effective technical leadership requires both engineering depth and the ability to coordinate complex execution environments.\n\nI believe the role of a technical leader is to create clarity, enable sound engineering decisions, maintain accountability and align individual technical contributions with overall program objectives.\n\nThese principles are transferable across manufacturing automation, new product introduction, technical program management and engineering leadership."
+    },
+    "contributions": [
+      "Establishing engineering priorities and coordinating technical workstreams.",
+      "Providing functional guidance to a team of three engineers.",
+      "Leading supplier-facing technical discussions and engineering alignment.",
+      "Coordinating technical deliverables, dependencies and issue resolution.",
+      "Supporting cross-functional alignment between engineering, manufacturing, quality and validation stakeholders.",
+      "Evaluating technical risks and escalating issues requiring management decisions.",
+      "Reviewing engineering readiness and supporting the progression of technical milestones.",
+      "Maintaining alignment between engineering activities and broader program objectives."
+    ],
+    "contributionNote": "My leadership responsibilities are functional and technical in nature, complementing the responsibilities of formal project management and organizational management.",
+    "methodSteps": [
+      {
+        "title": "Establish technical scope",
+        "description": "Clarify objectives, requirements, deliverables and ownership."
+      },
+      {
+        "title": "Develop the execution structure",
+        "description": "Identify workstreams, interfaces, dependencies and technical milestones."
+      },
+      {
+        "title": "Align engineering resources",
+        "description": "Coordinate priorities, responsibilities and cross-functional contributions."
+      },
+      {
+        "title": "Manage technical risks",
+        "description": "Identify uncertainties, assess impacts and define mitigation actions."
+      },
+      {
+        "title": "Drive technical execution",
+        "description": "Monitor deliverables, resolve issues and facilitate engineering decisions."
+      },
+      {
+        "title": "Evaluate milestone readiness",
+        "description": "Review technical evidence, outstanding risks and acceptance conditions."
+      },
+      {
+        "title": "Support transition and improvement",
+        "description": "Coordinate handover, capture lessons learned and identify improvement opportunities."
+      }
+    ],
+    "tradeoffs": [
+      {
+        "decision": "Technical prioritization",
+        "tradeoff": "Immediate execution needs vs. long-term robustness"
+      },
+      {
+        "decision": "Resource coordination",
+        "tradeoff": "Parallel activities vs. dependency constraints"
+      },
+      {
+        "decision": "Make-or-buy evaluation",
+        "tradeoff": "Internal capability vs. external engineering expertise"
+      },
+      {
+        "decision": "Risk escalation",
+        "tradeoff": "Local resolution vs. management intervention"
+      },
+      {
+        "decision": "Milestone readiness",
+        "tradeoff": "Schedule objectives vs. technical completeness"
+      },
+      {
+        "decision": "Engineering changes",
+        "tradeoff": "Improvement potential vs. integration and verification impact"
+      }
+    ],
+    "readinessExample": {
+      "title": "Evaluating engineering program readiness",
+      "criteria": [
+        {
+          "label": "Requirements definition",
+          "maturity": 3,
+          "mandatory": false
+        },
+        {
+          "label": "Design maturity",
+          "maturity": 3,
+          "mandatory": false
+        },
+        {
+          "label": "System integration",
+          "maturity": 2,
+          "mandatory": false
+        },
+        {
+          "label": "Verification evidence",
+          "maturity": 1,
+          "mandatory": true
+        },
+        {
+          "label": "Technical risk closure",
+          "maturity": 2,
+          "mandatory": false
+        },
+        {
+          "label": "Manufacturing readiness",
+          "maturity": 1,
+          "mandatory": true
+        }
+      ],
+      "disclosure": "Independent illustrative decision model. Criteria and gate logic are hypothetical and do not represent employer procedures or regulatory release requirements.",
+      "interpretation": "The key engineering leadership principle is that a high overall completion rate does not necessarily establish technical readiness. An unresolved mandatory condition may prevent milestone acceptance regardless of progress elsewhere.",
+      "limitation": "This example is an educational decision-support model, not an automated release authorization system."
+    },
+    "plannedTools": [
+      {
+        "id": "EL-003",
+        "title": "Supplier Technical Concept Evaluation",
+        "description": "Structured technical decision-making"
+      },
+      {
+        "id": "EL-004",
+        "title": "Risk-Based Equipment Validation Framework",
+        "description": "Verification coverage and readiness"
+      },
+      {
+        "id": "EL-007",
+        "title": "Requirements Traceability System",
+        "description": "Requirements, deliverables and evidence alignment"
+      },
+      {
+        "id": "EL-009",
+        "title": "Technical Program Risk Analyzer",
+        "description": "Risk assessment and mitigation prioritization"
+      }
+    ],
+    "competencies": [
+      "Technical program management",
+      "Engineering team leadership",
+      "Cross-functional coordination",
+      "International supplier management",
+      "Technical risk management",
+      "Requirements and deliverable governance",
+      "Engineering milestone readiness",
+      "Technical decision-making",
+      "Stakeholder communication",
+      "Dependency and issue management"
+    ]
+  },
+  {
     "id": "CS-004",
     "slug": "advanced-lattice-structures",
     "title": "Engineering the Mechanics of Advanced Lattice Structures",

@@ -1,0 +1,40 @@
+---
+interface Props { compact?:boolean }
+const {compact=false}=Astro.props;
+---
+<figure class="leadership-concept">
+ <svg viewBox="0 0 340 232" role="img" aria-label="Conceptual program objectives linked to technical systems, team execution and supplier alignment, converging on integrated delivery" focusable="false">
+  <g stroke="currentColor" opacity=".12" stroke-width=".6">
+   {Array.from({length:17},(_,i)=><path d={`M${10+i*20} 10V222`}/>)}
+   {Array.from({length:11},(_,i)=><path d={`M10 ${10+i*20}H330`}/>)}
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="1">
+   <path d="M170 50V70M65 70H275M65 70V88M170 70V88M275 70V88 M65 126V158H170M170 126V177M275 126V158H170"/>
+   <path d="M65 126L275 158M275 126L65 158" stroke-dasharray="3 4" opacity=".4"/>
+  </g>
+  <g class="nodes" stroke="currentColor">
+   <rect x="101" y="16" width="138" height="34" rx="3"/>
+   <rect x="18" y="88" width="94" height="38" rx="3"/>
+   <rect x="123" y="88" width="94" height="38" rx="3"/>
+   <rect x="228" y="88" width="94" height="38" rx="3"/>
+   <rect x="101" y="177" width="138" height="34" rx="3" class="delivery"/>
+  </g>
+  <g font-size="10" font-family="monospace" fill="currentColor" text-anchor="middle">
+   <text x="170" y="30">PROGRAM</text><text x="170" y="42">OBJECTIVES</text>
+   <text x="65" y="105">TECHNICAL</text><text x="65" y="117">SYSTEMS</text>
+   <text x="170" y="105">TEAM</text><text x="170" y="117">EXECUTION</text>
+   <text x="275" y="105">SUPPLIER</text><text x="275" y="117">ALIGNMENT</text>
+   <text x="170" y="191" class="delivery-text">INTEGRATED</text><text x="170" y="203" class="delivery-text">DELIVERY</text>
+  </g>
+ </svg>
+ {!compact&&<figcaption class="technical-caption">Independent conceptual program architecture, not an employer organizational structure.</figcaption>}
+</figure>
+<style>
+ .leadership-concept{color:var(--color-deep-teal);min-width:0}
+ .nodes{fill:var(--color-ivory)}
+ .delivery{fill:var(--color-deep-teal)}
+ .delivery-text{fill:var(--color-ivory)}
+ :global(.technical-surface) .leadership-concept{color:var(--color-jade)}
+ :global(.technical-surface) .nodes{fill:var(--color-navy)}
+ svg{display:block;width:100%;height:auto}
+</style>
