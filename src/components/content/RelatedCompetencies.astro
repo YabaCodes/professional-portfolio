@@ -1,0 +1,12 @@
+---
+import type {GraphEntry} from '../../lib/content/model';
+import {evidenceHref} from '../../lib/content/expertise';
+interface Props {entries:GraphEntry[]}
+const {entries}=Astro.props;
+---
+{entries.length>0&&<section class="mt-8 border-t border-structural pt-4" aria-labelledby="related-competencies">
+ <h2 id="related-competencies">Related competencies</h2>
+ <ul class="grid gap-2" data-related-competencies>
+  {entries.map(item=><li data-related-competency={item.data.id}><a class="inline-flex min-h-11 min-w-11 items-center py-2" href={evidenceHref(item)}>{item.data.title}</a></li>)}
+ </ul>
+</section>}

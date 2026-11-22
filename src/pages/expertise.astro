@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CompetencyCard from '../components/content/CompetencyCard.astro';
+import {loadCatalog,ofKind,related} from '../lib/content/catalog';
+import {pillarNames} from '../lib/content/model';
+import {pillarDescriptions,pillarIds,pillarShortLabels} from '../lib/content/expertise';
+const catalog=await loadCatalog();
+const competencies=ofKind(catalog,'competencies');
+const groups=pillarNames.map((pillar,i)=>({pillar,id:pillarIds[i],shortLabel:pillarShortLabels[i],description:pillarDescriptions[i],entries:competencies.filter(e=>e.data.pillar===pillar).sort((a,b)=>a.data.id.localeCompare(b.data.id))}));
+const title='Technical depth. Integrated execution.';
+const description='A multidisciplinary engineering capability spanning mechanical systems, manufacturing technology, technical program delivery and scientific innovation.';
+---
+<BaseLayout title={title} description={description} route="expertise">
+ <section class="technical-surface section-space" aria-labelledby="expertise-title">
+  <div class="page-container">
+   <p class="technical-label mb-4">Expertise / Engineering capabilities</p>
+   <h1 id="expertise-title">{title}</h1>
+   <p class="secondary-text reading-width mt-5">{description}</p>
+   <nav aria-label="Professional pillars" class="editorial-grid mt-8">
+    {groups.map((group,i)=><a class="span-half pillar-link border-t border-slate pt-4 pb-3" href={'#pillar-'+group.id}><span class="technical-label">{String(i+1).padStart(2,'0')}</span><span class="font-display font-bold text-xl">{group.pillar}</span></a>)}
+   </nav>
+  </div>
+ </section>
+ <section class="page-container section-space" aria-labelledby="capability-title" data-expertise>
+  <h2 id="capability-title">Explore capabilities</h2>
+  <div data-pillar-filters hidden>
+   <div class="filter-list mt-5" role="group" aria-label="Filter competencies by pillar">
+    <button type="button" class="filter-button" data-pillar-filter="all" aria-pressed="true">All</button>
+    {groups.map(group=><button type="button" class="filter-button" data-pillar-filter={group.id} aria-pressed="false">{group.shortLabel}</button>)}
+   </div>
+  </div>
+  <p class="technical-caption mt-4" role="status" data-competency-count>{competencies.length} competency groups</p>
+  {groups.map(group=><section id={'pillar-'+group.id} class="pillar-group mt-10" aria-labelledby={'heading-'+group.id} data-pillar-group={group.id}>
+   <div class="border-t border-structural pt-5">
+    <h2 id={'heading-'+group.id}>{group.pillar}</h2>
+    <p class="secondary-text mt-3">{group.description}</p>
+   </div>
+   <div class="competency-grid mt-6">
+    {group.entries.map(entry=><CompetencyCard entry={entry} evidence={related(catalog,entry.data)}/>)}
+   </div>
+  </section>)}
+ </section>
+</BaseLayout>
+<script>
+ const root=document.querySelector<HTMLElement>('[data-expertise]');
+ if(root){
+  const filters=root.querySelector<HTMLElement>('[data-pillar-filters]');
+  const buttons=Array.from(root.querySelectorAll<HTMLButtonElement>('[data-pillar-filter]'));
+  const groups=Array.from(root.querySelectorAll<HTMLElement>('[data-pillar-group]'));
+  const count=root.querySelector('[data-competency-count]');
+  const apply=(id:string)=>{
+   const selected=buttons.some(b=>b.dataset.pillarFilter===id)?id:'all';
+   for(const group of groups)group.hidden=selected!=='all'&&group.dataset.pillarGroup!==selected;
+   for(const button of buttons)button.setAttribute('aria-pressed',String(button.dataset.pillarFilter===selected));
+   const visible=groups.filter(g=>!g.hidden).reduce((sum,g)=>sum+g.querySelectorAll('[data-competency-id]').length,0);
+   if(count)count.textContent=visible+' competency groups';
+  };
+  const revealTarget=(id:string)=>{
+   if(!id)return;
+   const target=document.getElementById(id);
+   const group=target?.closest<HTMLElement>('[data-pillar-group]');
+   if(group?.hidden){apply(group.dataset.pillarGroup??'all');return target;}
+  };
+  const revealHash=()=>revealTarget(location.hash.slice(1))?.scrollIntoView();
+  // Reveal filtered targets before the browser performs native anchor navigation.
+  // This also handles repeated clicks on the current hash, which emit no hashchange.
+  for(const link of document.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Professional pillars"] a[href^="#"]')){
+   link.addEventListener('click',event=>{
+    if(event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+    revealTarget(link.hash.slice(1));
+   });
+  }
+  for(const button of buttons)button.addEventListener('click',()=>apply(button.dataset.pillarFilter??'all'));
+  if(filters)filters.hidden=false;
+  window.addEventListener('hashchange',revealHash);
+  revealHash();
+ }
+</script>
+<style>
+ .pillar-link{display:flex;flex-direction:column;gap:8px;min-height:44px;text-decoration:none}
+ .pillar-link:hover{text-decoration:underline;text-underline-offset:.2em}
+ .filter-list{display:flex;gap:8px;flex-wrap:wrap}
+ .filter-button{border:1px solid var(--color-slate);padding:8px 16px;font-weight:600;min-height:44px;min-width:44px;cursor:pointer;color:var(--color-graphite);border-radius:4px}
+ .filter-button[aria-pressed="true"]{background:var(--color-navy);color:var(--color-ivory);border-color:var(--color-navy)}
+ .pillar-group{scroll-margin-top:24px}
+ .competency-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--grid-gap)}
+ @media(min-width:768px){.competency-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>

@@ -3,6 +3,7 @@ import {getCollection,type CollectionEntry} from 'astro:content';
 import type {GetStaticPaths} from 'astro';
 import ArticleLayout from '../../layouts/ArticleLayout.astro';
 import EvidenceLabel from '../../components/content/EvidenceLabel.astro';
+import RelatedCompetencies from '../../components/content/RelatedCompetencies.astro';
 import RelatedEvidence from '../../components/content/RelatedEvidence.astro';
 import ComparisonChart from '../../components/content/ComparisonChart.astro';
 import LatticeConcept from '../../components/illustrations/LatticeConcept.astro';
@@ -14,13 +15,14 @@ import AssemblyConcept from '../../components/illustrations/AssemblyConcept.astr
 import EngineeringTradeoffs from '../../components/content/EngineeringTradeoffs.astro';
 import PositioningExample from '../../components/content/PositioningExample.astro';
 import PlannedDemonstrations from '../../components/content/PlannedDemonstrations.astro';
-import {caseSections} from '../../lib/content/model';
+import {caseSections,supportingCompetencies} from '../../lib/content/model';
 import {loadCatalog,related} from '../../lib/content/catalog';
 import {routeHref} from '../../lib/site';
 export const getStaticPaths=(async()=> (await getCollection('case-studies')).map(entry=>({params:{slug:entry.data.slug},props:{entry}}))) satisfies GetStaticPaths;
 interface Props {entry:CollectionEntry<'case-studies'>}
 const {entry}=Astro.props;const d=entry.data;const catalog=await loadCatalog();
-const headings=[...caseSections,{id:'references',label:'Supporting evidence'}];
+const competencyLinks=supportingCompetencies(catalog,d.id);
+const headings=[...caseSections,{id:'references',label:'Supporting evidence'},...(competencyLinks.length?[{id:'related-competencies',label:'Related competencies'}]:[])];
 ---
 <ArticleLayout title={d.title} description={d.summary} route={'work/'+d.slug} eyebrow={'Selected work / '+d.id+' / '+d.pillar} headings={headings}>
  <div slot="intro-extra" class="page-container pb-10">
@@ -52,6 +54,7 @@ const headings=[...caseSections,{id:'references',label:'Supporting evidence'}];
    {s.id==='reflection'&&d.competencies.length>0&&<ul class="grid gap-2 list-disc pl-5 mt-4">{d.competencies.map(c=><li>{c}</li>)}</ul>}
  </section>)}
  <section aria-labelledby="references"><h2 id="references">Supporting evidence</h2>{d.references.length>0?<ul class="grid gap-4">{d.references.map(ref=><li class="border-t border-structural pt-3"><a class="inline-flex min-h-11 items-center" href={ref.url}>{ref.label}</a></li>)}</ul>:<div data-professional-evidence><p>This thematic account describes owner-approved professional experience. It does not present independent validation of employer project results or disclose confidential technical evidence.</p><a class="inline-flex min-h-11 items-center" href={routeHref('about')}>Professional profile and career history</a></div>}</section>
+ <RelatedCompetencies entries={competencyLinks}/>
  <RelatedEvidence entries={related(catalog,d)}/>
 </ArticleLayout>
 <style>

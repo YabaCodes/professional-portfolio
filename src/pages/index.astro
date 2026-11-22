@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ConceptualSystem from '../components/illustrations/ConceptualSystem.astro';
 import CredibilityStrip from '../components/content/CredibilityStrip.astro';
 import { identity,pillars,routeHref } from '../lib/site';
+import {pillarIds} from '../lib/content/expertise';
 import {getCollection} from 'astro:content';
 import {loadCatalog} from '../lib/content/catalog';
 import CaseStudyCards from '../components/content/CaseStudyCards.astro';
@@ -42,7 +43,7 @@ const work=(await getCollection('case-studies')).sort((a,b)=>a.data.id.localeCom
  <section class="page-container pb-16" aria-labelledby="pillars-title">
   <hr class="rule mb-10"/>
   <p class="technical-label mb-3">03 / Professional expertise</p><h2 id="pillars-title">Four professional pillars.</h2>
-  <div class="editorial-grid mt-8">{pillars.map((pillar,i)=><div class="span-half border-t border-structural pt-5 pb-4"><p class="technical-label mb-3">{String(i+1).padStart(2,'0')}</p><h3>{pillar}</h3></div>)}</div>
+  <div class="editorial-grid mt-8">{pillars.map((pillar,i)=><div class="span-half border-t border-structural pt-5 pb-4"><p class="technical-label mb-3">{String(i+1).padStart(2,'0')}</p><h3><a href={routeHref('expertise')+'#pillar-'+pillarIds[i]} class="inline-flex min-h-11 min-w-11 items-center">{pillar}</a></h3></div>)}</div>
   <a class="inline-flex min-h-11 items-center mt-4" href={routeHref('expertise')}>Explore expertise <span aria-hidden="true">→</span></a>
  </section>
  <section class="technical-surface section-space" aria-labelledby="lab">

@@ -6,10 +6,10 @@ import EvidenceDisclosure from '../components/content/EvidenceDisclosure.astro';
 import RecordList from '../components/content/RecordList.astro';
 import {loadCatalog,ofKind} from '../lib/content/catalog';
 import type {Kind} from '../lib/content/model';
-import { sections, routeHref, pillars } from '../lib/site';
-export const getStaticPaths = (() => sections.filter(section=>section.slug!=='about'&&section.slug!=='work').map(section=>({params:{section:section.slug},props:{section}}))) satisfies GetStaticPaths;
+import { sections, routeHref } from '../lib/site';
+export const getStaticPaths = (() => sections.filter(section=>section.slug!=='about'&&section.slug!=='work'&&section.slug!=='expertise').map(section=>({params:{section:section.slug},props:{section}}))) satisfies GetStaticPaths;
 const {section} = Astro.props;
-const groups:Record<string,Kind[]>={expertise:['competencies'],insights:['insights'],research:['publications','patents'],contact:[]};
+const groups:Record<string,Kind[]>={insights:['insights'],research:['publications','patents'],contact:[]};
 const catalog=await loadCatalog();
 const entries=(groups[section.slug]??[]).flatMap(kind=>ofKind(catalog,kind));
 ---
@@ -18,7 +18,6 @@ const entries=(groups[section.slug]??[]).flatMap(kind=>ofKind(catalog,kind));
   <section class="page-container section-space" aria-label="Section foundation">
     <EvidenceDisclosure kind="development"/>
     <RecordList entries={entries}/>
-    {section.slug === 'expertise' && <ul class="editorial-grid mt-8">{pillars.map(p=><li class="span-half border-t border-structural pt-4 font-display font-bold">{p}</li>)}</ul>}
     {section.slug === 'insights' && <a class="action-link mt-8" href={routeHref('insights/lab')}>Engineering Lab →</a>}
     {section.slug !== 'insights' && <a class="action-link mt-8" href={routeHref('')}>Return home</a>}
   </section>

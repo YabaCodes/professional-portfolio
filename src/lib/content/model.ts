@@ -50,7 +50,7 @@ export function validateGraph(entries:readonly GraphEntry[]): void {
     if (byRoute.has(key)) throw new Error('Duplicate slug: '+key);
     if (d.publicationStatus!=='approved') throw new Error('Unapproved record: '+d.id);
     if (!allowedEvidence[kind].includes(d.evidenceType)) throw new Error('Invalid evidence type: '+d.id);
-    if (['published-research','public-invention','public-credential'].includes(d.evidenceType) && d.references.length===0 && !(kind==='credentials' && d.evidenceType==='public-credential' && d.verificationBasis==='owner-confirmed')) throw new Error('Public reference required: '+d.id);
+    if (kind!=='competencies' && ['published-research','public-invention','public-credential'].includes(d.evidenceType) && d.references.length===0 && !(kind==='credentials' && d.evidenceType==='public-credential' && d.verificationBasis==='owner-confirmed')) throw new Error('Public reference required: '+d.id);
     if(d.revised && d.revised<d.published) throw new Error('Revision precedes publication: '+d.id);
     if(new Set(d.relatedIds).size!==d.relatedIds.length) throw new Error('Duplicate relationship: '+d.id);
     byId.set(d.id,entry); byRoute.add(key);
@@ -61,6 +61,14 @@ export function validateGraph(entries:readonly GraphEntry[]): void {
     }
   }
   for (const {kind,data:d} of entries) {
-    if(kind==='competencies' && !d.relatedIds.some(id=>byId.get(id)?.kind!=='competencies')) throw new Error('Competency lacks supporting evidence: '+d.id);
+    if(kind==='competencies'){
+      if(!d.relatedIds.length||d.relatedIds.some(id=>byId.get(id)?.kind==='competencies')) throw new Error('Competency lacks direct supporting evidence: '+d.id);
+      if(!d.relatedIds.some(id=>byId.get(id)?.data.evidenceType===d.evidenceType)) throw new Error('Competency evidence classification lacks matching support: '+d.id);
+    }
   }
+}
+
+/** Derive reverse links from the approved competency-to-evidence relationship. */
+export function supportingCompetencies(catalog:readonly GraphEntry[],recordId:string):GraphEntry[]{
+ return catalog.filter(entry=>entry.kind==='competencies'&&entry.data.relatedIds.includes(recordId)).sort((a,b)=>a.data.id.localeCompare(b.data.id));
 }

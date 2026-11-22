@@ -1,1 +1,237 @@
-[]
+[
+  {
+    "id": "COMP-001",
+    "slug": "manufacturing-automation-and-equipment-development",
+    "title": "Manufacturing Automation & Equipment Development",
+    "summary": "Equipment requirements, automated assembly systems, industrialization and manufacturing readiness.",
+    "pillar": "Engineering & Technology",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-001"
+    ]
+  },
+  {
+    "id": "COMP-002",
+    "slug": "mechanical-and-systems-integration",
+    "title": "Mechanical & Systems Integration",
+    "summary": "Mechanical engineering, automation interfaces, technical feasibility and system integration.",
+    "pillar": "Engineering & Technology",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-001",
+      "CS-004",
+      "CRED-002"
+    ]
+  },
+  {
+    "id": "COMP-003",
+    "slug": "design-for-manufacturing-and-assembly",
+    "title": "Design for Manufacturing & Assembly",
+    "summary": "Manufacturability, assembly robustness, component variability and technical concept evaluation.",
+    "pillar": "Engineering & Technology",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-001"
+    ]
+  },
+  {
+    "id": "COMP-004",
+    "slug": "equipment-verification-and-qualification",
+    "title": "Equipment Verification & Qualification",
+    "summary": "Acceptance criteria, equipment verification, qualification support and engineering risk evaluation.",
+    "pillar": "Engineering & Technology",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-001",
+      "CS-003"
+    ]
+  },
+  {
+    "id": "COMP-005",
+    "slug": "technical-program-management",
+    "title": "Technical Program Management",
+    "summary": "Technical scope, engineering deliverables, dependencies and milestone readiness.",
+    "pillar": "Technical Program Delivery",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-003",
+      "CRED-003"
+    ]
+  },
+  {
+    "id": "COMP-006",
+    "slug": "requirements-and-technical-governance",
+    "title": "Requirements & Technical Governance",
+    "summary": "Requirements definition, technical ownership, acceptance conditions and evidence alignment.",
+    "pillar": "Technical Program Delivery",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-001",
+      "CS-003"
+    ]
+  },
+  {
+    "id": "COMP-007",
+    "slug": "technical-risk-and-decision-management",
+    "title": "Technical Risk & Decision Management",
+    "summary": "Engineering risk evaluation, trade-off assessment, mitigation and escalation.",
+    "pillar": "Technical Program Delivery",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-001",
+      "CS-003"
+    ]
+  },
+  {
+    "id": "COMP-008",
+    "slug": "international-supplier-and-stakeholder-management",
+    "title": "International Supplier & Stakeholder Management",
+    "summary": "Supplier-facing technical coordination, multidisciplinary alignment and stakeholder communication.",
+    "pillar": "Technical Program Delivery",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-001",
+      "CS-003"
+    ]
+  },
+  {
+    "id": "COMP-009",
+    "slug": "engineering-team-leadership",
+    "title": "Engineering Team Leadership",
+    "summary": "Functional team guidance, engineering prioritization, accountability and workstream coordination.",
+    "pillar": "Leadership & Operational Excellence",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-003"
+    ]
+  },
+  {
+    "id": "COMP-010",
+    "slug": "manufacturing-performance-and-oee-analysis",
+    "title": "Manufacturing Performance & OEE Analysis",
+    "summary": "Equipment effectiveness, performance-loss decomposition, cycle-time and bottleneck analysis.",
+    "pillar": "Leadership & Operational Excellence",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-002"
+    ]
+  },
+  {
+    "id": "COMP-011",
+    "slug": "structured-problem-solving-and-reliability",
+    "title": "Structured Problem-Solving & Reliability",
+    "summary": "Root cause investigation, recurring technical issue analysis, reliability and corrective action effectiveness.",
+    "pillar": "Leadership & Operational Excellence",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-002"
+    ]
+  },
+  {
+    "id": "COMP-012",
+    "slug": "process-optimization-and-continuous-improvement",
+    "title": "Process Optimization & Continuous Improvement",
+    "summary": "Engineering experimentation, process robustness, performance improvement and stabilization.",
+    "pillar": "Leadership & Operational Excellence",
+    "evidenceType": "professional-experience",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-002",
+      "CRED-004"
+    ]
+  },
+  {
+    "id": "COMP-013",
+    "slug": "structural-mechanics-and-engineering-design",
+    "title": "Structural Mechanics & Engineering Design",
+    "summary": "Mechanical behavior, structural geometry and engineering performance trade-offs.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-004",
+      "CRED-001"
+    ]
+  },
+  {
+    "id": "COMP-014",
+    "slug": "additive-manufacturing-and-advanced-structures",
+    "title": "Additive Manufacturing & Advanced Structures",
+    "summary": "Computational geometry, lattice structures, material distribution and design for additive manufacturing.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-004",
+      "CRED-001"
+    ]
+  },
+  {
+    "id": "COMP-015",
+    "slug": "experimental-research-and-quantitative-analysis",
+    "title": "Experimental Research & Quantitative Analysis",
+    "summary": "Experimental characterization, engineering measurements, data analysis and evidence-based interpretation.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-004",
+      "CS-002"
+    ]
+  },
+  {
+    "id": "COMP-016",
+    "slug": "scientific-communication-and-technical-innovation",
+    "title": "Scientific Communication & Technical Innovation",
+    "summary": "Scientific publication, research dissemination and communication of engineering findings.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-22",
+    "references": [],
+    "relatedIds": [
+      "CS-004"
+    ]
+  }
+]

@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.7.0 — candidate (not released)
+## 0.8.0 — candidate (not released)
+- Implement the approved sixteen competency groups and four-pillar Expertise page with accessible progressive filtering.
+- Link owner-approved experience, owner-confirmed qualifications and published research; derive case-study backlinks, preserve standalone evidence distinctions and keep full Lab tools planned.
+- Add graph, exact-mapping, responsive interaction and navigation tests. No deployment or new dependencies.
+
+## 0.7.0 — accepted 2026-11-22 (PR #11; not deployed)
 - Implement approved CS-003 technical program leadership case study with functional team leadership, general methodology and qualitative outcomes.
 - Add independent readiness decision-support example, original conceptual program architecture, pure validation and exhaustive maturity-combination tests, browser interaction and reset checks.
 - Complete four flagship case-study implementations; preserve previous research and OEE examples. No confidential information or authorized deployment.
