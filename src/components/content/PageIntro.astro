@@ -1,0 +1,11 @@
+---
+interface Props { eyebrow: string; title: string; description: string; }
+const { eyebrow, title, description } = Astro.props;
+---
+<section class="technical-surface section-space" aria-labelledby="page-title">
+  <div class="page-container">
+    <p class="technical-label mb-4">{eyebrow}</p>
+    <h1 id="page-title">{title}</h1>
+    <p class="secondary-text reading-width mt-5">{description}</p>
+  </div>
+</section>

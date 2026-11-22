@@ -45,11 +45,74 @@ try {
     assert.equal(metrics.headingCount,1);
     await page.keyboard.press('Tab');
     assert.equal(await page.evaluate(() => document.activeElement?.textContent?.trim()),'Skip to content');
+    const skip = page.locator('.skip-link');
+    const brand = page.locator('.brand-link');
+    const skipBox = await skip.boundingBox();
+    const brandBox = await brand.boundingBox();
+    assert.ok(skipBox && brandBox);
+    assert.ok(brandBox.width >= 44 && brandBox.height >= 44, 'brand target must be at least 44px');
+    assert.ok(skipBox.y + skipBox.height <= brandBox.y || brandBox.y + brandBox.height <= skipBox.y || skipBox.x + skipBox.width <= brandBox.x || brandBox.x + brandBox.width <= skipBox.x, 'focused skip link overlaps the brand target');
     const axe = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
     assert.deepEqual(axe.violations.map(v=>({id:v.id,impact:v.impact,targets:v.nodes.map(n=>n.target)})),[]);
+    await page.keyboard.press('Enter');
+    assert.equal(await page.evaluate(()=>document.activeElement?.id),'main-content');
+    await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);});
+    const defaultScan = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
+    assert.deepEqual(defaultScan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[]);
     assert.deepEqual(errors,[]);
     console.log(`${width}px: layout, local fonts, keyboard focus, target size and axe smoke PASS`);
+    const mobile = width < 1024;
+    const header = page.locator('header');
+    const menu = header.locator('details.mobile-nav');
+    if (mobile) {
+      assert.equal(await menu.isVisible(),true);
+      assert.equal(await menu.getAttribute('open'),null);
+      await menu.locator('summary').focus();
+      await page.keyboard.press('Enter');
+      assert.notEqual(await menu.getAttribute('open'),null);
+      assert.equal(await menu.getByRole('link',{name:'Selected Work'}).isVisible(),true);
+      await page.keyboard.press('Enter');
+      assert.equal(await menu.getAttribute('open'),null);
+    } else {
+      assert.equal(await header.getByRole('navigation',{name:'Primary navigation'}).isVisible(),true);
+      assert.equal(await menu.isVisible(),false);
+    }
+    await page.evaluate(()=>document.activeElement?.blur());
     await page.screenshot({path:`test-results/design-${width}.png`,fullPage:true});
+    if (width === 390 || width === 1440) {
+      const routes = ['about','work','expertise','insights','research','contact','insights/lab','design-system'];
+      const origin = `http://127.0.0.1:${server.address().port}`;
+      for (const route of routes) {
+        const response = await page.goto(origin + base + route + '/', {waitUntil:'networkidle'});
+        assert.equal(response.status(),200,route);
+        assert.equal(await page.locator('h1').count(),1,route);
+        assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex, nofollow',route);
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > document.documentElement.clientWidth),false,route);
+        const links = await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
+        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/')),route+' base path');
+        if(route !== 'design-system') {
+          assert.ok(await page.locator('meta[name="description"]').getAttribute('content'),route);
+          assert.ok(await page.locator('meta[property="og:title"]').getAttribute('content'),route);
+          assert.equal(await page.locator('header').count(),1);
+          assert.equal(await page.locator('footer').count(),1);
+          const nav=page.locator(mobile?'header .mobile-nav':'header .desktop-nav');
+          const expected=route==='insights/lab'?'insights':route;
+          assert.equal(await nav.locator('a[aria-current]').getAttribute('href'),base+expected+'/');
+        }
+        const scan = await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
+        assert.deepEqual(scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[],route);
+        console.log(`${width}px / ${route}: route and axe smoke PASS`);
+      }
+      await page.goto(origin+base,{waitUntil:'networkidle'});
+      if (mobile) await page.locator('header .mobile-nav summary').click();
+      await page.locator(mobile?'header .mobile-nav':'header .desktop-nav').getByRole('link',{name:'Selected Work'}).click();
+      assert.ok(page.url().endsWith(base+'work/'));
+      await page.locator('header .brand-link').click();
+      assert.ok(page.url().endsWith(base));
+      await page.locator('main .action-link').click();
+      assert.ok(page.url().endsWith(base+'work/'));
+    }
+    assert.deepEqual(errors,[]);
     await context.close();
   }
 } finally { if(browser) await browser.close(); await new Promise(resolve=>server.close(resolve)); }

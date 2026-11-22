@@ -1,0 +1,25 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+import { identity, routeHref, sections } from '../../lib/site';
+---
+<footer class="technical-surface py-10">
+  <div class="page-container editorial-grid">
+    <div class="span-half">
+      <a href={routeHref('')} class="footer-brand"><Wordmark /></a>
+      <p class="secondary-text mt-3">{identity.positioning}</p>
+      <p class="technical-caption mt-4">Development specimen / Not authorized for production deployment.</p>
+    </div>
+    <nav class="span-half" aria-label="Footer navigation">
+      <ul class="footer-links">
+        {sections.map(s => <li><a href={routeHref(s.slug)}>{s.label}</a></li>)}
+        <li><a href={routeHref('insights/lab')}>Engineering Lab</a></li>
+        <li><a href={routeHref('design-system')}>Design system</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+<style>
+  .footer-brand {display:inline-flex;min-height:44px;align-items:center;color:var(--color-ivory);text-decoration:none;}
+  .footer-links {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;}
+  .footer-links a {display:flex;align-items:center;min-height:44px;font-size:.9rem;}
+</style>
