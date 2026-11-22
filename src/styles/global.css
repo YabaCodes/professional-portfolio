@@ -86,7 +86,8 @@
   .technical-caption { font-family: var(--font-technical); font-size: .75rem; color: var(--color-slate); line-height: 1.6; }
   .technical-surface .technical-caption { color: var(--color-structural); }
   .skip-link { position: absolute; z-index: 10; top: 8px; left: 8px; transform: translateY(-200%); }
-  .skip-link:focus { transform: none; }
+  .skip-link:focus { position: relative; top: auto; left: auto; transform: none; align-self: flex-start; margin: 8px; }
+  .skip-link:focus-visible { outline: 3px solid var(--color-deep-teal); outline-offset: 3px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
