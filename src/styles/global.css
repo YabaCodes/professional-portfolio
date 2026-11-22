@@ -1,1 +1,93 @@
 @import "tailwindcss";
+
+@theme {
+  --color-navy: #101E2A;
+  --color-ivory: #F6F5F0;
+  --color-graphite: #23313A;
+  --color-teal: #347D73;
+  --color-deep-teal: #286B62;
+  --color-jade: #83BAB3;
+  --color-structural: #CDD2CC;
+  --color-slate: #52636A;
+  --font-display: "Manrope Variable", system-ui, sans-serif;
+  --font-body: "Inter Variable", system-ui, sans-serif;
+  --font-technical: "IBM Plex Mono", ui-monospace, monospace;
+  --spacing: 4px;
+}
+
+:root {
+  --page-max: 1280px;
+  --page-gutter: 20px;
+  --grid-columns: 4;
+  --grid-gap: 16px;
+  --reading-width: 70ch;
+  --transition-duration: 200ms;
+  --section-space: clamp(48px, 7vw, 96px);
+}
+@media (min-width: 768px) {
+  :root { --page-gutter: 32px; --grid-columns: 8; --grid-gap: 24px; }
+}
+@media (min-width: 1024px) {
+  :root { --grid-columns: 12; --grid-gap: 24px; }
+}
+
+@layer base {
+  html { color-scheme: light; }
+  body {
+    margin: 0; background: var(--color-ivory); color: var(--color-graphite);
+    font-family: var(--font-body); font-size: clamp(1rem, .96rem + .18vw, 1.125rem);
+    line-height: 1.65; overflow-wrap: anywhere;
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.12; letter-spacing: -.035em; }
+  h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.5rem); }
+  h2 { font-size: clamp(1.625rem, 1.25rem + 1.3vw, 2.5rem); }
+  h3 { font-size: clamp(1.25rem, 1.1rem + .6vw, 1.625rem); }
+  a { color: var(--color-deep-teal); text-decoration: underline; text-underline-offset: .2em; }
+  :focus-visible { outline: 3px solid var(--color-deep-teal); outline-offset: 4px; }
+  svg, img { max-width: 100%; height: auto; }
+  figure { margin: 0; }
+}
+
+@layer components {
+  .page-container { width: min(calc(100% - 2 * var(--page-gutter)), var(--page-max)); margin-inline: auto; }
+  .editorial-grid { display: grid; grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr)); gap: var(--grid-gap); }
+  .span-full { grid-column: 1 / -1; min-width: 0; }
+  .span-half { grid-column: 1 / -1; min-width: 0; }
+  .span-two-thirds { grid-column: 1 / -1; min-width: 0; }
+  .span-one-third { grid-column: 1 / -1; min-width: 0; }
+  @media (min-width: 768px) { .span-half { grid-column: span 4; } }
+  @media (min-width: 1024px) {
+    .span-half { grid-column: span 6; }
+    .span-two-thirds { grid-column: span 8; }
+    .span-one-third { grid-column: span 4; }
+  }
+  .section-space { padding-block: var(--section-space); }
+  .reading-width { max-width: var(--reading-width); }
+  .hero-title { font-size: clamp(2.25rem, 1.8rem + 2vw, 2.75rem); line-height: 1.08; }
+  @media (min-width: 768px) { .hero-title { font-size: clamp(2.75rem, 4.4vw, 4rem); } }
+  @media (min-width: 1024px) { .hero-title { font-size: clamp(4rem, 5vw, 4.5rem); } }
+  .technical-label { font-family: var(--font-technical); font-size: .75rem; line-height: 1.5; letter-spacing: .075em; text-transform: uppercase; color: var(--color-deep-teal); }
+  .secondary-text { color: var(--color-slate); }
+  .technical-surface { color: var(--color-ivory); background: var(--color-navy); }
+  .technical-surface .technical-label, .technical-surface a { color: var(--color-jade); }
+  .technical-surface .secondary-text { color: var(--color-structural); }
+  .technical-surface :focus-visible { outline-color: var(--color-jade); }
+  .rule { border: 0; border-top: 1px solid var(--color-structural); }
+  .technical-surface .rule { border-color: var(--color-slate); }
+  .action-link {
+    display: inline-flex; min-height: 44px; min-width: 44px; align-items: center; justify-content: center;
+    gap: 8px; padding: 10px 20px; border: 1px solid transparent; border-radius: 4px;
+    background: var(--color-navy); color: var(--color-ivory); font-weight: 600;
+    text-decoration: none; transition: background-color var(--transition-duration), color var(--transition-duration);
+  }
+  .action-link:hover { background: var(--color-deep-teal); }
+  .technical-surface .action-link { background: var(--color-jade); color: var(--color-navy); }
+  .technical-surface .action-link:hover { background: var(--color-ivory); }
+  .technical-caption { font-family: var(--font-technical); font-size: .75rem; color: var(--color-slate); line-height: 1.6; }
+  .technical-surface .technical-caption { color: var(--color-structural); }
+  .skip-link { position: absolute; z-index: 10; top: 8px; left: 8px; transform: translateY(-200%); }
+  .skip-link:focus { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

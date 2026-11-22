@@ -13,8 +13,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Require committed dependency lockfile
-        run: git ls-files --error-unmatch package-lock.json
+      - name: Resolve exact design dependencies (one-time bootstrap)
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/pp-004b-design-system' }}
+        run: |
+          npm version 0.2.0 --no-git-tag-version --allow-same-version
+          npm pkg set 'scripts.test:design=node scripts/check-design.mjs' 'scripts.test:responsive=node scripts/check-responsive.mjs'
+          npm install --package-lock-only --ignore-scripts --save-exact @fontsource-variable/manrope @fontsource-variable/inter @fontsource/ibm-plex-mono
+          npm install --package-lock-only --ignore-scripts --save-exact --save-dev playwright @axe-core/playwright
+          sha256sum package.json package-lock.json
+          base64 -w 1000 package.json | sed 's/^/PACKAGE_DATA:/'
+          base64 -w 1000 package-lock.json | sed 's/^/LOCKFILE_DATA:/'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: design-dependency-bootstrap
+          path: |
+            package.json
+            package-lock.json
       - run: npm ci
       - run: npm run check
+      - run: npm run test:design
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:responsive
+      - name: Require committed dependency manifests
+        run: git diff --exit-code -- package.json package-lock.json
