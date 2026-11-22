@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.6.1 — candidate (not released)
+## 0.6.2 — candidate (not released)
+- Implement approved CS-001 thematic equipment development case study: contributions, lifecycle, generic trade-offs, independent positioning schematics and planned tools.
+- Add reusable engineering trade-off, conceptual system and positioning example components; distinguish professional experience from independently verified research.
+- Preserve CS-004, expand browser regression to both case studies. No confidential details or quantitative employer outcomes; no deployment.
+
+## 0.6.1 — accepted 2026-11-22 (PR #8; not deployed)
 - Implement approved CS-004 research case study, reusable case-study cards and detail presentation, original conceptual illustration and sourced normalized comparison.
 - Extend schema and browser regression checks for case-study content and navigation.
 - Other three case studies remain pending individual approvals; v0.7.0 reserved for full milestone. No deployment.

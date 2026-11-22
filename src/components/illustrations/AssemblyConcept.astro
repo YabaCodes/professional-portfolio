@@ -1,0 +1,31 @@
+---
+interface Props { compact?:boolean; }
+const {compact=false}=Astro.props;
+---
+<figure class="assembly-concept">
+ <svg viewBox="0 0 350 205" role="img" aria-label="Independent conceptual assembly system with input, process and output functions" focusable="false">
+  <g stroke="currentColor" opacity=".15" stroke-width=".6">
+   {Array.from({length:16},(_,i)=><path d={`M${10+i*22} 10V195`}/>)}
+   {Array.from({length:9},(_,i)=><path d={`M10 ${10+i*23}H340`}/>)}
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round">
+   <path d="M18 135L242 135 322 90 98 90Z M18 135V150L242 150 322 105V90 M242 135V150"/>
+   {[0,1,2].map(i=><g transform={`translate(${25+i*79} 0)`}>
+    <path d="M0 125V57L49 29 49 97 M0 57L58 57 107 29 49 29 M58 125V57L107 29V97L58 125Z M0 125H58"/>
+    <path d="M6 116V65H51V116Z M12 72H45V105H12Z" fill="currentColor" fill-opacity=".12"/>
+    <path d="M20 88H38 M29 77V99" stroke-dasharray="3 3"/>
+    <rect x="16" y="41" width="25" height="9" fill="currentColor" fill-opacity=".25"/>
+   </g>)}
+   <path d="M4 164H345" stroke-dasharray="4 5" opacity=".5"/>
+  </g>
+  <g fill="currentColor" font-size="9" font-family="monospace" text-anchor="middle">
+   <text x="57" y="181">INPUT</text><text x="175" y="181">PROCESS</text><text x="291" y="181">OUTPUT</text>
+  </g>
+ </svg>
+ {!compact&&<figcaption class="technical-caption mt-2">Original conceptual illustration. Does not represent actual employer equipment.</figcaption>}
+</figure>
+<style>
+ .assembly-concept{color:var(--color-deep-teal);min-width:0;}
+ :global(.technical-surface) .assembly-concept{color:var(--color-jade);}
+ svg{display:block;width:100%;height:auto}
+</style>

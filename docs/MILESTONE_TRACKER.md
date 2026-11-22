@@ -13,7 +13,7 @@
 | PP-004E | Accepted 2026-11-22; PR #5 merged |
 | PP-005A | Accepted 2026-11-22; CR-001–007 editorial direction approved |
 | PP-005B | Accepted 2026-11-22; PR #7 merged |
-| PP-005C | Active — CS-004 first increment v0.6.1 candidate; CS-001–003 pending their own approvals |
+| PP-005C | Active — CS-004 accepted v0.6.1; CS-001 v0.6.2 candidate; CS-002–003 pending their own approvals |
 | PP-005D–F | Planned |
 | PP-006–008 | Planned |
 
@@ -44,3 +44,7 @@ PP-005B acceptance: approved hero and credibility indicators, homepage sections 
 PP-005B: final head 59e0a84b6c9386bbdab22bfea283daaf112502c3, CI 45004609189 passed after explicit homepage CTA selector correction; owner merged PR #7 (5ebc60c82d027590522d97ff185e01ce37d61405) and deleted branch.
 
 PP-005C / CS-004: editorial review v1.0 approved all six areas, no corrections. First implementation increment v0.6.1 (v0.7.0 reserved for completion of all four case studies). Acceptance requires approved eight-section wording, two DOI references, explicit first-author/collaborative attribution, original conceptual illustration, five methodology steps, approximate abstract-derived normalized stiffness comparison, proposed rather than implemented EL-010, homepage/work cards, dynamic route, contents navigation, browser/axe and prior checks passing. Other case studies remain unapproved; no publication/deployment. Final CI and owner review pending.
+
+PP-005C.1 / CS-004: final head 3832d81fbba455e20f94e7d32c818f1dc71ff99f; CI run 45006138027 passed after comparison chart semantic-list correction. Owner merged PR #8 (bc356ea0c69514f5644385e105de362b44f346b9) and deleted branch. v0.6.1 accepted, not deployed.
+
+PP-005C.2 / CS-001: editorial review v1.0 all eight categories approved without corrections. v0.6.2 candidate. Acceptance: approved thematic eight-section narrative; seven responsibilities and six methodology steps; six general design trade-offs; original rigid/compliant positioning illustration with explicit independence disclosure; three planned tools clearly not implemented; qualitative outcomes only; no quantitative employer outcomes or confidential information; profile link clearly not independent verification; both approved cards and detail routes, responsive/axe and all prior gates pass; owner review, merge and separate launch approval required. Final CI pending.
