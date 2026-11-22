@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.0 — candidate (not released)
+## 0.5.0 — accepted 2026-11-22 (PR #5; not deployed)
 - Add static output integrity and size budgets, internal link/fragment/asset audit, main-branch CI regression.
 - Add disabled launch manifest, fail-closed release gate and manual-only Pages deployment workflow.
 - No activation or publication; no new dependencies.
