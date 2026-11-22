@@ -67,7 +67,11 @@ const fmt=(v:number)=>v.toFixed(2)+'%';
   };
   controls.disabled=false;
   form.addEventListener('input',update);
-  form.addEventListener('reset',()=>queueMicrotask(update));
+  form.addEventListener('reset',event=>{
+   event.preventDefault();
+   for(const input of form.querySelectorAll<HTMLInputElement>('input[type="range"]'))input.value=input.defaultValue;
+   update();
+  });
  }
 </script>
 <style>
