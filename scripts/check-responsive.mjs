@@ -125,7 +125,7 @@ try {
           assert.equal(await page.locator('[data-independent-example] figure').count(),2);
           assert.ok((await page.locator('[data-independent-example]').innerText()).includes('Neither concept represents actual employer equipment'));
           assert.equal(await page.locator('[data-planned-tools] li').count(),3);
-          assert.ok((await page.locator('[data-planned-tools]').innerText()).includes('not implemented'));
+          assert.match(await page.locator('[data-planned-tools] .technical-label').innerText(),/planned independent demonstrations\s*—\s*not implemented/i);
           assert.equal(await page.locator('[data-comparison]').count(),0);
           assert.ok((await page.locator('[data-professional-evidence]').innerText()).includes('does not present independent validation'));
           assert.equal(await page.locator('[data-professional-evidence] a').getAttribute('href'),base+'about/');
