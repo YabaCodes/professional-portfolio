@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { readFile, stat } from 'node:fs/promises';
+import { mkdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
@@ -22,8 +22,10 @@ await new Promise(resolve => server.listen(0,'127.0.0.1',resolve));
 let browser;
 try {
   browser = await chromium.launch({headless:true});
+  await mkdir('test-results', {recursive:true});
   for (const width of [320,390,768,1024,1440]) {
-    const page = await browser.newPage({viewport:{width,height:900}, reducedMotion:'reduce'});
+    const context = await browser.newContext({viewport:{width,height:900}, reducedMotion:'reduce'});
+    const page = await context.newPage();
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
     page.on('response', response => { if (response.status() >= 400) errors.push(response.url() + ' ' + response.status()); });
@@ -47,6 +49,7 @@ try {
     assert.deepEqual(axe.violations.map(v=>({id:v.id,impact:v.impact,targets:v.nodes.map(n=>n.target)})),[]);
     assert.deepEqual(errors,[]);
     console.log(`${width}px: layout, local fonts, keyboard focus, target size and axe smoke PASS`);
-    await page.close();
+    await page.screenshot({path:`test-results/design-${width}.png`,fullPage:true});
+    await context.close();
   }
 } finally { if(browser) await browser.close(); await new Promise(resolve=>server.close(resolve)); }
