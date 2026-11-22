@@ -1,0 +1,64 @@
+name: Publish approved portfolio
+on:
+  workflow_dispatch:
+    inputs:
+      approved_sha:
+        description: "Exact approved main commit SHA"
+        required: true
+        type: string
+      confirmation:
+        description: "Type PUBLISH APPROVED PORTFOLIO"
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-production
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Require authorized launch state before build
+        env:
+          REQUESTED_SHA: ${{ inputs.approved_sha }}
+          RELEASE_CONFIRMATION: ${{ inputs.confirmation }}
+        run: node scripts/check-release.mjs
+      - run: npm ci
+      - run: npm run check
+      - run: npm run test:unit
+      - run: npm run test:design
+      - run: npm run build
+      - run: npm run test:build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:links
+      - run: npm run test:responsive
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish approved artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
