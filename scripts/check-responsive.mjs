@@ -6,6 +6,8 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 const root = path.resolve('dist');
 const base = '/professional-portfolio/';
+const competencyMap={"COMP-001":["CS-001"],"COMP-002":["CS-001","CS-004","CRED-002"],"COMP-003":["CS-001"],"COMP-004":["CS-001","CS-003"],"COMP-005":["CS-003","CRED-003"],"COMP-006":["CS-001","CS-003"],"COMP-007":["CS-001","CS-003"],"COMP-008":["CS-001","CS-003"],"COMP-009":["CS-003"],"COMP-010":["CS-002"],"COMP-011":["CS-002"],"COMP-012":["CS-002","CRED-004"],"COMP-013":["CS-004","CRED-001"],"COMP-014":["CS-004","CRED-001"],"COMP-015":["CS-004","CS-002"],"COMP-016":["CS-004"]};
+const caseRoutes={"CS-001":"requirements-to-manufacturing-readiness","CS-002":"engineering-for-manufacturing-performance","CS-003":"leading-complex-engineering-programs","CS-004":"advanced-lattice-structures"};
 const types = {'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff'};
 const server = createServer(async (req,res) => {
   try {
@@ -103,6 +105,69 @@ try {
           const nav=page.locator(mobile?'header .mobile-nav':'header .desktop-nav');
           const expected=route.split('/')[0];
           assert.equal(await nav.locator('a[aria-current]').getAttribute('href'),base+expected+'/');
+        }
+        if(route.startsWith('work/')){
+          const caseId=Object.keys(caseRoutes).find(id=>'work/'+caseRoutes[id]===route);
+          const expected=Object.keys(competencyMap).filter(id=>competencyMap[id].includes(caseId));
+          assert.deepEqual(await page.locator('[data-related-competency]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-related-competency'))),expected);
+          for(const id of expected)assert.equal(await page.locator('[data-related-competency="'+id+'"] a').getAttribute('href'),base+'expertise/#'+id.toLowerCase());
+        }
+        if(route==='expertise'){
+          assert.equal(await page.locator('[data-competency-id]').count(),16);
+          assert.deepEqual(await page.locator('[data-pillar-group]').evaluateAll(nodes=>nodes.map(n=>n.querySelectorAll('[data-competency-id]').length)),[4,4,4,4]);
+          for(const [id,sources] of Object.entries(competencyMap)){
+            const card=page.locator('[data-competency-id="'+id+'"]');
+            assert.deepEqual(await card.locator('[data-evidence-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-evidence-id'))),sources);
+            for(const source of sources){
+              const expected=source.startsWith('CRED-')?base+'about/#'+source.toLowerCase():base+'work/'+caseRoutes[source]+'/';
+              assert.equal(await card.locator('[data-evidence-id="'+source+'"] a').getAttribute('href'),expected);
+            }
+          }
+          assert.equal(await page.locator('[data-embedded-example] a').getAttribute('href'),base+'work/engineering-for-manufacturing-performance/#oee-example');
+          assert.equal(await page.locator('[data-planned-evidence] a').count(),0);
+          assert.match(await page.locator('[data-planned-evidence]').innerText(),/planned engineering lab tool/i);
+          assert.match(await page.locator('[data-competency-id="COMP-005"] [data-evidence-id="CRED-003"]').innerText(),/owner-confirmed qualification/i);
+          assert.match(await page.locator('[data-competency-id="COMP-013"] [data-evidence-id="CS-004"]').innerText(),/published research/i);
+          assert.match(await page.locator('[data-competency-id="COMP-001"] [data-evidence-id="CS-001"]').innerText(),/owner-approved professional experience/i);
+          for(const id of ['engineering','program-delivery','leadership','research']){
+            const button=page.locator('[data-pillar-filter="'+id+'"]');
+            const bounds=await button.boundingBox();assert.ok(bounds&&bounds.width>=44&&bounds.height>=44);
+            await button.focus();await button.press('Enter');
+            assert.equal(await button.getAttribute('aria-pressed'),'true');
+            assert.equal(await page.locator('[data-competency-id]:visible').count(),4);
+            assert.equal(await page.locator('[data-competency-count]').textContent(),'4 competency groups');
+          }
+          // Hero anchor must reveal a group hidden by the current filter.
+          await page.locator('a[href="#pillar-engineering"]').click();
+          assert.equal(await page.locator('#pillar-engineering').isVisible(),true);
+          assert.equal(await page.locator('[data-competency-id]:visible').count(),4);
+          await page.locator('[data-pillar-filter="all"]').click();
+          assert.equal(await page.locator('[data-competency-id]:visible').count(),16);
+          assert.equal(await page.locator('[data-competency-count]').textContent(),'16 competency groups');
+          await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);});
+          await page.screenshot({path:`test-results/expertise-${width}.png`,fullPage:true});
+          // Inspect actual round-trip navigation, not only href attributes.
+          await page.locator('[data-competency-id="COMP-010"] [data-evidence-id="CS-002"] a').click();
+          assert.ok(page.url().endsWith(base+'work/engineering-for-manufacturing-performance/'));
+          await page.locator('[data-related-competency="COMP-010"] a').click();
+          assert.ok(page.url().endsWith(base+'expertise/#comp-010'));
+          assert.equal(await page.locator('#comp-010').isVisible(),true);
+          await page.locator('[data-embedded-example] a').click();
+          assert.ok(page.url().endsWith(base+'work/engineering-for-manufacturing-performance/#oee-example'));
+          assert.equal(await page.locator('#oee-example').isVisible(),true);
+          await page.goto(origin+base+'expertise/',{waitUntil:'networkidle'});
+          await page.locator('[data-competency-id="COMP-005"] [data-evidence-id="CRED-003"] a').click();
+          assert.ok(page.url().endsWith(base+'about/#cred-003'));
+          assert.equal(await page.locator('#cred-003').isVisible(),true);
+          await page.goto(origin+base+'expertise/',{waitUntil:'networkidle'});
+          const noJs=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}});
+          try{
+            const staticPage=await noJs.newPage();
+            await staticPage.goto(origin+base+'expertise/#comp-016');
+            assert.equal(await staticPage.locator('[data-competency-id]:visible').count(),16);
+            assert.equal(await staticPage.locator('[data-pillar-filters]').isVisible(),false);
+            assert.equal(await staticPage.locator('#comp-016').isVisible(),true);
+          }finally{await noJs.close();}
         }
         if(route==='about'){
           assert.equal(await page.locator('[data-record-id]').count(),6);

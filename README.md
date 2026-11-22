@@ -2,7 +2,7 @@
 
 Static-first professional portfolio for Yeabsra Mekdim.
 
-**Status:** v0.7.0 four-case-study candidate. v0.6.3 accepted; website not deployed.
+**Status:** v0.8.0 expertise candidate. v0.7.0 accepted; website not deployed.
 
 ## Development
 Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
@@ -16,8 +16,8 @@ Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
 - `npm run test:design` — approved color and contrast checks.
 - `npx playwright install chromium`, then `npm run test:responsive` after building — browser smoke tests.
 
-Project Pages base: `/professional-portfolio`. Manual-only deployment workflow configured; release gate disabled; custom domain unapproved. Homepage, About and Selected Work contain approved editorial content; remaining sections remain in development. Design specimen: /design-system/ under configured base. See [AGENTS.md](AGENTS.md) and [project documentation](docs/PRODUCT_SPEC.md) before changes. Only publication-safe material may enter this public repository.
+Project Pages base: `/professional-portfolio`. Manual-only deployment workflow configured; release gate disabled; custom domain unapproved. Homepage, About, Selected Work and Expertise contain approved editorial content; remaining sections remain in development. Design specimen: /design-system/ under configured base. See [AGENTS.md](AGENTS.md) and [project documentation](docs/PRODUCT_SPEC.md) before changes. Only publication-safe material may enter this public repository.
 
-Career, credentials and all four flagship case studies contain approved wording; other content collections remain empty. Add only externally reviewed and authorized public records; do not insert private draft data. See docs/CONTENT_GOVERNANCE.md and docs/ARCHITECTURE.md. CS-002 includes an independent percentage-factor OEE preview; CS-003 includes a hypothetical readiness assessment, not release authorization. The full time/count-based EL-001 analyzer remains planned.
+Career, credentials, all four flagship case studies and sixteen competency groups contain approved wording; other content collections remain empty. Add only externally reviewed and authorized public records; do not insert private draft data. See docs/CONTENT_GOVERNANCE.md and docs/ARCHITECTURE.md. CS-002 includes an independent percentage-factor OEE preview; CS-003 includes a hypothetical readiness assessment, not release authorization. The full time/count-based EL-001 analyzer remains planned.
 
 Publication is disabled in config/release.json; do not activate Pages or invoke deployment before explicit launch approval. See docs/RELEASE_PROCESS.md. Size budgets are not measured Core Web Vitals.

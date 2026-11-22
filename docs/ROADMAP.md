@@ -12,8 +12,8 @@
 5. PP-005 Website MVP — approved content pages, case studies, responsive verification. Proposed increments:
    - A: private content inventory, verification and approval workflow — editorial review v1.0 accepted.
    - B v0.6.0: homepage and professional profile — accepted.
-   - C v0.7.0: flagship case studies; separate item-level approval. CS-004 v0.6.1, CS-001 v0.6.2 and CS-002 v0.6.3 accepted; CS-003 v0.7.0 candidate completing four case studies, owner acceptance pending.
-   - D v0.8.0: expertise and related evidence.
+   - C v0.7.0: flagship case studies; separate item-level approval. all four accepted v0.7.0.
+   - D v0.8.0: expertise and related evidence — approved editorial scope implemented, candidate.
    - E v0.9.0: research, publications and patent presentation.
    - F v0.10.0: résumé/contact and integrated MVP review.
    - Every content increment requires item-level publication approval before commit; no automatic deployment.

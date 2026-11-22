@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {validateGraph,validPartialDate} from '../src/lib/content/model.ts';
+import {validateGraph,validPartialDate,supportingCompetencies} from '../src/lib/content/model.ts';
 const make=(id,slug,patch={})=>({id,slug,title:'Synthetic test fixture',summary:'No real claims',pillar:'Engineering & Technology',evidenceType:'independent-demonstration',publicationStatus:'approved',published:'2026-01-01',references:[],relatedIds:[],...patch});
 const demo={kind:'demonstrations',data:make('EL-999','fixture')};
 test('empty catalog permitted before launch',()=>validateGraph([]));
@@ -28,4 +28,16 @@ test('owner-confirmed credentials are narrowly permitted without public proof',(
  validateGraph([cred]);
  assert.throws(()=>validateGraph([{...cred,data:{...cred.data,verificationBasis:'public-reference'}}]),/Public reference/);
  assert.throws(()=>validateGraph([{kind:'publications',data:make('PUB-999','fixture',{evidenceType:'published-research',verificationBasis:'owner-confirmed'})}]),/Public reference/);
+});
+
+
+test('competencies inherit matching evidence classification, without duplicating source references',()=>{
+ const research={kind:'case-studies',data:make('CS-999','research',{evidenceType:'published-research',references:[{label:'Synthetic reference',url:'https://example.com/research'}]})};
+ const comp={kind:'competencies',data:make('COMP-999','research-skill',{evidenceType:'published-research',relatedIds:['CS-999']})};
+ validateGraph([research,comp]);
+ assert.deepEqual(supportingCompetencies([research,comp],'CS-999').map(e=>e.data.id),['COMP-999']);
+ assert.throws(()=>validateGraph([research,{...comp,data:{...comp.data,evidenceType:'professional-experience'}}]),/classification lacks matching support/);
+ assert.throws(()=>validateGraph([{...research,data:{...research.data,references:[]}},comp]),/Public reference required/);
+ const nested={kind:'competencies',data:make('COMP-998','nested',{evidenceType:'published-research',relatedIds:['COMP-999']})};
+ assert.throws(()=>validateGraph([research,comp,nested]),/direct supporting evidence/);
 });

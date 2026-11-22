@@ -13,8 +13,9 @@
 | PP-004E | Accepted 2026-11-22; PR #5 merged |
 | PP-005A | Accepted 2026-11-22; CR-001–007 editorial direction approved |
 | PP-005B | Accepted 2026-11-22; PR #7 merged |
-| PP-005C | v0.7.0 candidate — CS-001, CS-002, CS-004 accepted; CS-003 implemented, final CI and owner acceptance pending |
-| PP-005D–F | Planned |
+| PP-005C | Accepted 2026-11-22; four case studies; PR #11 merged |
+| PP-005D | v0.8.0 candidate; editorial review approved, CI and owner acceptance pending |
+| PP-005E–F | Planned |
 | PP-006–008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
@@ -56,3 +57,7 @@ PP-005C.3 / CS-002: editorial review v1.0 all eight categories approved with no 
 PP-005C.3 / CS-002: final head 97debc714270cf0fcb5a42a87240b66ec0373759; CI 45032315915 passed. Owner merged PR #10 (5328452460e2623d69f7821f0f68db78242d6404) and deleted branch. v0.6.3 accepted, not deployed.
 
 PP-005C.4 / CS-003: editorial review v1.0 approved all eight categories without corrections. v0.7.0 candidate, completing implementation of four flagship case studies. Acceptance: exact approved narrative, eight contributions including functional guidance of three engineers (not formal line management), seven methodology steps, six generic trade-offs, ten competencies, four planned tools, original conceptual program architecture, six-criterion hypothetical readiness assessment with mandatory blockers, no automated release authorization, qualitative outcomes only, case cards and detail routes, preserved earlier examples and all prior gates. Unit tests cover 4096 maturity combinations, invalid inputs and three states; browser checks cover keyboard, reset, disclosure and layouts. CI and owner acceptance pending. Public deployment disabled. PP-005D next after acceptance.
+
+PP-005C.4 / CS-003: final head 51132dd2ef6a9cff3998e8b4158d74e27d80e44c; CI 45032984156 passed. Owner merged PR #11 (31abb9782361c9a0921c86d67db1dd334b2b5dbf) and deleted branch. PP-005C accepted v0.7.0, not deployed.
+
+PP-005D: editorial review v1.0 approved all six categories without corrections. v0.8.0 candidate. Acceptance AC-01–11: dedicated Expertise page; four pillars; sixteen approved COMP records; every group links to matching existing evidence; derived bidirectional case links and credential anchors; provenance labels; implemented synthetic OEE example distinguished from planned EL-001; responsive keyboard-accessible filtering with static fallback; prior content/behavior retained; no unauthorized claims; final CI and owner acceptance. Research/invention records and full Lab tools remain separately scoped.
