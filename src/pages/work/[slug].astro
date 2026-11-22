@@ -6,6 +6,8 @@ import EvidenceLabel from '../../components/content/EvidenceLabel.astro';
 import RelatedEvidence from '../../components/content/RelatedEvidence.astro';
 import ComparisonChart from '../../components/content/ComparisonChart.astro';
 import LatticeConcept from '../../components/illustrations/LatticeConcept.astro';
+import OeeFactorExample from '../../components/content/OeeFactorExample.astro';
+import PerformanceConcept from '../../components/illustrations/PerformanceConcept.astro';
 import AssemblyConcept from '../../components/illustrations/AssemblyConcept.astro';
 import EngineeringTradeoffs from '../../components/content/EngineeringTradeoffs.astro';
 import PositioningExample from '../../components/content/PositioningExample.astro';
@@ -27,7 +29,7 @@ const headings=[...caseSections,{id:'references',label:'Supporting evidence'}];
      <div><dt class="technical-label">Evidence</dt><dd class="mt-2"><EvidenceLabel type={d.evidenceType}/></dd></div>
     </dl>
    </div>
-   <div class="span-half">{d.illustration==='lattice'&&<LatticeConcept/>}{d.illustration==='system'&&<AssemblyConcept/>}</div>
+   <div class="span-half">{d.illustration==='lattice'&&<LatticeConcept/>}{d.illustration==='system'&&<AssemblyConcept/>}{d.illustration==='performance'&&<PerformanceConcept/>}</div>
   </div>
  </div>
  <a class="inline-flex min-h-11 items-center" href={routeHref('work')}>← All selected work</a>
@@ -39,6 +41,7 @@ const headings=[...caseSections,{id:'references',label:'Supporting evidence'}];
    {s.id==='contribution'&&d.contributionNote&&<p>{d.contributionNote}</p>}
    {s.id==='decisions'&&d.tradeoffs.length>0&&<EngineeringTradeoffs entries={d.tradeoffs}/>}
    {s.id==='decisions'&&d.technicalExample&&<PositioningExample example={d.technicalExample}/>}
+   {s.id==='decisions'&&d.oeeExample&&<OeeFactorExample example={d.oeeExample}/>}
    {s.id==='demonstration'&&d.plannedTools.length>0&&<PlannedDemonstrations entries={d.plannedTools}/>}
    {s.id==='contribution'&&d.evidenceType==='published-research'&&d.references[0]&&<p class="technical-caption"><a class="inline-flex min-h-11 items-center" href={d.references[0].url}>Source: published author-contribution statement</a></p>}
    {s.id==='outcomes'&&d.comparison&&<ComparisonChart comparison={d.comparison}/>}

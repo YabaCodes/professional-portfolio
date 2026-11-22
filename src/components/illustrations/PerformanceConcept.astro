@@ -1,0 +1,26 @@
+---
+interface Props { compact?:boolean }
+const {compact=false}=Astro.props;
+---
+<figure class="performance-concept">
+ <svg viewBox="0 0 340 220" role="img" aria-label="Conceptual trend line and descending loss contributors, illustrative data only" focusable="false">
+  <g stroke="currentColor" stroke-width=".5" opacity=".17">
+   {Array.from({length:16},(_,i)=><path d={`M${20+i*20} 15V205`}/>)}
+   {Array.from({length:10},(_,i)=><path d={`M20 ${15+i*20}H320`}/>)}
+  </g>
+  <g stroke="currentColor" fill="none" stroke-width="1.2">
+   <path d="M22 20V125H318"/>
+   <path d="M25 110L55 93 85 108 115 72 145 86 175 48 205 62 235 36 265 48 315 25" stroke-width="2"/>
+   <path d="M25 83H315" stroke-dasharray="5 4" opacity=".6"/>
+   {[[25,110],[55,93],[85,108],[115,72],[145,86],[175,48],[205,62],[235,36],[265,48],[315,25]].map(p=><circle cx={p[0]} cy={p[1]} r="2.5" fill="currentColor"/>)}
+  </g>
+  {[45,32,24,17,11,7,4].map((h,i)=><rect x={30+i*43} y={195-h} width="25" height={h} fill="currentColor" opacity=".7"/>)}
+  <g fill="currentColor" font-family="monospace" font-size="8"><text x="22" y="10">PERFORMANCE ANALYSIS</text><text x="22" y="141">LOSS CONTRIBUTORS</text><text x="318" y="212" text-anchor="end">ILLUSTRATIVE DATA</text></g>
+ </svg>
+ {!compact&&<figcaption class="technical-caption">Conceptual analytics visualization. Does not represent actual manufacturing results.</figcaption>}
+</figure>
+<style>
+ .performance-concept{color:var(--color-deep-teal);min-width:0}
+ :global(.technical-surface) .performance-concept{color:var(--color-jade)}
+ svg{display:block;width:100%;height:auto}
+</style>

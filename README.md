@@ -2,7 +2,7 @@
 
 Static-first professional portfolio for Yeabsra Mekdim.
 
-**Status:** v0.6.2 second case-study candidate. v0.6.1 accepted; website not deployed.
+**Status:** v0.6.3 third case-study candidate. v0.6.2 accepted; website not deployed.
 
 ## Development
 Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
@@ -18,6 +18,6 @@ Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
 
 Project Pages base: `/professional-portfolio`. Manual-only deployment workflow configured; release gate disabled; custom domain unapproved. Homepage, About and Selected Work contain approved editorial content; remaining sections remain in development. Design specimen: /design-system/ under configured base. See [AGENTS.md](AGENTS.md) and [project documentation](docs/PRODUCT_SPEC.md) before changes. Only publication-safe material may enter this public repository.
 
-Career, credentials, CS-004 and CS-001 case studies contain approved wording; other content collections remain empty. Add only externally reviewed and authorized public records; do not insert private draft data. See docs/CONTENT_GOVERNANCE.md and docs/ARCHITECTURE.md. OEE calculation module is not yet a published interactive demonstration.
+Career, credentials, CS-004, CS-001 and CS-002 case studies contain approved wording; other content collections remain empty. Add only externally reviewed and authorized public records; do not insert private draft data. See docs/CONTENT_GOVERNANCE.md and docs/ARCHITECTURE.md. CS-002 includes an independent percentage-factor OEE preview. The full time/count-based EL-001 analyzer remains planned.
 
 Publication is disabled in config/release.json; do not activate Pages or invoke deployment before explicit launch approval. See docs/RELEASE_PROCESS.md. Size budgets are not measured Core Web Vitals.
