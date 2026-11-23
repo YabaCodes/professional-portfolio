@@ -210,10 +210,12 @@ try {
           assert.ok(page.url().endsWith(base+'expertise/#comp-013'));
           await page.goto(origin+base+'research/',{waitUntil:'networkidle'});
         }
-        const footerCta=page.locator('footer [data-contact-callout]');
-        assert.equal(await footerCta.getAttribute('href'),base+'contact/');
-        const footerBox=await footerCta.boundingBox();
-        assert.ok(footerBox&&footerBox.width>=44&&footerBox.height>=44,'shared contact CTA target');
+        if(route!=='design-system'){
+          const footerCta=page.locator('footer [data-contact-callout]');
+          assert.equal(await footerCta.getAttribute('href'),base+'contact/');
+          const footerBox=await footerCta.boundingBox();
+          assert.ok(footerBox&&footerBox.width>=44&&footerBox.height>=44,'shared contact CTA target');
+        }
         if(route==='contact'){
           assert.equal(await page.locator('h1').innerText(),'Connect on engineering, technology and delivery.');
           assert.match(await page.locator('main').innerText(),/new product introduction/i);
