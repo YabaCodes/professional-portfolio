@@ -315,7 +315,7 @@ try {
           assert.equal(await page.locator('[data-tradeoffs] tbody tr').count(),6);
           assert.equal(await page.locator('[data-independent-example] figure').count(),2);
           assert.ok((await page.locator('[data-independent-example]').innerText()).includes('Neither concept represents actual employer equipment'));
-          assert.equal(await page.locator('[data-planned-tools] li').count(),2);
+          assert.equal(await page.locator('[data-planned-tools] li').count(),3);
           assert.match(await page.locator('[data-planned-tools] .technical-label').innerText(),/planned independent demonstrations\s*—\s*not implemented/i);
           assert.equal(await page.locator('[data-comparison]').count(),0);
           assert.ok((await page.locator('[data-professional-evidence]').innerText()).includes('does not present independent validation'));
@@ -333,7 +333,7 @@ try {
           assert.equal(await page.locator('[data-contributions] > li').count(),7);
           assert.equal(await page.locator('[data-case-section="methodology"] ol > li').count(),7);
           assert.equal(await page.locator('[data-tradeoffs] tbody tr').count(),6);
-          assert.equal(await page.locator('[data-planned-tools] li').count(),3);
+          assert.equal(await page.locator('[data-planned-tools] li').count(),2);
           assert.match(await page.locator('[data-planned-tools] .technical-label').innerText(),/planned independent demonstrations\s*—\s*not implemented/i);
           assert.ok((await page.locator('[data-professional-evidence]').innerText()).includes('does not present independent validation'));
           const example=page.locator('[data-oee-example]');
