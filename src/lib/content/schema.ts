@@ -47,14 +47,14 @@ export const schemas = {
   demonstrations:base.extend({inputs:z.array(text).min(1),outputs:z.array(text).min(1),assumptions:z.array(text).min(1),limitations:z.array(text).min(1),method:text}),
   publications:base.extend({
     authors:z.array(text).min(1),venue:text,year:z.number().int().min(1900).max(2100),
-    doi:z.string().regex(/^10\\.\\d{4,9}\\/\\S+$/),
+    doi:z.string().regex(/^10\.\d{4,9}\/\S+$/),
     publicationType:z.enum(['original-research','review-article']),
     authorship:z.enum(['first-author','co-author']),
     volume:text,issue:text.optional(),pages:text.optional(),articleNumber:text.optional(),onlineDate:date,
   }).refine(v=>v.references.some(ref=>ref.url==='https://doi.org/'+v.doi),'Publication DOI must be in public references')
     .refine(v=>v.authors.includes('Yeabsra Mekdim Hailu')&&(v.authorship!=='first-author'||v.authors[0]==='Yeabsra Mekdim Hailu'),'Authorship attribution must match author list'),
   patents:base.extend({
-    jurisdiction:z.literal('United States'),patentNumber:z.string().regex(/^US\\d+B\\d$/),
+    jurisdiction:z.literal('United States'),patentNumber:z.string().regex(/^US\d+B\d$/),
     grantDate:date,filingDate:date,applicationNumber:text,inventors:z.array(text).min(1),
     originalAssignee:text,role:z.literal('co-inventor'),claimCount:z.number().int().positive(),
   }).refine(v=>v.filingDate<=v.grantDate,'Grant must follow filing date')
