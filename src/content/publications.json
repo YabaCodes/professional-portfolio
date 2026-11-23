@@ -1,1 +1,97 @@
-[]
+[
+  {
+    "id": "PUB-001",
+    "slug": "functional-gradient-lattice-torsion",
+    "title": "The Effect of Functional Gradient Material Distribution and Patterning on Torsional Properties of Lattice Structures Manufactured Using MultiJet Fusion Technology",
+    "summary": "Investigation of how spatial density variation and lattice patterning affect twisting resistance, energy absorption and failure behavior in additively manufactured cellular structures.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-23",
+    "relatedIds": [],
+    "references": [
+      {
+        "label": "Publisher article and DOI",
+        "url": "https://doi.org/10.3390/ma14216521"
+      }
+    ],
+    "authors": [
+      "Yeabsra Mekdim Hailu",
+      "Aamer Nazir",
+      "Shang-Chih Lin",
+      "Jeng-Ywan Jeng"
+    ],
+    "venue": "Materials",
+    "year": 2021,
+    "doi": "10.3390/ma14216521",
+    "publicationType": "original-research",
+    "authorship": "first-author",
+    "volume": "14",
+    "issue": "21",
+    "articleNumber": "6521",
+    "onlineDate": "2021-10-29"
+  },
+  {
+    "id": "PUB-002",
+    "slug": "torsional-properties-lattice-structures",
+    "title": "Investigation of torsional properties of surface- and strut-based lattice structures manufactured using multiJet fusion technology",
+    "summary": "Experimental comparison of three cellular geometries under twisting loads, including the relationship between topology, rigidity, energy dissipation and fracture characteristics. The study also introduces an analytical approach accounting for varying structural cross-sections.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-23",
+    "relatedIds": [],
+    "references": [
+      {
+        "label": "Publisher article and DOI",
+        "url": "https://doi.org/10.1007/s00170-022-08681-8"
+      }
+    ],
+    "authors": [
+      "Yeabsra Mekdim Hailu",
+      "Aamer Nazir",
+      "Chi-Pin Hsu",
+      "Shang-Chih Lin",
+      "Jeng-Ywan Jeng"
+    ],
+    "venue": "The International Journal of Advanced Manufacturing Technology",
+    "year": 2022,
+    "doi": "10.1007/s00170-022-08681-8",
+    "publicationType": "original-research",
+    "authorship": "first-author",
+    "volume": "119",
+    "issue": "9–10",
+    "pages": "5929–5945",
+    "onlineDate": "2022-01-17"
+  },
+  {
+    "id": "PUB-003",
+    "slug": "metal-hybrid-additive-manufacturing",
+    "title": "Metal hybrid additive manufacturing: state-of-the-art",
+    "summary": "A review of manufacturing approaches combining additive and conventional processes, examining existing hybrid technologies and their potential benefits for manufacturing efficiency and component quality.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "published-research",
+    "publicationStatus": "approved",
+    "published": "2026-11-23",
+    "relatedIds": [],
+    "references": [
+      {
+        "label": "Publisher article and DOI",
+        "url": "https://doi.org/10.1007/s40964-022-00262-1"
+      }
+    ],
+    "authors": [
+      "Eyob Messele Sefene",
+      "Yeabsra Mekdim Hailu",
+      "Assefa Asmare Tsegaw"
+    ],
+    "venue": "Progress in Additive Manufacturing",
+    "year": 2022,
+    "doi": "10.1007/s40964-022-00262-1",
+    "publicationType": "review-article",
+    "authorship": "co-author",
+    "volume": "7",
+    "pages": "737–749",
+    "onlineDate": "2022-01-31"
+  }
+]

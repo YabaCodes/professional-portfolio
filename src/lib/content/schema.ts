@@ -45,8 +45,21 @@ export const schemas = {
   competencies:base,
   insights:base.extend({body:text}),
   demonstrations:base.extend({inputs:z.array(text).min(1),outputs:z.array(text).min(1),assumptions:z.array(text).min(1),limitations:z.array(text).min(1),method:text}),
-  publications:base.extend({authors:z.array(text).min(1),venue:text,year:z.number().int().min(1900).max(2100),doi:text.optional()}),
-  patents:base.extend({jurisdiction:text,patentNumber:text,grantDate:date,inventors:z.array(text).min(1)}),
+  publications:base.extend({
+    authors:z.array(text).min(1),venue:text,year:z.number().int().min(1900).max(2100),
+    doi:z.string().regex(/^10\\.\\d{4,9}\\/\\S+$/),
+    publicationType:z.enum(['original-research','review-article']),
+    authorship:z.enum(['first-author','co-author']),
+    volume:text,issue:text.optional(),pages:text.optional(),articleNumber:text.optional(),onlineDate:date,
+  }).refine(v=>v.references.some(ref=>ref.url==='https://doi.org/'+v.doi),'Publication DOI must be in public references')
+    .refine(v=>v.authors.includes('Yeabsra Mekdim Hailu')&&(v.authorship!=='first-author'||v.authors[0]==='Yeabsra Mekdim Hailu'),'Authorship attribution must match author list'),
+  patents:base.extend({
+    jurisdiction:z.literal('United States'),patentNumber:z.string().regex(/^US\\d+B\\d$/),
+    grantDate:date,filingDate:date,applicationNumber:text,inventors:z.array(text).min(1),
+    originalAssignee:text,role:z.literal('co-inventor'),claimCount:z.number().int().positive(),
+  }).refine(v=>v.filingDate<=v.grantDate,'Grant must follow filing date')
+    .refine(v=>v.inventors.includes('Yeabsra Mekdim Hailu'),'Co-inventor must appear in inventor list')
+    .refine(v=>v.references.some(ref=>ref.url==='https://patents.google.com/patent/'+v.patentNumber),'Patent grant reference required'),
   credentials:base.extend({issuer:text,issued:partialDate,category:z.enum(['education','certification']),location:text.optional(),verificationBasis:z.enum(['owner-confirmed','public-reference'])}),
   career:base.extend({role:text,organization:text,start:partialDate,end:partialDate.optional(),location:text.optional(),assignment:z.boolean().default(false)}).refine(v=>!v.end||v.end>=v.start,'End precedes start'),
 };

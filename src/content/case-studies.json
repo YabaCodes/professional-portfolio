@@ -435,7 +435,10 @@
     "evidenceType": "published-research",
     "publicationStatus": "approved",
     "published": "2026-11-22",
-    "relatedIds": [],
+    "relatedIds": [
+      "PUB-001",
+      "PUB-002"
+    ],
     "references": [
       {
         "label": "The Effect of Functional Gradient Material Distribution and Patterning on Torsional Properties of Lattice Structures Manufactured Using MultiJet Fusion Technology — Materials (2021), first author",
