@@ -290,7 +290,8 @@ try {
             const staticPage=await staticCtx.newPage();
             await staticPage.goto(origin+base+route+'/');
             assert.equal(await staticPage.locator('[data-oee-number]').innerText(),'77.50%');
-            assert.equal(await staticPage.locator('[data-analyzer-controls]').isDisabled(),true);
+            assert.notEqual(await staticPage.locator('[data-analyzer-controls]').getAttribute('disabled'),null);
+            assert.equal(await staticPage.locator('[data-analyzer-input="plannedMinutes"]').isDisabled(),true);
           }finally{await staticCtx.close();}
         }
         if(route==='about'){
