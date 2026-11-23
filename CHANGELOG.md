@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.9.0 — candidate (not released)
+## 0.10.0 — candidate (not released)
+- Implement approved privacy-first Contact/Résumé editorial presentation and navigable opportunities CTA, without unapproved destinations, forms or PDF assets.
+- Add integrated prelaunch MVP audit and CI gate, explicit unresolved contact/résumé/Lab/Insights/production blockers, contact-responsive and navigation checks.
+- Preserve prior sections, existing evidence protections and disabled deployment. Not launch ready.
+
+## 0.9.0 — accepted 2026-11-23 (PR #13; not deployed)
 - Implement approved Research & Innovation page, verified author-order bibliography and DOI links for PUB-001–003, patent PAT-001 and ORCID researcher identity.
 - Add original illustrated faucet schematic with independent/uncertified disclaimer; link CS-004 and COMP-002/013–016 to independently referenced records.
 - Add bibliography, grant, evidence-anchor and responsive tests. No confidential or unsupported data, dependencies or deployment.

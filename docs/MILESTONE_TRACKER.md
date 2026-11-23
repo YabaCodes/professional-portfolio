@@ -15,8 +15,8 @@
 | PP-005B | Accepted 2026-11-22; PR #7 merged |
 | PP-005C | Accepted 2026-11-22; four case studies; PR #11 merged |
 | PP-005D | Accepted 2026-11-23; PR #12 merged, CI passed |
-| PP-005E | v0.9.0 candidate; editorial review approved, final CI and owner review pending |
-| PP-005F | Planned |
+| PP-005E | Accepted 2026-11-23; PR #13 merged; CI passed |
+| PP-005F | v0.10.0 candidate; approved prelaunch contact and integrated audit; CI/owner acceptance pending |
 | PP-006–008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
@@ -66,3 +66,7 @@ PP-005D: editorial review v1.0 approved all six categories without corrections. 
 PP-005D: final head b90c6399e236dfe35f35ede678167152a8e53c7f; CI 45079969834 passed after anchor reveal fix. Owner merged PR #12 (91a739a72be904034a86a0a8239f645c6fcd6fa1) and deleted branch. v0.8.0 accepted; no deployment.
 
 PP-005E: editorial review v1.0 approved all six categories: PUB-001–003, PAT-001, research page/evidence map and ORCID 0000-0003-1044-453X. v0.9.0 candidate. Acceptance: dedicated Research page, correct author names/order and authorship, 3 DOI verified publications, US11280073B1 grant and original assignee/co-inventor attribution, approved summaries, original illustrative SVG with disclosure, links back to COMP and CS-004, ORCID approved, responsive/axe tests, existing content retained, no unsupported outcome or deployment. Owner review and green CI required.
+
+PP-005E: owner merged PR #13 (b4e5c8d2328cc79f09c5ddbd9f7268215288028c) and deleted feature branch; final head 867b355f9de212424fb084c572cf8df56ed077b9, CI 45171203738 passed. v0.9.0 accepted, site not deployed.
+
+PP-005F: editorial review v1.0 all six categories approved with no corrections. v0.10.0 candidate: approved contact headline/introduction, direct contact and résumé panels with no authorized addresses, profile destinations or downloadable file, cross-site navigation through shared footer and home, integrated MVP inventory checks/audit and a documented release blocker register. Explicitly NOT LAUNCH READY: exact contact/resume approval, full Engineering Lab, Insights and development cleanup, production QA and launch authorization remain unresolved. CI and owner acceptance pending; no release manifest changes or deployment.

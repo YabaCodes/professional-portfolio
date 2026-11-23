@@ -7,6 +7,7 @@ import { identity, routeHref, sections } from '../../lib/site';
     <div class="span-half">
       <a href={routeHref('')} class="footer-brand"><Wordmark /></a>
       <p class="secondary-text mt-3">{identity.positioning}</p>
+      <a data-contact-callout class="footer-contact-link mt-4" href={routeHref('contact')}>Explore professional opportunities <span aria-hidden="true">→</span></a>
       <p class="technical-caption mt-4">Development specimen / Not authorized for production deployment.</p>
     </div>
     <nav class="span-half" aria-label="Footer navigation">
@@ -20,6 +21,7 @@ import { identity, routeHref, sections } from '../../lib/site';
 </footer>
 <style>
   .footer-brand {display:inline-flex;min-height:44px;align-items:center;color:var(--color-ivory);text-decoration:none;}
+  .footer-contact-link {display:inline-flex;min-width:44px;min-height:44px;align-items:center;gap:8px;font-weight:600;}
   .footer-links {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;}
   .footer-links a {display:flex;align-items:center;min-height:44px;font-size:.9rem;}
 </style>
