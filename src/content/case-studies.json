@@ -140,7 +140,9 @@
     "evidenceType": "professional-experience",
     "publicationStatus": "approved",
     "published": "2026-11-22",
-    "relatedIds": [],
+    "relatedIds": [
+      "EL-001"
+    ],
     "references": [],
     "role": "Process Development Engineer",
     "context": "Manufacturing performance",
@@ -231,14 +233,9 @@
       },
       "disclosure": "This example uses synthetic inputs. It does not represent actual employer equipment, processes or manufacturing results.",
       "interpretation": "The engineering interpretation is more important than the calculated OEE value itself. Identifying the largest loss category establishes an investigation priority, but does not establish its root cause.",
-      "status": "This is an analytical preview of EL-001, not the completed Engineering Lab tool."
+      "status": "This synthetic percentage-factor preview is separate from the completed EL-001 time-and-count-based Engineering Lab analyzer."
     },
     "plannedTools": [
-      {
-        "id": "EL-001",
-        "title": "Manufacturing Performance & OEE Analyzer",
-        "description": "Equipment performance and loss decomposition"
-      },
       {
         "id": "EL-002",
         "title": "Cycle-Time & Bottleneck Simulator",

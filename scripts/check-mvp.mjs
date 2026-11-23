@@ -5,7 +5,8 @@ import path from 'node:path';
 const root=path.resolve('dist');
 const required=['','about','work','expertise','insights','insights/lab','research','contact',
  'work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance',
- 'work/leading-complex-engineering-programs','work/advanced-lattice-structures'];
+ 'work/leading-complex-engineering-programs','work/advanced-lattice-structures',
+ 'insights/lab/manufacturing-performance-oee-analyzer'];
 const html=async(route)=>readFile(path.join(root,route,'index.html'),'utf8');
 const pages=await Promise.all(required.map(html));
 const release=JSON.parse(await readFile('config/release.json','utf8'));
@@ -16,7 +17,14 @@ const [cases,competencies,publications,patents,demonstrations,insights]=await Pr
  ['case-studies','competencies','publications','patents','demonstrations','insights'].map(readCollection));
 const counts={caseStudies:cases.length,competencies:competencies.length,publications:publications.length,patents:patents.length,
  demonstrations:demonstrations.length,insights:insights.length};
-assert.deepEqual(counts,{caseStudies:4,competencies:16,publications:3,patents:1,demonstrations:0,insights:0},'Unexpected approved MVP inventory');
+assert.deepEqual(counts,{caseStudies:4,competencies:16,publications:3,patents:1,demonstrations:1,insights:0},'Unexpected approved MVP inventory');
+const demo=demonstrations[0];
+assert.equal(demo.id,'EL-001');assert.equal(demo.evidenceType,'independent-demonstration');
+assert.deepEqual(demo.relatedIds,['CS-002']);
+const lab=await html('insights/lab/manufacturing-performance-oee-analyzer');
+assert.match(lab,/data-el001-analyzer/);assert.match(lab,/Synthetic production inputs/);
+assert.match(lab,/Independent technical demonstration/);
+assert.match(lab,/Illustrative or simulated results/);
 const contact=await html('contact');
 assert.match(contact,/data-contact-state="pending-approval"/);
 assert.match(contact,/data-resume-state="pending-approval"/);
@@ -41,14 +49,13 @@ for(const [i,route] of required.entries()){
 const blockers=[
  {id:'CONTACT',phase:'PP-005F/PP-007',requirement:'Exact public email or professional profile URL must receive item-level publication approval.'},
  {id:'RESUME',phase:'PP-005F/PP-007',requirement:'Publication-safe final résumé PDF must receive file-level approval before any downloadable asset is added.'},
- {id:'ENGINEERING_LAB',phase:'PP-006',requirement:'At least one complete independently developed functional engineering demonstration must be implemented and accepted; the CS-002 example does not satisfy this launch requirement.'},
  {id:'INSIGHTS',phase:'PP-006/PP-007',requirement:'Empty Insights content and development-only pages must be resolved for launch.'},
  {id:'PUBLICATION',phase:'PP-007',requirement:'Separate owner approval, confidentiality/employer-policy review where applicable, production SEO, accessibility/device review, performance measurements and GitHub Pages release gate are required.'},
 ];
-const report={milestone:'PP-005F',version:'0.10.0',mode:'prelaunch',websiteDeployedByThisWorkflow:false,
+const report={milestone:'PP-006 / EL-001',version:'0.11.0',mode:'prelaunch',websiteDeployedByThisWorkflow:false,
  catalog:counts,primaryRoutes:required.length,contactDetailsPublished:false,resumeAssetPublished:false,
  publicationEnabled:release.publicationEnabled,launchReady:false,blockingRequirements:blockers};
 await mkdir('test-results',{recursive:true});
 await writeFile('test-results/mvp-audit.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));
-console.log('PP-005F prelaunch MVP inventory and confidentiality assertions PASS; launch blockers remain intentionally unresolved.');
+console.log('PP-006 EL-001 prelaunch inventory and safeguards PASS; final launch blockers remain intentionally unresolved.');

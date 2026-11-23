@@ -6,7 +6,7 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 const root = path.resolve('dist');
 const base = '/professional-portfolio/';
-const competencyMap={"COMP-001":["CS-001"],"COMP-002":["CS-001","CS-004","CRED-002","PAT-001"],"COMP-003":["CS-001"],"COMP-004":["CS-001","CS-003"],"COMP-005":["CS-003","CRED-003"],"COMP-006":["CS-001","CS-003"],"COMP-007":["CS-001","CS-003"],"COMP-008":["CS-001","CS-003"],"COMP-009":["CS-003"],"COMP-010":["CS-002"],"COMP-011":["CS-002"],"COMP-012":["CS-002","CRED-004"],"COMP-013":["CS-004","CRED-001","PUB-001","PUB-002"],"COMP-014":["CS-004","CRED-001","PUB-001","PUB-002","PUB-003"],"COMP-015":["CS-004","CS-002","PUB-001","PUB-002"],"COMP-016":["CS-004","PUB-001","PUB-002","PUB-003","PAT-001"]};
+const competencyMap={"COMP-001":["CS-001"],"COMP-002":["CS-001","CS-004","CRED-002","PAT-001"],"COMP-003":["CS-001"],"COMP-004":["CS-001","CS-003"],"COMP-005":["CS-003","CRED-003"],"COMP-006":["CS-001","CS-003"],"COMP-007":["CS-001","CS-003"],"COMP-008":["CS-001","CS-003"],"COMP-009":["CS-003"],"COMP-010":["CS-002","EL-001"],"COMP-011":["CS-002"],"COMP-012":["CS-002","CRED-004"],"COMP-013":["CS-004","CRED-001","PUB-001","PUB-002"],"COMP-014":["CS-004","CRED-001","PUB-001","PUB-002","PUB-003"],"COMP-015":["CS-004","CS-002","PUB-001","PUB-002"],"COMP-016":["CS-004","PUB-001","PUB-002","PUB-003","PAT-001"]};
 const caseRoutes={"CS-001":"requirements-to-manufacturing-readiness","CS-002":"engineering-for-manufacturing-performance","CS-003":"leading-complex-engineering-programs","CS-004":"advanced-lattice-structures"};
 const types = {'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff'};
 const server = createServer(async (req,res) => {
@@ -87,7 +87,7 @@ try {
     await page.evaluate(()=>document.activeElement?.blur());
     await page.screenshot({path:`test-results/design-${width}.png`,fullPage:true});
     if (width === 390 || width === 1440) {
-      const routes = ['about','work','work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance','work/leading-complex-engineering-programs','work/advanced-lattice-structures','expertise','insights','research','contact','insights/lab','design-system'];
+      const routes = ['about','work','work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance','work/leading-complex-engineering-programs','work/advanced-lattice-structures','expertise','insights','research','contact','insights/lab','insights/lab/manufacturing-performance-oee-analyzer','design-system'];
       const origin = `http://127.0.0.1:${server.address().port}`;
       for (const route of routes) {
         const response = await page.goto(origin + base + route + '/', {waitUntil:'networkidle'});
@@ -119,13 +119,13 @@ try {
             const card=page.locator('[data-competency-id="'+id+'"]');
             assert.deepEqual(await card.locator('[data-evidence-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-evidence-id'))),sources);
             for(const source of sources){
-              const expected=source.startsWith('CRED-')?base+'about/#'+source.toLowerCase():(source.startsWith('PUB-')||source.startsWith('PAT-'))?base+'research/#'+source.toLowerCase():base+'work/'+caseRoutes[source]+'/';
+              const expected=source.startsWith('CRED-')?base+'about/#'+source.toLowerCase():(source.startsWith('PUB-')||source.startsWith('PAT-'))?base+'research/#'+source.toLowerCase():source.startsWith('EL-')?base+'insights/lab/manufacturing-performance-oee-analyzer/':base+'work/'+caseRoutes[source]+'/';
               assert.equal(await card.locator('[data-evidence-id="'+source+'"] a').getAttribute('href'),expected);
             }
           }
           assert.equal(await page.locator('[data-embedded-example] a').getAttribute('href'),base+'work/engineering-for-manufacturing-performance/#oee-example');
-          assert.equal(await page.locator('[data-planned-evidence] a').count(),0);
-          assert.match(await page.locator('[data-planned-evidence]').innerText(),/planned engineering lab tool/i);
+          assert.equal(await page.locator('[data-evidence-id="EL-001"] a').getAttribute('href'),base+'insights/lab/manufacturing-performance-oee-analyzer/');
+          assert.equal(await page.locator('[data-planned-evidence]').count(),0);
           assert.match(await page.locator('[data-competency-id="COMP-005"] [data-evidence-id="CRED-003"]').innerText(),/owner-confirmed qualification/i);
           assert.match(await page.locator('[data-competency-id="COMP-013"] [data-evidence-id="CS-004"]').innerText(),/published research/i);
           assert.match(await page.locator('[data-competency-id="COMP-001"] [data-evidence-id="CS-001"]').innerText(),/owner-approved professional experience/i);
@@ -239,6 +239,61 @@ try {
           await page.locator('footer [data-contact-callout]').click();
           assert.ok(page.url().endsWith(base+'contact/'));
         }
+        if(route==='insights/lab'){
+          assert.equal(await page.locator('main a[href="'+base+'insights/lab/manufacturing-performance-oee-analyzer/"]').count(),1);
+          assert.match(await page.locator('main').innerText(),/functional OEE analyzer/i);
+        }
+        if(route==='insights/lab/manufacturing-performance-oee-analyzer'){
+          const a=page.locator('[data-el001-analyzer]');
+          assert.equal(await a.count(),1);
+          assert.equal(await a.locator('input[type="number"]').count(),5);
+          assert.equal(await a.locator('button[data-preset]').count(),5);
+          assert.equal(await a.locator('[data-oee-number]').innerText(),'77.50%');
+          assert.deepEqual(await a.locator('[data-oee-factor]').allTextContents(),['90.00%','87.96%','97.89%']);
+          assert.deepEqual(await a.locator('[data-loss-minutes]').allTextContents(),['48.00 min','52.00 min','8.00 min','372.00 min']);
+          assert.equal(await a.locator('[data-oee-dominant]').innerText(),'Performance loss');
+          for(const element of await a.locator('input[type="number"],button[data-preset]').all()){
+            assert.equal(await element.isEnabled(),true);
+            const rect=await element.boundingBox();assert.ok(rect&&rect.width>=44&&rect.height>=44);
+          }
+          await a.locator('button[data-preset="quality"]').click();
+          assert.equal(await a.locator('[data-oee-number]').innerText(),'68.75%');
+          assert.equal(await a.locator('[data-oee-dominant]').innerText(),'Quality loss');
+          assert.deepEqual(await a.locator('[data-loss-minutes]').allTextContents(),['30.00 min','10.00 min','110.00 min','330.00 min']);
+          await a.locator('button[data-preset="no-output"]').click();
+          assert.equal(await a.locator('[data-oee-number]').innerText(),'0.00%');
+          assert.deepEqual(await a.locator('[data-oee-factor]').allTextContents(),['0.00%','Not defined','Not defined']);
+          await a.locator('button[data-preset="ideal"]').click();
+          assert.equal(await a.locator('[data-oee-number]').innerText(),'100.00%');
+          assert.equal(await a.locator('[data-oee-dominant]').innerText(),'No losses');
+          await a.locator('input[name="plannedMinutes"]').fill('-1');
+          assert.equal(await a.locator('[data-analyzer-error]').isVisible(),true);
+          assert.equal(await a.locator('[data-analyzer-output]').isVisible(),false);
+          await a.locator('button[data-preset="reference"]').click();
+          await a.locator('input[name="idealMinutesPerUnit"]').fill('2');
+          assert.match(await a.locator('[data-analyzer-error]').innerText(),/ideal production time exceeds operating time/i);
+          await a.locator('button[data-preset="reference"]').click();
+          await a.locator('input[name="goodUnits"]').fill('800');
+          assert.match(await a.locator('[data-analyzer-error]').innerText(),/invalid unit counts/i);
+          await a.locator('[data-analyzer-reset]').click();
+          assert.equal(await a.locator('[data-oee-number]').innerText(),'77.50%');
+          assert.equal(await a.locator('[data-analyzer-error]').isVisible(),false);
+          await a.locator('input[name="operatingMinutes"]').focus();
+          await a.locator('input[name="operatingMinutes"]').press('ArrowDown');
+          assert.equal(await a.locator('input[name="operatingMinutes"]').inputValue(),'431');
+          await a.locator('[data-analyzer-reset]').click();
+          assert.deepEqual(await a.locator('input[type="number"]').evaluateAll(nodes=>nodes.map(n=>n.value)),['480','432','0.5','760','744']);
+          await page.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0)});
+          await page.screenshot({path:'test-results/engineering-lab-'+width+'.png',fullPage:true});
+          const staticCtx=await browser.newContext({javaScriptEnabled:false,viewport:{width,height:900}});
+          try{
+            const staticPage=await staticCtx.newPage();
+            await staticPage.goto(origin+base+route+'/');
+            assert.equal(await staticPage.locator('[data-oee-number]').innerText(),'77.50%');
+            assert.notEqual(await staticPage.locator('[data-analyzer-controls]').getAttribute('disabled'),null);
+            assert.equal(await staticPage.locator('[data-analyzer-input="plannedMinutes"]').isDisabled(),true);
+          }finally{await staticCtx.close();}
+        }
         if(route==='about'){
           assert.equal(await page.locator('[data-record-id]').count(),6);
           assert.equal(await page.locator('[data-credential-id]').count(),4);
@@ -279,13 +334,13 @@ try {
           assert.equal(await page.locator('[data-contributions] > li').count(),7);
           assert.equal(await page.locator('[data-case-section="methodology"] ol > li').count(),7);
           assert.equal(await page.locator('[data-tradeoffs] tbody tr').count(),6);
-          assert.equal(await page.locator('[data-planned-tools] li').count(),3);
+          assert.equal(await page.locator('[data-planned-tools] li').count(),2);
           assert.match(await page.locator('[data-planned-tools] .technical-label').innerText(),/planned independent demonstrations\s*—\s*not implemented/i);
           assert.ok((await page.locator('[data-professional-evidence]').innerText()).includes('does not present independent validation'));
           const example=page.locator('[data-oee-example]');
           assert.equal(await example.count(),1);
           assert.ok((await example.innerText()).includes('does not represent actual employer equipment, processes or manufacturing results'));
-          assert.ok((await example.innerText()).includes('not the completed Engineering Lab tool'));
+          assert.ok((await example.innerText()).includes('separate from the completed EL-001'));
           assert.equal(await example.locator('[data-oee-result]').textContent(),'83.79%');
           assert.deepEqual(await example.locator('[data-loss-value]').allTextContents(),['10.00%','4.50%','1.71%','83.79%']);
           assert.equal(await example.locator('[data-largest-loss]').textContent(),'Availability loss');

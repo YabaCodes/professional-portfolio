@@ -18,8 +18,18 @@ export function calculateOee(input:OeeInput):OeeResult {
  if(r===0&&t>0)throw new RangeError('Production requires operating time');
  const idealTotal=c*t;
  if(!Number.isFinite(idealTotal)||idealTotal>r+1e-10*Math.max(1,r))throw new RangeError('Ideal production time exceeds operating time; review cycle time/counts');
- const a=r/p, perf=r===0?null:Math.min(1,idealTotal/r), q=t===0?null:g/t;
- const effective=c*g/p;
- const availability=1-a,performance=Math.max(0,(r-idealTotal)/p),quality=c*(t-g)/p;
- return {availability:a,performance:perf,quality:q,oee:effective,losses:{availability,performance,quality,effective}};
+ // Clamp only roundoff-sized impossible excess; larger contradictions are rejected above.
+ // Express every partition relative to planned time to preserve conservation.
+ const feasibleIdeal=Math.min(r,idealTotal);
+ const availabilityFactor=r/p;
+ const performanceFactor=r===0?null:feasibleIdeal/r;
+ const qualityFactor=t===0?null:g/t;
+ const effective=feasibleIdeal*(qualityFactor??0)/p;
+ const availabilityLoss=(p-r)/p;
+ const performanceLoss=(r-feasibleIdeal)/p;
+ const qualityLoss=feasibleIdeal*(1-(qualityFactor??0))/p;
+ return {
+  availability:availabilityFactor,performance:performanceFactor,quality:qualityFactor,oee:effective,
+  losses:{availability:availabilityLoss,performance:performanceLoss,quality:qualityLoss,effective},
+ };
 }
