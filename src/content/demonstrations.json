@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "id": "EL-001",
+    "slug": "manufacturing-performance-oee-analyzer",
+    "title": "Manufacturing Performance & OEE Analyzer",
+    "summary": "An independent, interactive manufacturing engineering model that calculates equipment effectiveness and partitions planned production time into availability, performance and quality losses using synthetic inputs.",
+    "pillar": "Leadership & Operational Excellence",
+    "evidenceType": "independent-demonstration",
+    "publicationStatus": "approved",
+    "published": "2026-11-23",
+    "relatedIds": [
+      "CS-002"
+    ],
+    "references": [],
+    "inputs": [
+      "Planned production time (minutes)",
+      "Operating time (minutes)",
+      "Ideal cycle time (minutes per unit)",
+      "Total unit count",
+      "Good unit count"
+    ],
+    "outputs": [
+      "Availability, Performance, Quality and OEE",
+      "Loss minutes and planned-time percentages",
+      "Dominant loss category and interpretation",
+      "Explicitly undefined factors for zero-output states"
+    ],
+    "assumptions": [
+      "Planned time excludes pre-scheduled production exclusions",
+      "Operating time is a subset of planned production time",
+      "Ideal cycle time is a positive theoretical cycle time per unit",
+      "Counts are nonnegative whole units, and good units never exceed total units",
+      "Examples are synthetic and not related to employer operations"
+    ],
+    "limitations": [
+      "Aggregate calculations cannot diagnose causes or distinguish stoppage events",
+      "No raw event ingestion, statistical confidence interval, downtime Pareto or bottleneck simulation",
+      "Different collection windows and cycle-time assumptions may produce incomparable OEE values",
+      "Undefined Performance or Quality factors are displayed as undefined, not assigned a measured value",
+      "Illustrative results are not verified production measurements"
+    ],
+    "method": "Availability = operating minutes / planned minutes; Performance = ideal cycle minutes for all units / operating minutes; Quality = good units / total units. OEE = ideal cycle minutes for good units / planned minutes. Time losses partition planned minutes as downtime, performance time, quality-equivalent time and effective output. Calculation rejects physically inconsistent inputs and reports undefined factors where denominators are zero."
+  }
+]

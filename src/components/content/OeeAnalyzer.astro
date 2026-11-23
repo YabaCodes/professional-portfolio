@@ -1,0 +1,148 @@
+---
+import {analyzeOee,fieldSpecs,lossSpecs,syntheticScenarios,formatPercent,formatMinutes} from '../../lib/engineering/oee-lab';
+const initialInput=syntheticScenarios[0].input;
+const initial=analyzeOee(initialInput);
+const lossSummary=lossSpecs.map(spec=>spec.label+': '+formatMinutes(initial.lossMinutes[spec.key])).join('; ');
+---
+<section data-el001-analyzer aria-labelledby="analyzer" class="border border-structural p-4 md:p-6">
+ <h2 id="analyzer">Interactive OEE analyzer</h2>
+ <p class="secondary-text mt-3">Explore planned production time, operating time, theoretical cycle time and unit counts. Every scenario is synthetic.</p>
+ <form data-analyzer-form novalidate class="mt-5">
+  <fieldset disabled data-analyzer-controls>
+   <legend class="font-display font-semibold text-lg mb-3">Synthetic production inputs</legend>
+   <div class="scenario-list" role="group" aria-label="Synthetic example scenarios">
+    {syntheticScenarios.map(item=><button data-preset={item.id} class="scenario-button" type="button" aria-pressed={item.id==='reference'?'true':'false'} title={item.description}>{item.label}</button>)}
+   </div>
+   <div class="field-grid mt-5">
+    {fieldSpecs.map(spec=><div class="analyzer-field">
+     <label class="font-semibold text-sm block mb-2" for={'el001-'+spec.key}>{spec.label} <span class="secondary-text">({spec.unit})</span></label>
+     <input data-analyzer-input={spec.key} id={'el001-'+spec.key} name={spec.key}
+      type="number" min="0" step={spec.step} required inputmode="decimal" value={initialInput[spec.key]}
+      aria-describedby={'el001-'+spec.key+'-note'}/>
+     <p id={'el001-'+spec.key+'-note'} class="technical-caption mt-1">{spec.key==='idealMinutesPerUnit'?'Positive ideal cycle time':spec.key==='totalUnits'||spec.key==='goodUnits'?'Nonnegative whole units':'Nonnegative minutes'}</p>
+    </div>)}
+   </div>
+   <button class="action-link mt-5" type="reset" data-analyzer-reset>Reset reference scenario</button>
+  </fieldset>
+ </form>
+ <noscript><p class="technical-caption mt-4">JavaScript is disabled. The reference synthetic scenario and calculated outputs remain available below; interactive controls are disabled.</p></noscript>
+ <p role="alert" class="analyzer-error mt-5" data-analyzer-error hidden></p>
+ <div data-analyzer-output class="mt-7" role="status" aria-live="polite" aria-atomic="true">
+  <p class="technical-label">Calculated OEE / Synthetic output</p>
+  <p data-oee-number class="font-display font-bold text-4xl text-deep-teal tabular-nums">{formatPercent(initial.result.oee)}</p>
+  <div class="kpi-grid mt-5">
+   {(['availability','performance','quality'] as const).map(key=><div class="kpi">
+    <p class="technical-label">{key}</p>
+    <p class="font-display font-bold text-xl tabular-nums" data-oee-factor={key}>{formatPercent(initial.result[key])}</p>
+   </div>)}
+  </div>
+  <p class="technical-caption mt-3">Not defined means a required denominator is zero; it is not a measured zero-percent factor. OEE remains 0% when no good output is reported.</p>
+  <div class="border-t border-structural pt-5 mt-6">
+   <h3>Planned-time loss decomposition</h3>
+   <p class="secondary-text text-sm mt-2">All categories use the same planned-time denominator. Their unrounded fractions sum to 100%.</p>
+   <div class="loss-bar mt-4" role="img" data-loss-graphic aria-label={'Distribution of planned production time. '+lossSummary}>
+    {lossSpecs.map(spec=><span data-loss-bar={spec.key} style={'width:'+(initial.result.losses[spec.key]*100)+'%'}/>)}
+   </div>
+   <ul class="grid gap-3 mt-4" aria-label="Planned-time loss components">
+    {lossSpecs.map(spec=><li class="loss-line" data-loss-row={spec.key}>
+     <span class="flex items-start gap-2"><span class="loss-key" data-loss-key={spec.key} aria-hidden="true"/>{spec.label}</span>
+     <span class="flex gap-3 flex-wrap justify-end"><span data-loss-minutes={spec.key} class="font-technical text-sm tabular-nums">{formatMinutes(initial.lossMinutes[spec.key])}</span><span class="font-technical text-sm tabular-nums" data-loss-percent={spec.key}>{formatPercent(initial.result.losses[spec.key])}</span></span>
+    </li>)}
+   </ul>
+  </div>
+  <div class="border-t border-structural pt-5 mt-6">
+   <h3>Engineering interpretation</h3>
+   <p class="font-semibold mt-3">Dominant modeled loss: <span data-oee-dominant>{initial.dominant}</span></p>
+   <p data-oee-interpretation class="mt-3">{initial.interpretation}</p>
+   <p class="technical-caption mt-4">A category-level loss decomposition is not a root-cause analysis. Investigation requires additional event, process and context evidence.</p>
+  </div>
+ </div>
+</section>
+<script>
+ import {analyzeOee,fieldSpecs,lossSpecs,syntheticScenarios,formatPercent,formatMinutes} from '../../lib/engineering/oee-lab';
+ import type {OeeInput} from '../../lib/engineering/oee';
+ for(const root of document.querySelectorAll<HTMLElement>('[data-el001-analyzer]')){
+  const form=root.querySelector<HTMLFormElement>('[data-analyzer-form]');
+  const controls=root.querySelector<HTMLFieldSetElement>('[data-analyzer-controls]');
+  const panel=root.querySelector<HTMLElement>('[data-analyzer-output]');
+  const alert=root.querySelector<HTMLElement>('[data-analyzer-error]');
+  if(!form||!controls||!panel||!alert)continue;
+  const read=():OeeInput=>{
+   const values=fieldSpecs.map(spec=>{
+    const input=form.querySelector<HTMLInputElement>('[name="'+spec.key+'"]');
+    if(!input||input.value.trim()==='')throw new RangeError(spec.label+' is required.');
+    if(input.validity.badInput)throw new RangeError(spec.label+' must be a valid number.');
+    return [spec.key,input.valueAsNumber] as const;
+   });
+   return Object.fromEntries(values) as unknown as OeeInput;
+  };
+  const write=(selector:string,value:string)=>{
+   const element=root.querySelector(selector);
+   if(element)element.textContent=value;
+  };
+  const setActive=(id:string)=>{
+   for(const button of root.querySelectorAll<HTMLButtonElement>('[data-preset]'))
+    button.setAttribute('aria-pressed',String(button.dataset.preset===id));
+  };
+  const update=()=>{
+   try{
+    const input=read();
+    const analysis=analyzeOee(input);
+    panel.hidden=false;alert.hidden=true;alert.textContent='';
+    write('[data-oee-number]',formatPercent(analysis.result.oee));
+    for(const key of ['availability','performance','quality'] as const)
+     write('[data-oee-factor="'+key+'"]',formatPercent(analysis.result[key]));
+    for(const spec of lossSpecs){
+     write('[data-loss-minutes="'+spec.key+'"]',formatMinutes(analysis.lossMinutes[spec.key]));
+     write('[data-loss-percent="'+spec.key+'"]',formatPercent(analysis.result.losses[spec.key]));
+     const bar=root.querySelector<HTMLElement>('[data-loss-bar="'+spec.key+'"]');
+     if(bar)bar.style.width=(100*analysis.result.losses[spec.key])+'%';
+    }
+    const chart=root.querySelector<HTMLElement>('[data-loss-graphic]');
+    if(chart)chart.setAttribute('aria-label','Distribution of planned production time. '+lossSpecs.map(spec=>spec.label+': '+formatMinutes(analysis.lossMinutes[spec.key])).join('; '));
+    write('[data-oee-dominant]',analysis.dominant);
+    write('[data-oee-interpretation]',analysis.interpretation);
+   }catch(error){
+    panel.hidden=true;alert.hidden=false;
+    alert.textContent='Input validation: '+(error instanceof Error?error.message:'Invalid engineering inputs.');
+   }
+  };
+  const setScenario=(id:string)=>{
+   const scenario=syntheticScenarios.find(item=>item.id===id);
+   if(!scenario)return;
+   for(const spec of fieldSpecs){
+    const input=form.querySelector<HTMLInputElement>('[name="'+spec.key+'"]');
+    if(input)input.value=String(scenario.input[spec.key]);
+   }
+   setActive(id);update();
+  };
+  controls.disabled=false;
+  form.addEventListener('submit',event=>event.preventDefault());
+  form.addEventListener('input',()=>{setActive('');update();});
+  for(const button of root.querySelectorAll<HTMLButtonElement>('[data-preset]'))
+   button.addEventListener('click',()=>setScenario(button.dataset.preset??''));
+  form.addEventListener('reset',event=>{event.preventDefault();setScenario('reference');});
+ }
+</script>
+<style>
+ .scenario-list{display:flex;flex-wrap:wrap;gap:8px}
+ .scenario-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;border:1px solid var(--color-slate);padding:8px 12px;border-radius:4px;font-size:.875rem;font-weight:600;cursor:pointer}
+ .scenario-button[aria-pressed="true"]{background:var(--color-navy);color:var(--color-ivory);border-color:var(--color-navy)}
+ .field-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+ @media(min-width:640px){.field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+ .analyzer-field{min-width:0}
+ .analyzer-field input{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--color-slate);border-radius:4px;background:var(--color-ivory);font-size:1rem}
+ .analyzer-field input:focus-visible,.scenario-button:focus-visible{outline-offset:3px}
+ .analyzer-error{border-left:4px solid #A65B59;padding:12px;background:#F5E5E2;color:#6B2828;font-weight:600}
+ .kpi-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ @media(min-width:640px){.kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+ .kpi{padding:12px;border:1px solid var(--color-structural);min-width:0}
+ .loss-bar{display:flex;height:26px;border:1px solid var(--color-slate);overflow:hidden}
+ .loss-bar span{display:block;height:100%}
+ .loss-line{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;align-items:flex-start}
+ .loss-key{display:inline-block;flex-shrink:0;width:13px;height:13px;margin-top:5px}
+ [data-loss-bar="availability"],[data-loss-key="availability"]{background:#A07A4D}
+ [data-loss-bar="performance"],[data-loss-key="performance"]{background:#78909C}
+ [data-loss-bar="quality"],[data-loss-key="quality"]{background:#A7A29B}
+ [data-loss-bar="effective"],[data-loss-key="effective"]{background:var(--color-teal)}
+</style>
