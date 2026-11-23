@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {routeHref} from '../lib/site';
+---
+<BaseLayout title="Résumé & Contact" description="Professional conversations about engineering leadership, manufacturing technology and complex technical programs." route="contact">
+ <section class="technical-surface section-space" aria-labelledby="contact-page-title">
+  <div class="page-container">
+   <p class="technical-label mb-4">Contact / Professional opportunities</p>
+   <h1 id="contact-page-title">Connect on engineering, technology and delivery.</h1>
+   <p class="secondary-text reading-width mt-5">Open to conversations about engineering leadership, manufacturing technology, new product introduction and complex technical programs.</p>
+  </div>
+ </section>
+ <section class="page-container section-space" aria-labelledby="contact-channels">
+  <p class="technical-label mb-3">01 / Professional contact</p>
+  <h2 id="contact-channels">Professional conversations.</h2>
+  <p class="reading-width secondary-text mt-4">Direct contact destinations are subject to a separate, exact publication approval. No address or professional profile has been published in this prelaunch version.</p>
+  <div class="editorial-grid mt-8">
+   <article class="span-half border border-structural p-5" data-contact-state="pending-approval">
+    <p class="technical-label">Direct contact</p>
+    <h3 class="mt-3">Connect professionally.</h3>
+    <p class="secondary-text mt-4 text-sm">A public email address or professional profile will appear here only after the exact destination has been approved for publication.</p>
+    <p class="technical-caption mt-5">Not published — publication approval required</p>
+   </article>
+   <article class="span-half border border-structural p-5" data-resume-state="pending-approval">
+    <p class="technical-label">Professional résumé</p>
+    <h3 class="mt-3">Experience in detail.</h3>
+    <p class="secondary-text mt-4 text-sm">A downloadable professional résumé is not yet available. The final PDF must be reviewed and expressly approved before an asset or download link is added.</p>
+    <p class="technical-caption mt-5">No downloadable asset — publication approval required</p>
+   </article>
+  </div>
+ </section>
+ <section class="page-container pb-16" aria-labelledby="contact-evidence">
+  <hr class="rule mb-10"/>
+  <p class="technical-label mb-3">02 / Supporting evidence</p>
+  <h2 id="contact-evidence">Explore the engineering portfolio.</h2>
+  <p class="secondary-text reading-width mt-4">Review my technical background, selected engineering work and public research contributions.</p>
+  <div class="flex flex-wrap gap-4 mt-7" data-contact-navigation>
+   <a href={routeHref('work')} class="action-link">Explore selected work <span aria-hidden="true">→</span></a>
+   <a href={routeHref('about')} class="inline-flex min-h-11 min-w-11 items-center font-semibold">Professional profile <span aria-hidden="true" class="ml-2">→</span></a>
+   <a href={routeHref('research')} class="inline-flex min-h-11 min-w-11 items-center font-semibold">Research & innovation <span aria-hidden="true" class="ml-2">→</span></a>
+  </div>
+  <p class="technical-caption mt-7">Prelaunch contact presentation. No contact form, contact data collection, mailto link, social profile destination or résumé download is enabled.</p>
+ </section>
+</BaseLayout>

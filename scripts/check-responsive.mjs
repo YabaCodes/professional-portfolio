@@ -210,6 +210,35 @@ try {
           assert.ok(page.url().endsWith(base+'expertise/#comp-013'));
           await page.goto(origin+base+'research/',{waitUntil:'networkidle'});
         }
+        if(route!=='design-system'){
+          const footerCta=page.locator('footer [data-contact-callout]');
+          assert.equal(await footerCta.getAttribute('href'),base+'contact/');
+          const footerBox=await footerCta.boundingBox();
+          assert.ok(footerBox&&footerBox.width>=44&&footerBox.height>=44,'shared contact CTA target');
+        }
+        if(route==='contact'){
+          assert.equal(await page.locator('h1').innerText(),'Connect on engineering, technology and delivery.');
+          assert.match(await page.locator('main').innerText(),/new product introduction/i);
+          assert.equal(await page.locator('[data-contact-state="pending-approval"]').count(),1);
+          assert.equal(await page.locator('[data-resume-state="pending-approval"]').count(),1);
+          assert.equal(await page.locator('main a[href^="mailto:"]').count(),0);
+          assert.equal(await page.locator('main a[href^="tel:"]').count(),0);
+          assert.equal(await page.locator('main a[href*="linkedin.com"]').count(),0);
+          assert.equal(await page.locator('main a[download]').count(),0);
+          assert.equal(await page.locator('main a[href$=".pdf"]').count(),0);
+          assert.equal(await page.locator('main form').count(),0);
+          const navigation=page.locator('[data-contact-navigation]');
+          assert.deepEqual(await navigation.locator('a').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href'))),[base+'work/',base+'about/',base+'research/']);
+          for(const link of await navigation.locator('a').all()){
+            const box=await link.boundingBox();assert.ok(box&&box.width>=44&&box.height>=44,'contact navigation hit target');
+          }
+          await page.screenshot({path:'test-results/contact-'+width+'.png',fullPage:true});
+          await navigation.getByRole('link',{name:/Explore selected work/}).click();
+          assert.ok(page.url().endsWith(base+'work/'));
+          await page.goto(origin+base+'contact/',{waitUntil:'networkidle'});
+          await page.locator('footer [data-contact-callout]').click();
+          assert.ok(page.url().endsWith(base+'contact/'));
+        }
         if(route==='about'){
           assert.equal(await page.locator('[data-record-id]').count(),6);
           assert.equal(await page.locator('[data-credential-id]').count(),4);

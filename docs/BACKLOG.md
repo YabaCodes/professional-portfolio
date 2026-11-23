@@ -10,7 +10,8 @@
 - [x] PP-005D: sixteen approved competencies and evidence links accepted v0.8.0.
 - [x] Approved ORCID 0000-0003-1044-453X confirmed against publisher authorship.
 - PP-007: activate Pages only after approval, replace development fixtures/checks with production launch gates, validate actual Core Web Vitals, device/accessibility review and approved domain.
-- PP-005E: three verified bibliographies and granted patent record implemented as v0.9.0 candidate; final CI/owner acceptance pending.
-- Prepare approved résumé, contact details and case studies.
+- [x] PP-005E: three verified bibliographies, granted patent and ORCID accepted v0.9.0.
+- PP-005F: prelaunch contact and integrated MVP audit implemented v0.10.0 candidate; final CI/owner acceptance pending.
+- Obtain exact contact destination approval and item-level public résumé PDF authorization before adding those links/assets.
 - Build and test EL-001 first; subsequent demonstration backlog in ROADMAP.
 - Evaluate future custom domain only with owner authorization.
