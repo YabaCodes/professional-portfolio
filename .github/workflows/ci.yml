@@ -38,5 +38,6 @@ jobs:
             test-results/profile-*.png
             test-results/case-study-*.png
             test-results/expertise-*.png
+            test-results/research-*.png
           if-no-files-found: error
           retention-days: 14
