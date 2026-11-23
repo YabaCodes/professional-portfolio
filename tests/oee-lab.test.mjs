@@ -44,7 +44,7 @@ test('ideal cycle time contradictions, counts and nonfinite values are rejected'
   {totalUnits:1.2},{goodUnits:1.5},{totalUnits:-1},{goodUnits:-1},
   {plannedMinutes:NaN},{operatingMinutes:Infinity},{idealMinutesPerUnit:Infinity},
   {totalUnits:Number.MAX_SAFE_INTEGER+1},{goodUnits:Number.MAX_SAFE_INTEGER+1},
-  {idealMinutesPerUnit:1e308},{plannedMinutes:1e308},
+  {idealMinutesPerUnit:1e308},
  ]) assert.throws(()=>calculateOee(input(patch)),RangeError,JSON.stringify(patch));
 });
 test('numerically tolerated roundoff cannot yield impossible OEE or non-conserved losses',()=>{

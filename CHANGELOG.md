@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.10.0 — candidate (not released)
+## 0.11.0 — candidate (not released)
+- Add full EL-001 independent Manufacturing Performance & OEE Analyzer with real time/count inputs, synthetic scenarios, accessible interactive charts, time-loss breakdown and conservative engineering interpretation.
+- Strengthen pure model conservation and roundoff protection, define zero-output factor semantics, add edge/property and interactive browser tests; integrate Lab, CS-002 and COMP-010.
+- Retain distinct percentage-based case-study preview, avoid employer data and update audit to one implemented independent demonstration. No additional dependencies, private contact destinations or deployment.
+
+## 0.10.0 — accepted 2026-11-23 (PR #14; not deployed)
 - Implement approved privacy-first Contact/Résumé editorial presentation and navigable opportunities CTA, without unapproved destinations, forms or PDF assets.
 - Add integrated prelaunch MVP audit and CI gate, explicit unresolved contact/résumé/Lab/Insights/production blockers, contact-responsive and navigation checks.
 - Preserve prior sections, existing evidence protections and disabled deployment. Not launch ready.

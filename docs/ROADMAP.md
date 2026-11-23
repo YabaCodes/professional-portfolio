@@ -15,9 +15,9 @@
    - C v0.7.0: flagship case studies; separate item-level approval. all four accepted v0.7.0.
    - D v0.8.0: expertise and related evidence — accepted.
    - E v0.9.0: research, publications, patent and ORCID presentation — accepted.
-   - F v0.10.0: prelaunch résumé/contact presentation and integrated MVP review — approved, candidate; exact public destinations and résumé file remain separately gated.
+   - F v0.10.0: prelaunch résumé/contact presentation and integrated MVP review — accepted; exact public destinations and résumé file remain separately gated.
    - Every content increment requires item-level publication approval before commit; no automatic deployment.
-6. PP-006 Engineering demonstrations — incremental, tested and independently labeled.
+6. PP-006 Engineering demonstrations — EL-001 v0.11.0 candidate (scope approved; CI/owner acceptance pending); further independent tools individually reviewed.
 7. PP-007 Launch — explicit publication approval, deployment/domain and final QA; v1.0.0.
 8. PP-008 Continuous development — versioned improvements.
 
