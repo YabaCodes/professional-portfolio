@@ -12,6 +12,7 @@ export function competencyAnchor(id:string){return id.toLowerCase();}
 export function evidenceHref({kind,data}:GraphEntry):string|undefined {
  if(kind==='competencies')return routeHref('expertise')+'#'+competencyAnchor(data.id);
  if(kind==='credentials')return routeHref('about')+'#'+data.id.toLowerCase();
+ if(kind==='publications'||kind==='patents')return routeHref('research')+'#'+data.id.toLowerCase();
  const route=routes[kind];return route?routeHref(route+'/'+data.slug):undefined;
 }
 export function evidenceDescription({kind,data}:GraphEntry):string {

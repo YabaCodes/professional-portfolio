@@ -6,7 +6,7 @@ import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 const root = path.resolve('dist');
 const base = '/professional-portfolio/';
-const competencyMap={"COMP-001":["CS-001"],"COMP-002":["CS-001","CS-004","CRED-002"],"COMP-003":["CS-001"],"COMP-004":["CS-001","CS-003"],"COMP-005":["CS-003","CRED-003"],"COMP-006":["CS-001","CS-003"],"COMP-007":["CS-001","CS-003"],"COMP-008":["CS-001","CS-003"],"COMP-009":["CS-003"],"COMP-010":["CS-002"],"COMP-011":["CS-002"],"COMP-012":["CS-002","CRED-004"],"COMP-013":["CS-004","CRED-001"],"COMP-014":["CS-004","CRED-001"],"COMP-015":["CS-004","CS-002"],"COMP-016":["CS-004"]};
+const competencyMap={"COMP-001":["CS-001"],"COMP-002":["CS-001","CS-004","CRED-002","PAT-001"],"COMP-003":["CS-001"],"COMP-004":["CS-001","CS-003"],"COMP-005":["CS-003","CRED-003"],"COMP-006":["CS-001","CS-003"],"COMP-007":["CS-001","CS-003"],"COMP-008":["CS-001","CS-003"],"COMP-009":["CS-003"],"COMP-010":["CS-002"],"COMP-011":["CS-002"],"COMP-012":["CS-002","CRED-004"],"COMP-013":["CS-004","CRED-001","PUB-001","PUB-002"],"COMP-014":["CS-004","CRED-001","PUB-001","PUB-002","PUB-003"],"COMP-015":["CS-004","CS-002","PUB-001","PUB-002"],"COMP-016":["CS-004","PUB-001","PUB-002","PUB-003","PAT-001"]};
 const caseRoutes={"CS-001":"requirements-to-manufacturing-readiness","CS-002":"engineering-for-manufacturing-performance","CS-003":"leading-complex-engineering-programs","CS-004":"advanced-lattice-structures"};
 const types = {'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff'};
 const server = createServer(async (req,res) => {
@@ -96,7 +96,7 @@ try {
         assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex, nofollow',route);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > document.documentElement.clientWidth),false,route);
         const links = await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
-        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || href.startsWith('https://doi.org/')),route+' base path');
+        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || (href.startsWith('https://') && ['doi.org','orcid.org','patents.google.com','patentimages.storage.googleapis.com'].includes(new URL(href).hostname))),route+' base path');
         if(route !== 'design-system') {
           assert.ok(await page.locator('meta[name="description"]').getAttribute('content'),route);
           assert.ok(await page.locator('meta[property="og:title"]').getAttribute('content'),route);
@@ -119,7 +119,7 @@ try {
             const card=page.locator('[data-competency-id="'+id+'"]');
             assert.deepEqual(await card.locator('[data-evidence-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-evidence-id'))),sources);
             for(const source of sources){
-              const expected=source.startsWith('CRED-')?base+'about/#'+source.toLowerCase():base+'work/'+caseRoutes[source]+'/';
+              const expected=source.startsWith('CRED-')?base+'about/#'+source.toLowerCase():(source.startsWith('PUB-')||source.startsWith('PAT-'))?base+'research/#'+source.toLowerCase():base+'work/'+caseRoutes[source]+'/';
               assert.equal(await card.locator('[data-evidence-id="'+source+'"] a').getAttribute('href'),expected);
             }
           }
@@ -177,6 +177,38 @@ try {
             assert.equal(await staticPage.locator('[data-pillar-filters]').isVisible(),false);
             assert.equal(await staticPage.locator('#comp-016').isVisible(),true);
           }finally{await noJs.close();}
+        }
+        if(route==='research'){
+          assert.equal(await page.locator('h1').innerText(),'Engineering through investigation and invention.');
+          assert.deepEqual(await page.locator('[data-publication-id]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-publication-id'))),['PUB-001','PUB-002','PUB-003']);
+          assert.equal(await page.locator('[data-patent-id]').count(),1);
+          for(const item of [
+           ['PUB-001','10.3390/ma14216521','First author','Yeabsra Mekdim Hailu, Aamer Nazir, Shang-Chih Lin, Jeng-Ywan Jeng'],
+           ['PUB-002','10.1007/s00170-022-08681-8','First author','Yeabsra Mekdim Hailu, Aamer Nazir, Chi-Pin Hsu, Shang-Chih Lin, Jeng-Ywan Jeng'],
+           ['PUB-003','10.1007/s40964-022-00262-1','Co-author','Eyob Messele Sefene, Yeabsra Mekdim Hailu, Assefa Asmare Tsegaw']
+          ]){
+            const card=page.locator('[data-publication-id="'+item[0]+'"]');
+            assert.equal(await card.locator('[data-publication-authors]').innerText(),item[3]);
+            assert.equal(await card.locator('a[href^="https://doi.org/"]').getAttribute('href'),'https://doi.org/'+item[1]);
+            assert.ok((await card.locator('.technical-label').first().innerText()).toLowerCase().includes(item[2].toLowerCase()));
+            assert.equal(await card.locator('[data-portfolio-author]').count(),1);
+          }
+          const patent=page.locator('[data-patent-id="PAT-001"]');
+          assert.ok((await patent.innerText()).includes('US11280073B1'));
+          assert.ok((await patent.innerText()).includes('National Taiwan University of Science and Technology'));
+          assert.ok((await patent.innerText()).includes('does not imply patent ownership'));
+          assert.equal(await patent.locator('[data-portfolio-inventor]').innerText(),'Yeabsra Mekdim Hailu');
+          assert.equal(await patent.locator('[data-inventor-list]').innerText(),'Jeng-Ywan Jeng, Aamer Nazir, Yeabsra Mekdim Hailu');
+          assert.equal(await patent.locator('a[href="https://patents.google.com/patent/US11280073B1"]').count(),1);
+          assert.equal(await patent.locator('a[href^="https://patentimages.storage.googleapis.com/"]').count(),1);
+          assert.equal(await page.locator('[data-orcid-link]').getAttribute('href'),'https://orcid.org/0000-0003-1044-453X');
+          assert.equal(await page.locator('[data-related-research-case]').getAttribute('href'),base+'work/advanced-lattice-structures/');
+          assert.deepEqual(await page.locator('#pub-001 [data-related-competency]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-related-competency'))),['COMP-013','COMP-014','COMP-015','COMP-016']);
+          assert.deepEqual(await page.locator('#pat-001 [data-related-competency]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-related-competency'))),['COMP-002','COMP-016']);
+          await page.screenshot({path:'test-results/research-'+width+'.png',fullPage:true});
+          await page.locator('#pub-001 [data-related-competency="COMP-013"] a').click();
+          assert.ok(page.url().endsWith(base+'expertise/#comp-013'));
+          await page.goto(origin+base+'research/',{waitUntil:'networkidle'});
         }
         if(route==='about'){
           assert.equal(await page.locator('[data-record-id]').count(),6);
@@ -309,6 +341,7 @@ try {
           await page.screenshot({path:`test-results/case-study-cs003-${width}.png`,fullPage:true});
         }
         if(route==='work/advanced-lattice-structures'){
+          assert.deepEqual(await page.locator('section[aria-label="Related evidence"] a[href^="/professional-portfolio/research/"]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href'))),[base+'research/#pub-001',base+'research/#pub-002']);
           assert.deepEqual(await page.locator('[data-case-section]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-case-section'))),['overview','challenge','contribution','methodology','decisions','outcomes','demonstration','reflection']);
           assert.equal(await page.locator('ul[aria-label="Relative torsional stiffness values"] > li[data-comparison-row]').count(),3);
           assert.deepEqual(await page.locator('[data-comparison-row] [data-comparison-value]').allTextContents(),['≈109','100','≈55']);

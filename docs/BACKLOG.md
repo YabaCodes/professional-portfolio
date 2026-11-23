@@ -7,10 +7,10 @@
 - [x] PP-005A: editorial review v1.0.
 - [x] PP-005B: homepage/profile.
 - [x] PP-005C: all four flagship case studies accepted v0.7.0.
-- PP-005D: sixteen approved competencies and evidence links implemented v0.8.0 candidate; final verification/acceptance pending.
-- Reconfirm ORCID before including a link.
+- [x] PP-005D: sixteen approved competencies and evidence links accepted v0.8.0.
+- [x] Approved ORCID 0000-0003-1044-453X confirmed against publisher authorship.
 - PP-007: activate Pages only after approval, replace development fixtures/checks with production launch gates, validate actual Core Web Vitals, device/accessibility review and approved domain.
-- Verify public bibliography and patent records; review each content item externally.
+- PP-005E: three verified bibliographies and granted patent record implemented as v0.9.0 candidate; final CI/owner acceptance pending.
 - Prepare approved résumé, contact details and case studies.
 - Build and test EL-001 first; subsequent demonstration backlog in ROADMAP.
 - Evaluate future custom domain only with owner authorization.

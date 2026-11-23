@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "id": "PAT-001",
+    "slug": "smart-water-faucet-far-uv",
+    "title": "Smart Water Faucet with Far-UV Disinfection and Automatic Soap and Sanitizer Dispenser",
+    "summary": "A sensor-controlled hygiene system combining touchless water delivery, automatic soap and sanitizer dispensing, and an optional far-UV disinfection concept within an integrated faucet architecture. The invention addresses multidisciplinary engineering challenges involving fluid delivery, sensing, automated control and human interaction.",
+    "pillar": "Research & Innovation",
+    "evidenceType": "public-invention",
+    "publicationStatus": "approved",
+    "published": "2026-11-23",
+    "relatedIds": [],
+    "references": [
+      {
+        "label": "US patent grant record",
+        "url": "https://patents.google.com/patent/US11280073B1"
+      },
+      {
+        "label": "Original US patent grant PDF",
+        "url": "https://patentimages.storage.googleapis.com/b2/8c/31/59058919716a36/US11280073.pdf"
+      }
+    ],
+    "jurisdiction": "United States",
+    "patentNumber": "US11280073B1",
+    "grantDate": "2022-03-22",
+    "filingDate": "2020-10-20",
+    "applicationNumber": "17/075,666",
+    "inventors": [
+      "Jeng-Ywan Jeng",
+      "Aamer Nazir",
+      "Yeabsra Mekdim Hailu"
+    ],
+    "originalAssignee": "National Taiwan University of Science and Technology",
+    "role": "co-inventor",
+    "claimCount": 12
+  }
+]

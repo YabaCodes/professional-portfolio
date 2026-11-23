@@ -13,8 +13,8 @@
    - A: private content inventory, verification and approval workflow — editorial review v1.0 accepted.
    - B v0.6.0: homepage and professional profile — accepted.
    - C v0.7.0: flagship case studies; separate item-level approval. all four accepted v0.7.0.
-   - D v0.8.0: expertise and related evidence — approved editorial scope implemented, candidate.
-   - E v0.9.0: research, publications and patent presentation.
+   - D v0.8.0: expertise and related evidence — accepted.
+   - E v0.9.0: research, publications, patent and ORCID presentation — approved scope implemented, candidate.
    - F v0.10.0: résumé/contact and integrated MVP review.
    - Every content increment requires item-level publication approval before commit; no automatic deployment.
 6. PP-006 Engineering demonstrations — incremental, tested and independently labeled.

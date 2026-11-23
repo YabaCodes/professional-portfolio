@@ -1,0 +1,49 @@
+---
+import type {CollectionEntry} from 'astro:content';
+import type {GraphEntry} from '../../lib/content/model';
+import {supportingCompetencies} from '../../lib/content/model';
+import {evidenceHref} from '../../lib/content/expertise';
+import SmartFaucetConcept from '../illustrations/SmartFaucetConcept.astro';
+interface Props {entry:CollectionEntry<'patents'>;catalog:GraphEntry[]}
+const {entry,catalog}=Astro.props;const d=entry.data;
+const related=supportingCompetencies(catalog,d.id);
+const dateLabel=(iso:string)=>new Date(iso+'T00:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
+---
+<article class="technical-surface p-5 md:p-8" id={d.id.toLowerCase()} data-patent-id={d.id}>
+ <p class="technical-label">{d.id} / Intellectual property / Granted US patent</p>
+ <h3 class="mt-3">{d.patentNumber}</h3>
+ <h4 class="font-display font-semibold text-xl mt-2">{d.title}</h4>
+ <div class="editorial-grid items-center mt-5">
+  <div class="span-half">
+   <SmartFaucetConcept/>
+  </div>
+  <div class="span-half">
+   <dl class="grid grid-cols-2 gap-4">
+    {[
+     {label:'Jurisdiction',value:d.jurisdiction},
+     {label:'Contribution',value:'Co-inventor'},
+     {label:'Filed',value:dateLabel(d.filingDate)},
+     {label:'Granted',value:dateLabel(d.grantDate)},
+     {label:'Application',value:d.applicationNumber},
+     {label:'Granted claims',value:String(d.claimCount)},
+    ].map(item=><div class="min-w-0"><dt class="technical-label">{item.label}</dt><dd class="mt-1 text-sm">{item.value}</dd></div>)}
+   </dl>
+  </div>
+ </div>
+ <p class="mt-5">{d.summary}</p>
+ <div class="border-t border-slate mt-5 pt-4">
+  <p class="technical-label">Inventors, in public grant order</p>
+  <p class="mt-2 text-sm" data-inventor-list>{d.inventors.map((name,i)=><>{i>0?', ':''}{name==='Yeabsra Mekdim Hailu'?<strong data-portfolio-inventor>{name}</strong>:name}</>)}</p>
+  <p class="technical-label mt-4">Original assignee</p>
+  <p class="text-sm mt-2">{d.originalAssignee}</p>
+  <p class="technical-caption mt-2">Co-inventor attribution does not imply patent ownership, commercialization, regulatory approval or validated disinfection effectiveness.</p>
+ </div>
+ <div class="flex flex-wrap gap-4 mt-5">
+  {d.references.map(ref=><a href={ref.url} class="inline-flex min-h-11 items-center font-semibold">{ref.label} <span aria-hidden="true" class="ml-2">↗</span></a>)}
+ </div>
+ {related.length>0&&<div class="border-t border-slate mt-5 pt-4">
+  <p class="technical-label">Related competencies</p>
+  <ul class="flex flex-wrap gap-x-5 gap-y-1 mt-2" data-research-competencies>{related.map(comp=><li data-related-competency={comp.data.id}><a class="inline-flex min-h-11 items-center" href={evidenceHref(comp)}>{comp.data.title}</a></li>)}</ul>
+ </div>}
+</article>
+<style>.technical-surface :global(.technical-caption){color:var(--color-structural)}</style>

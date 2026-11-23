@@ -26,7 +26,8 @@
     "relatedIds": [
       "CS-001",
       "CS-004",
-      "CRED-002"
+      "CRED-002",
+      "PAT-001"
     ]
   },
   {
@@ -187,7 +188,9 @@
     "references": [],
     "relatedIds": [
       "CS-004",
-      "CRED-001"
+      "CRED-001",
+      "PUB-001",
+      "PUB-002"
     ]
   },
   {
@@ -202,7 +205,10 @@
     "references": [],
     "relatedIds": [
       "CS-004",
-      "CRED-001"
+      "CRED-001",
+      "PUB-001",
+      "PUB-002",
+      "PUB-003"
     ]
   },
   {
@@ -217,7 +223,9 @@
     "references": [],
     "relatedIds": [
       "CS-004",
-      "CS-002"
+      "CS-002",
+      "PUB-001",
+      "PUB-002"
     ]
   },
   {
@@ -231,7 +239,11 @@
     "published": "2026-11-22",
     "references": [],
     "relatedIds": [
-      "CS-004"
+      "CS-004",
+      "PUB-001",
+      "PUB-002",
+      "PUB-003",
+      "PAT-001"
     ]
   }
 ]

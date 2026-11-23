@@ -7,9 +7,9 @@ import RecordList from '../components/content/RecordList.astro';
 import {loadCatalog,ofKind} from '../lib/content/catalog';
 import type {Kind} from '../lib/content/model';
 import { sections, routeHref } from '../lib/site';
-export const getStaticPaths = (() => sections.filter(section=>section.slug!=='about'&&section.slug!=='work'&&section.slug!=='expertise').map(section=>({params:{section:section.slug},props:{section}}))) satisfies GetStaticPaths;
+export const getStaticPaths = (() => sections.filter(section=>section.slug!=='about'&&section.slug!=='work'&&section.slug!=='expertise'&&section.slug!=='research').map(section=>({params:{section:section.slug},props:{section}}))) satisfies GetStaticPaths;
 const {section} = Astro.props;
-const groups:Record<string,Kind[]>={insights:['insights'],research:['publications','patents'],contact:[]};
+const groups:Record<string,Kind[]>={insights:['insights'],contact:[]};
 const catalog=await loadCatalog();
 const entries=(groups[section.slug]??[]).flatMap(kind=>ofKind(catalog,kind));
 ---

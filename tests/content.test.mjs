@@ -41,3 +41,14 @@ test('competencies inherit matching evidence classification, without duplicating
  const nested={kind:'competencies',data:make('COMP-998','nested',{evidenceType:'published-research',relatedIds:['COMP-999']})};
  assert.throws(()=>validateGraph([research,comp,nested]),/direct supporting evidence/);
 });
+
+test('published public records support relationships without inventing additional sources',()=>{
+ const pub={kind:'publications',data:make('PUB-999','source-paper',{evidenceType:'published-research',references:[{label:'Synthetic DOI',url:'https://doi.org/10.0000/example'}]})};
+ const patent={kind:'patents',data:make('PAT-999','source-grant',{evidenceType:'public-invention',references:[{label:'Synthetic grant',url:'https://example.com/grant'}]})};
+ const caseStudy={kind:'case-studies',data:make('CS-998','source-case',{evidenceType:'published-research',references:pub.data.references,relatedIds:['PUB-999']})};
+ const skill={kind:'competencies',data:make('COMP-997','source-skill',{evidenceType:'published-research',relatedIds:['CS-998','PUB-999','PAT-999']})};
+ validateGraph([pub,patent,caseStudy,skill]);
+ assert.deepEqual(supportingCompetencies([pub,patent,caseStudy,skill],'PUB-999').map(e=>e.data.id),['COMP-997']);
+ assert.deepEqual(supportingCompetencies([pub,patent,caseStudy,skill],'PAT-999').map(e=>e.data.id),['COMP-997']);
+ assert.throws(()=>validateGraph([{...pub,data:{...pub.data,references:[]}},patent,caseStudy,skill]),/Public reference required/);
+});

@@ -14,8 +14,9 @@
 | PP-005A | Accepted 2026-11-22; CR-001–007 editorial direction approved |
 | PP-005B | Accepted 2026-11-22; PR #7 merged |
 | PP-005C | Accepted 2026-11-22; four case studies; PR #11 merged |
-| PP-005D | v0.8.0 candidate; editorial review approved, CI and owner acceptance pending |
-| PP-005E–F | Planned |
+| PP-005D | Accepted 2026-11-23; PR #12 merged, CI passed |
+| PP-005E | v0.9.0 candidate; editorial review approved, final CI and owner review pending |
+| PP-005F | Planned |
 | PP-006–008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
@@ -61,3 +62,7 @@ PP-005C.4 / CS-003: editorial review v1.0 approved all eight categories without 
 PP-005C.4 / CS-003: final head 51132dd2ef6a9cff3998e8b4158d74e27d80e44c; CI 45032984156 passed. Owner merged PR #11 (31abb9782361c9a0921c86d67db1dd334b2b5dbf) and deleted branch. PP-005C accepted v0.7.0, not deployed.
 
 PP-005D: editorial review v1.0 approved all six categories without corrections. v0.8.0 candidate. Acceptance AC-01–11: dedicated Expertise page; four pillars; sixteen approved COMP records; every group links to matching existing evidence; derived bidirectional case links and credential anchors; provenance labels; implemented synthetic OEE example distinguished from planned EL-001; responsive keyboard-accessible filtering with static fallback; prior content/behavior retained; no unauthorized claims; final CI and owner acceptance. Research/invention records and full Lab tools remain separately scoped.
+
+PP-005D: final head b90c6399e236dfe35f35ede678167152a8e53c7f; CI 45079969834 passed after anchor reveal fix. Owner merged PR #12 (91a739a72be904034a86a0a8239f645c6fcd6fa1) and deleted branch. v0.8.0 accepted; no deployment.
+
+PP-005E: editorial review v1.0 approved all six categories: PUB-001–003, PAT-001, research page/evidence map and ORCID 0000-0003-1044-453X. v0.9.0 candidate. Acceptance: dedicated Research page, correct author names/order and authorship, 3 DOI verified publications, US11280073B1 grant and original assignee/co-inventor attribution, approved summaries, original illustrative SVG with disclosure, links back to COMP and CS-004, ORCID approved, responsive/axe tests, existing content retained, no unsupported outcome or deployment. Owner review and green CI required.

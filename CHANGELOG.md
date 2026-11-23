@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.8.0 — candidate (not released)
+## 0.9.0 — candidate (not released)
+- Implement approved Research & Innovation page, verified author-order bibliography and DOI links for PUB-001–003, patent PAT-001 and ORCID researcher identity.
+- Add original illustrated faucet schematic with independent/uncertified disclaimer; link CS-004 and COMP-002/013–016 to independently referenced records.
+- Add bibliography, grant, evidence-anchor and responsive tests. No confidential or unsupported data, dependencies or deployment.
+
+## 0.8.0 — accepted 2026-11-23 (PR #12; not deployed)
 - Implement the approved sixteen competency groups and four-pillar Expertise page with accessible progressive filtering.
 - Link owner-approved experience, owner-confirmed qualifications and published research; derive case-study backlinks, preserve standalone evidence distinctions and keep full Lab tools planned.
 - Add graph, exact-mapping, responsive interaction and navigation tests. No deployment or new dependencies.
