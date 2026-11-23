@@ -1,4 +1,4 @@
-import {calculateOee,type OeeInput,type OeeResult} from './oee';
+import {calculateOee,type OeeInput,type OeeResult} from './oee.ts';
 
 export interface SyntheticScenario {id:string;label:string;description:string;input:OeeInput}
 export const syntheticScenarios:readonly SyntheticScenario[]=[
