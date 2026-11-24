@@ -14,7 +14,7 @@ import {approvedContact,approvedResume} from '../lib/publication';
  <section class="page-container section-space" aria-labelledby="contact-channels">
   <p class="technical-label mb-3">01 / Professional contact</p>
   <h2 id="contact-channels">Professional conversations.</h2>
-  <p class="reading-width secondary-text mt-4">Direct contact destinations are subject to a separate, exact publication approval. No address or professional profile has been published in this prelaunch version.</p>
+  {approvedContact ? <p class="reading-width secondary-text mt-4">Use the approved professional channel below to connect.</p> : <p class="reading-width secondary-text mt-4">Direct contact destinations are subject to a separate, exact publication approval. No address or professional profile has been published in this prelaunch version.</p>}
   <div class="editorial-grid mt-8">
    <article class="span-half border border-structural p-5" data-contact-state={approvedContact?'approved':'pending-approval'}>
     <p class="technical-label">Direct contact</p>
@@ -42,6 +42,6 @@ import {approvedContact,approvedResume} from '../lib/publication';
    <a href={routeHref('about')} class="inline-flex min-h-11 min-w-11 items-center font-semibold">Professional profile <span aria-hidden="true" class="ml-2">→</span></a>
    <a href={routeHref('research')} class="inline-flex min-h-11 min-w-11 items-center font-semibold">Research & innovation <span aria-hidden="true" class="ml-2">→</span></a>
   </div>
-  <p class="technical-caption mt-7">Prelaunch contact presentation. No contact form, contact data collection, mailto link, social profile destination or résumé download is enabled.</p>
+  {!approvedContact&&!approvedResume&&<p class="technical-caption mt-7">Prelaunch contact presentation. No contact form, contact data collection, mailto link, social profile destination or résumé download is enabled.</p>}
  </section>
 </BaseLayout>
