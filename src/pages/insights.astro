@@ -1,0 +1,44 @@
+---
+import {getCollection} from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EvidenceDisclosure from '../components/content/EvidenceDisclosure.astro';
+import {routeHref} from '../lib/site';
+const el001=(await getCollection('demonstrations')).find(entry=>entry.data.id==='EL-001');
+if(!el001)throw new Error('Approved EL-001 demonstration is missing');
+const insightTitle='Exploring engineering through evidence and experimentation.';
+const insightDescription='Independent engineering models, transparent assumptions and technical perspectives connecting theory with practical problem-solving.';
+---
+<BaseLayout route="insights" title="Engineering Insights" description={insightDescription}>
+ <section class="technical-surface section-space" aria-labelledby="insights-heading">
+  <div class="page-container">
+   <p class="technical-label mb-4">Insights / Engineering thinking</p>
+   <h1 id="insights-heading">{insightTitle}</h1>
+   <p class="secondary-text reading-width mt-5">{insightDescription}</p>
+   <a class="action-link mt-7" href={routeHref('insights/lab')}>Explore Engineering Lab <span aria-hidden="true">→</span></a>
+  </div>
+ </section>
+ <section class="page-container section-space" aria-labelledby="featured-insights">
+  <p class="technical-label mb-3">01 / Independent engineering</p>
+  <h2 id="featured-insights">From theory to interactive analysis.</h2>
+  <article data-featured-demonstration={el001.data.id} class="border border-structural p-5 md:p-8 mt-6">
+   <p class="technical-label">EL-001 / Functional demonstration / Synthetic scenarios</p>
+   <h3 class="mt-3">{el001.data.title}</h3>
+   <p class="secondary-text reading-width mt-4">{el001.data.summary}</p>
+   <div class="grid gap-3 mt-5">
+    <EvidenceDisclosure kind="independent"/>
+    <EvidenceDisclosure kind="simulated"/>
+   </div>
+   <a class="action-link mt-6" href={routeHref('insights/lab/'+el001.data.slug)} data-featured-lab-link>Open OEE Analyzer <span aria-hidden="true">→</span></a>
+  </article>
+ </section>
+ <section class="page-container pb-16" aria-labelledby="related-thinking">
+  <hr class="rule mb-10"/>
+  <p class="technical-label mb-3">02 / Further evidence</p>
+  <h2 id="related-thinking">Research and engineering practice.</h2>
+  <p class="secondary-text reading-width mt-4">Explore the published research, engineering case studies and verified supporting evidence behind this portfolio.</p>
+  <div class="flex flex-wrap gap-4 mt-6" data-insights-navigation>
+   <a href={routeHref('research')} class="inline-flex min-h-11 items-center font-semibold">Research & innovation <span aria-hidden="true" class="ml-2">→</span></a>
+   <a href={routeHref('work')} class="inline-flex min-h-11 items-center font-semibold">Selected work <span aria-hidden="true" class="ml-2">→</span></a>
+  </div>
+ </section>
+</BaseLayout>

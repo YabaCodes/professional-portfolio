@@ -1,0 +1,14 @@
+{
+  "contact": {
+    "status": "pending",
+    "label": null,
+    "href": null,
+    "approvalReference": null
+  },
+  "resume": {
+    "status": "pending",
+    "label": null,
+    "assetPath": null,
+    "approvalReference": null
+  }
+}

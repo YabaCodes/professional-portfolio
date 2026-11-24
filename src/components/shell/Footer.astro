@@ -1,6 +1,7 @@
 ---
 import Wordmark from '../brand/Wordmark.astro';
 import { identity, routeHref, sections } from '../../lib/site';
+import release from '../../../config/release.json';
 ---
 <footer class="technical-surface py-10">
   <div class="page-container editorial-grid">
@@ -8,13 +9,12 @@ import { identity, routeHref, sections } from '../../lib/site';
       <a href={routeHref('')} class="footer-brand"><Wordmark /></a>
       <p class="secondary-text mt-3">{identity.positioning}</p>
       <a data-contact-callout class="footer-contact-link mt-4" href={routeHref('contact')}>Explore professional opportunities <span aria-hidden="true">→</span></a>
-      <p class="technical-caption mt-4">Development specimen / Not authorized for production deployment.</p>
+      {!release.publicationEnabled && <p class="technical-caption mt-4" data-prelaunch-footer-notice>Prelaunch review — publication disabled.</p>}
     </div>
     <nav class="span-half" aria-label="Footer navigation">
       <ul class="footer-links">
         {sections.map(s => <li><a href={routeHref(s.slug)}>{s.label}</a></li>)}
         <li><a href={routeHref('insights/lab')}>Engineering Lab</a></li>
-        <li><a href={routeHref('design-system')}>Design system</a></li>
       </ul>
     </nav>
   </div>
