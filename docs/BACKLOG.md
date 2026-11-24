@@ -13,5 +13,7 @@
 - [x] PP-005E: three verified bibliographies, granted patent and ORCID accepted v0.9.0.
 - [x] PP-005F: prelaunch contact and integrated MVP audit accepted v0.10.0.
 - Obtain exact contact destination approval and item-level public résumé PDF authorization before adding those links/assets.
-- PP-006 / EL-001: full independent OEE time/count analyzer implemented v0.11.0 candidate; final CI and owner acceptance pending. EL-002 and EL-006 remain planned.
+- [x] PP-006 / EL-001: full independent OEE time/count analyzer accepted v0.11.0, PR #15 merged; optional EL-002 and EL-006 remain planned.
+- PP-007A: approved Insights and editorial prelaunch gap closure v0.12.0 candidate; green CI and owner review required.
+- PP-007B: close exact contact, final résumé, internal design specimen, manual production/accessibility/performance review and protected release authorization.
 - Evaluate future custom domain only with owner authorization.

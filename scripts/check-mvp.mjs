@@ -25,6 +25,19 @@ const lab=await html('insights/lab/manufacturing-performance-oee-analyzer');
 assert.match(lab,/data-el001-analyzer/);assert.match(lab,/Synthetic production inputs/);
 assert.match(lab,/Independent technical demonstration/);
 assert.match(lab,/Illustrative or simulated results/);
+const approvedAssets=JSON.parse(await readFile('config/public-facing.json','utf8'));
+assert.deepEqual(approvedAssets,{
+ contact:{status:'pending',label:null,href:null,approvalReference:null},
+ resume:{status:'pending',label:null,assetPath:null,approvalReference:null},
+},'No personal contact destination or résumé asset has received item-level approval');
+const insightsPage=await html('insights');
+assert.match(insightsPage,/Exploring engineering through evidence and experimentation\./,'Insights landing headline');
+assert.match(insightsPage,/data-featured-demonstration="EL-001"/,'Featured accepted lab demonstration');
+assert.match(insightsPage,/data-featured-lab-link/,'Functional Lab CTA');
+assert.doesNotMatch(insightsPage,/Development specimen|Section foundation|Final professional content has not been approved/,'No development-only Insights shell');
+assert.equal(insights.length,0,'Do not fabricate Insights articles');
+const designSpecimen=await readFile(path.join(root,'design-system','index.html'),'utf8');
+assert.match(designSpecimen,/noindex, nofollow/,'Internal design specimen must remain noindexed');
 const contact=await html('contact');
 assert.match(contact,/data-contact-state="pending-approval"/);
 assert.match(contact,/data-resume-state="pending-approval"/);
@@ -45,17 +58,21 @@ const assets=await collect(root);
 assert.ok(!assets.some(p=>/(?:^|\/)(?:resume|résumé|cv|curriculum[-_ ]?vitae)[^/]*\.(?:pdf|docx)$/i.test(p)),'Unapproved résumé asset emitted');
 for(const [i,route] of required.entries()){
  assert.match(pages[i],/data-contact-callout/,'Missing cross-site contact navigation: '+route);
+ assert.match(pages[i],/data-prelaunch-footer-notice/,'Missing prelaunch-only disclosure: '+route);
+ assert.doesNotMatch(pages[i],/href="\/professional-portfolio\/design-system\/"/,'Internal design specimen must not be linked from public navigation: '+route);
 }
 const blockers=[
- {id:'CONTACT',phase:'PP-005F/PP-007',requirement:'Exact public email or professional profile URL must receive item-level publication approval.'},
- {id:'RESUME',phase:'PP-005F/PP-007',requirement:'Publication-safe final résumé PDF must receive file-level approval before any downloadable asset is added.'},
- {id:'INSIGHTS',phase:'PP-006/PP-007',requirement:'Empty Insights content and development-only pages must be resolved for launch.'},
- {id:'PUBLICATION',phase:'PP-007',requirement:'Separate owner approval, confidentiality/employer-policy review where applicable, production SEO, accessibility/device review, performance measurements and GitHub Pages release gate are required.'},
+ {id:'CONTACT',owner:'Portfolio owner',phase:'PP-007B',status:'open',requirement:'Exact professional email or profile URL requires item-level publication approval.',closure:'Review exact URL, label, approval reference and final rendered destination before commit.'},
+ {id:'RESUME',owner:'Portfolio owner',phase:'PP-007B',status:'open',requirement:'Final publication-safe résumé PDF requires document-level approval.',closure:'Review complete PDF, metadata and every personal/employer claim, then approve exact artifact and link.'},
+ {id:'SPECIMEN',owner:'Engineering implementation',phase:'PP-007B',status:'open',requirement:'Internal Design System specimen is still in the prelaunch build, though no longer linked from public navigation.',closure:'Remove specimen from published build and update QA fixtures only in the separately authorized launch PR.'},
+ {id:'PRODUCTION_QA',owner:'Portfolio owner and engineering review',phase:'PP-007B',status:'open',requirement:'Manual content/confidentiality and employer-policy review, production SEO, device and screen-reader checks, actual Core Web Vitals, hosting and domain configuration.',closure:'Record actual results and explicit owner sign-off against production URLs and assets.'},
+ {id:'RELEASE',owner:'Portfolio owner',phase:'PP-007B',status:'open',requirement:'Pages activation and deployment remain prohibited until separate exact owner authorization.',closure:'Approve main commit SHA and production version, verify protected GitHub Pages configuration and explicitly dispatch authorized release.'},
 ];
-const report={milestone:'PP-006 / EL-001',version:'0.11.0',mode:'prelaunch',websiteDeployedByThisWorkflow:false,
- catalog:counts,primaryRoutes:required.length,contactDetailsPublished:false,resumeAssetPublished:false,
+const report={milestone:'PP-007A',version:'0.12.0',mode:'prelaunch',websiteDeployedByThisWorkflow:false,
+ catalog:counts,primaryRoutes:required.length,insightsLandingComplete:true,
+ contactDetailsPublished:false,resumeAssetPublished:false,internalDesignSpecimenLinked:false,
  publicationEnabled:release.publicationEnabled,launchReady:false,blockingRequirements:blockers};
 await mkdir('test-results',{recursive:true});
 await writeFile('test-results/mvp-audit.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));
-console.log('PP-006 EL-001 prelaunch inventory and safeguards PASS; final launch blockers remain intentionally unresolved.');
+console.log('PP-007A prelaunch editorial, privacy, inventory and launch gates PASS; production authorization remains blocked.');

@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.11.0 — candidate (not released)
+## 0.12.0 — candidate (not released)
+- Implement approved Lab-led Insights landing page with EL-001 featured, existing research/work navigation and evidence disclosures; no fabricated articles.
+- Remove public Design System navigation while retaining the noindexed internal specimen for prelaunch visual QA; prelaunch footer indicator is conditional on release state.
+- Add fail-closed, empty contact/résumé approval-gated configuration and unit tests; preserve previous content, noindex, privacy guards and manual-only deployment.
+- Extend browser/content audits and document PP-007B owner-specific blockers and closure evidence. No dependencies, personal contact details, résumé assets or publication.
+
+## 0.11.0 — accepted 2026-11-24 (PR #15; not deployed)
 - Add full EL-001 independent Manufacturing Performance & OEE Analyzer with real time/count inputs, synthetic scenarios, accessible interactive charts, time-loss breakdown and conservative engineering interpretation.
 - Strengthen pure model conservation and roundoff protection, define zero-output factor semantics, add edge/property and interactive browser tests; integrate Lab, CS-002 and COMP-010.
 - Retain distinct percentage-based case-study preview, avoid employer data and update audit to one implemented independent demonstration. No additional dependencies, private contact destinations or deployment.

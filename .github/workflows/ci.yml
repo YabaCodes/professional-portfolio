@@ -42,6 +42,7 @@ jobs:
             test-results/research-*.png
             test-results/contact-*.png
             test-results/engineering-lab-*.png
+            test-results/insights-*.png
             test-results/mvp-audit.json
           if-no-files-found: error
           retention-days: 14

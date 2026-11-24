@@ -211,6 +211,8 @@ try {
           await page.goto(origin+base+'research/',{waitUntil:'networkidle'});
         }
         if(route!=='design-system'){
+          assert.equal(await page.locator('footer a[href="'+base+'design-system/"]').count(),0);
+          assert.equal(await page.locator('footer [data-prelaunch-footer-notice]').count(),1);
           const footerCta=page.locator('footer [data-contact-callout]');
           assert.equal(await footerCta.getAttribute('href'),base+'contact/');
           const footerBox=await footerCta.boundingBox();
@@ -293,6 +295,23 @@ try {
             assert.notEqual(await staticPage.locator('[data-analyzer-controls]').getAttribute('disabled'),null);
             assert.equal(await staticPage.locator('[data-analyzer-input="plannedMinutes"]').isDisabled(),true);
           }finally{await staticCtx.close();}
+        }
+        if(route==='insights'){
+          assert.equal(await page.locator('h1').innerText(),'Exploring engineering through evidence and experimentation.');
+          assert.equal(await page.locator('[data-featured-demonstration="EL-001"]').count(),1);
+          assert.equal(await page.locator('main [aria-label="Development specimen"]').count(),0);
+          assert.equal(await page.locator('main [aria-label="Independent technical demonstration"]').count(),1);
+          assert.equal(await page.locator('main [aria-label="Illustrative or simulated results"]').count(),1);
+          const featured=page.locator('[data-featured-lab-link]');
+          assert.equal(await featured.getAttribute('href'),base+'insights/lab/manufacturing-performance-oee-analyzer/');
+          const clickBox=await featured.boundingBox();
+          assert.ok(clickBox&&clickBox.width>=44&&clickBox.height>=44);
+          assert.deepEqual(await page.locator('[data-insights-navigation] a').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href'))),[base+'research/',base+'work/']);
+          assert.equal(await page.locator('main a[href*="/design-system/"]').count(),0);
+          await page.screenshot({path:'test-results/insights-'+width+'.png',fullPage:true});
+          await featured.click();
+          assert.ok(page.url().endsWith(base+'insights/lab/manufacturing-performance-oee-analyzer/'));
+          await page.goto(origin+base+'insights/',{waitUntil:'networkidle'});
         }
         if(route==='about'){
           assert.equal(await page.locator('[data-record-id]').count(),6);

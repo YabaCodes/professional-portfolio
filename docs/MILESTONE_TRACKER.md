@@ -17,8 +17,9 @@
 | PP-005D | Accepted 2026-11-23; PR #12 merged, CI passed |
 | PP-005E | Accepted 2026-11-23; PR #13 merged; CI passed |
 | PP-005F | Accepted 2026-11-23; PR #14 merged; CI #38 passed |
-| PP-006 / EL-001 | v0.11.0 candidate, approved synthetic analyzer; CI/owner acceptance pending |
-| PP-007–008 | Planned |
+| PP-006 / EL-001 | Accepted 2026-11-24; PR #15 merged, CI #43 passed |
+| PP-007A | v0.12.0 candidate, editorial review approved; CI/owner acceptance pending |
+| PP-007B / PP-008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
 
@@ -75,3 +76,7 @@ PP-005F: editorial review v1.0 all six categories approved with no corrections. 
 PP-005F: final head f6d1a2fdd23cab1daa2c43a353ecd9b0322554d4; CI run 45174245758 passed after correcting a Design System fixture assertion. Owner merged PR #14 (8d518f897fb542965e909cebf1cda1b1af2fefb4) and deleted branch. v0.10.0 accepted; not deployed.
 
 PP-006 / EL-001: scope review v1.0 approved all eight components. v0.11.0 candidate. Acceptance: independent full time/count OEE analyzer, original synthetic scenarios, five inputs and four outputs, minute-based loss conservation, defined/undefined factors, input validation and impossible-case rejection, accessible chart and screen-reader results, dominant-loss interpretation with no root-cause claims, CS-002 and COMP-010 and Lab integration, no new dependencies, no employer data, no deployment. Unit/property/browser and MVP regression all must pass; owner approval and manual merge required.
+
+PP-006 / EL-001 accepted: final head 6c037dd2bcadce70ee41fb7824f4ca97aa75ebe1, CI #43 (45181903529) success. Owner merged PR #15 (ba6bba7ce703b106a511e2d86ab4b5405a72661f) and deleted branch. v0.11.0 accepted, no deployment.
+
+PP-007A: 2026-11-24 editorial review v1.0 approved all seven areas without corrections; v0.12.0 candidate. Focus: approved Insights landing with EL-001 and no invented articles, public navigation/metadata consistency, internal design-specimen isolation, typed fail-closed contact/résumé gates with no actual destinations, prelaunch audit and PP-007B closure ledger. AC-01–13 in docs/PP_007A_READINESS.md. Final CI and owner acceptance pending. The deployment gate and noindex remain disabled; not launch-ready.
