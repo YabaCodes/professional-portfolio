@@ -17,8 +17,10 @@
    - E v0.9.0: research, publications, patent and ORCID presentation — accepted.
    - F v0.10.0: prelaunch résumé/contact presentation and integrated MVP review — accepted; exact public destinations and résumé file remain separately gated.
    - Every content increment requires item-level publication approval before commit; no automatic deployment.
-6. PP-006 Engineering demonstrations — EL-001 v0.11.0 candidate (scope approved; CI/owner acceptance pending); further independent tools individually reviewed.
-7. PP-007 Launch — explicit publication approval, deployment/domain and final QA; v1.0.0.
+6. PP-006 Engineering demonstrations — EL-001 v0.11.0 accepted; other independent tools optional, individually reviewed.
+7. PP-007 Launch preparation and publication:
+   - A v0.12.0: prelaunch gap closure (Insights, editorial consistency, privacy-gated contact/résumé placeholders, QA and blocker register) — approved scope, candidate; no deployment.
+   - B v1.0.0: separately approved contact/résumé, full content/employer-policy review, specimen removal, production QA, hostname/SEO and explicit protected manual launch authorization.
 8. PP-008 Continuous development — versioned improvements.
 
 Engineering Lab sequence: EL-001 OEE analyzer; EL-002 cycle-time/bottleneck; EL-003 supplier concept evaluation; EL-004 risk-based validation; EL-005 tolerance stack-up; EL-006 downtime Pareto/root cause; EL-007 traceability; EL-008 manufacturing simulation; EL-009 program risk; EL-010 TPMS/lattice explorer. Priorities may be revised by owner. At least one polished functional tool before launch.

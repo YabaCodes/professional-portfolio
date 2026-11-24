@@ -9,7 +9,7 @@ export const sections = [
   { slug: 'about', label: 'About', title: 'Professional profile', description: 'Professional journey, engineering philosophy and leadership approach.' },
   { slug: 'work', label: 'Selected Work', title: 'Engineering in practice', description: 'Selected work, engineering methodology and authorized professional evidence.' },
   { slug: 'expertise', label: 'Expertise', title: 'Technical and leadership expertise', description: 'Engineering, program delivery, operational excellence and innovation.' },
-  { slug: 'insights', label: 'Insights', title: 'Engineering insights', description: 'Technical articles and independently developed engineering demonstrations.' },
+  { slug: 'insights', label: 'Insights', title: 'Engineering insights', description: 'Independent engineering analysis and evidence-labeled functional demonstrations.' },
   { slug: 'research', label: 'Research', title: 'Research & innovation', description: 'Publicly verified research and innovation records.' },
   { slug: 'contact', label: 'Contact', title: 'Résumé & contact', description: 'Professional contact and résumé information.' },
 ] as const;
