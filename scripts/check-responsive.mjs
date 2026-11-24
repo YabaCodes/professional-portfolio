@@ -243,7 +243,7 @@ try {
         }
         if(route==='insights/lab'){
           assert.equal(await page.locator('main a[href="'+base+'insights/lab/manufacturing-performance-oee-analyzer/"]').count(),1);
-          assert.match(await page.locator('main').innerText(),/functional OEE analyzer/i);
+          assert.match(await page.locator('main').innerText(),/functional independent OEE analyzer/i);
         }
         if(route==='insights/lab/manufacturing-performance-oee-analyzer'){
           const a=page.locator('[data-el001-analyzer]');
