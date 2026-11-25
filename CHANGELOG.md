@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.12.0 — candidate (not released)
+## 0.13.0 — candidate (not released)
+- Prepare production-only static artifact exclusion for the internal design specimen and conditional indexing; prelaunch flag/noindex and manual-only deploy remain unchanged.
+- Add synthetic fixture tests for the fail-closed release transformation, full-page metadata/canonical/privacy readiness audit and production-mode-aware responsive assertions.
+- Strengthen manual release precondition to require exact, separately approved contact/résumé records and a public PDF asset. Do not commit personal information or the résumé.
+- Update separate editorial, confidentiality, accessibility, performance and protected-launch closure register. No Pages activation, production QA certification or deployment.
+
+## 0.12.0 — accepted 2026-11-25 (PR #16; not deployed)
 - Implement approved Lab-led Insights landing page with EL-001 featured, existing research/work navigation and evidence disclosures; no fabricated articles.
 - Remove public Design System navigation while retaining the noindexed internal specimen for prelaunch visual QA; prelaunch footer indicator is conditional on release state.
 - Add fail-closed, empty contact/résumé approval-gated configuration and unit tests; preserve previous content, noindex, privacy guards and manual-only deployment.

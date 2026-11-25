@@ -1,7 +1,18 @@
-import { readFile } from 'node:fs/promises';
-import { requireRelease } from './lib/release-gate.mjs';
-const readJson = async p => JSON.parse(await readFile(p,'utf8'));
-requireRelease(await readJson('config/release.json'),(await readJson('package.json')).version,{
- ref:process.env.GITHUB_REF,sha:process.env.GITHUB_SHA,requestedSha:process.env.REQUESTED_SHA,confirmation:process.env.RELEASE_CONFIRMATION
+import {readFile,access} from 'node:fs/promises';
+import {join} from 'node:path';
+import {requireRelease} from './lib/release-gate.mjs';
+import {resolveContact,resolveResume} from '../src/lib/publication-gates.ts';
+const readJson=async p=>JSON.parse(await readFile(p,'utf8'));
+const release=await readJson('config/release.json');
+requireRelease(release,(await readJson('package.json')).version,{
+ ref:process.env.GITHUB_REF,sha:process.env.GITHUB_SHA,
+ requestedSha:process.env.REQUESTED_SHA,confirmation:process.env.RELEASE_CONFIRMATION
 });
-console.log('Release gate passed. Separate owner and content authorization remains required.');
+const facing=await readJson('config/public-facing.json');
+const contact=resolveContact(facing.contact);
+const resume=resolveResume(facing.resume);
+if(!contact||!resume)throw new Error('Exact public contact and résumé asset authorizations are required before launch');
+const rel=resume.assetPath.slice('/professional-portfolio/'.length);
+if(!rel||resume.assetPath!=='/professional-portfolio/'+rel)throw new Error('Invalid approved résumé asset path');
+await access(join('public',rel));
+console.log('Release preconditions passed. Manual owner/employer authorization and protected environment review remain necessary.');
