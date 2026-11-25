@@ -7,6 +7,7 @@ import AxeBuilder from '@axe-core/playwright';
 const root = path.resolve('dist');
 const release=JSON.parse(await readFile('config/release.json','utf8'));
 const production=release.publicationEnabled===true;
+const publication=JSON.parse(await readFile('config/public-facing.json','utf8'));
 const base = '/professional-portfolio/';
 const competencyMap={"COMP-001":["CS-001"],"COMP-002":["CS-001","CS-004","CRED-002","PAT-001"],"COMP-003":["CS-001"],"COMP-004":["CS-001","CS-003"],"COMP-005":["CS-003","CRED-003"],"COMP-006":["CS-001","CS-003"],"COMP-007":["CS-001","CS-003"],"COMP-008":["CS-001","CS-003"],"COMP-009":["CS-003"],"COMP-010":["CS-002","EL-001"],"COMP-011":["CS-002"],"COMP-012":["CS-002","CRED-004"],"COMP-013":["CS-004","CRED-001","PUB-001","PUB-002"],"COMP-014":["CS-004","CRED-001","PUB-001","PUB-002","PUB-003"],"COMP-015":["CS-004","CS-002","PUB-001","PUB-002"],"COMP-016":["CS-004","PUB-001","PUB-002","PUB-003","PAT-001"]};
 const caseRoutes={"CS-001":"requirements-to-manufacturing-readiness","CS-002":"engineering-for-manufacturing-performance","CS-003":"leading-complex-engineering-programs","CS-004":"advanced-lattice-structures"};
@@ -99,7 +100,7 @@ try {
         else assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex, nofollow',route);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > document.documentElement.clientWidth),false,route);
         const links = await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
-        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || (href.startsWith('https://') && ['doi.org','orcid.org','patents.google.com','patentimages.storage.googleapis.com'].includes(new URL(href).hostname))),route+' base path');
+        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || (href.startsWith('https://') && ['doi.org','orcid.org','patents.google.com','patentimages.storage.googleapis.com'].includes(new URL(href).hostname)) || (production && href===publication.contact.href)),route+' base path');
         if(route !== 'design-system') {
           assert.ok(await page.locator('meta[name="description"]').getAttribute('content'),route);
           assert.ok(await page.locator('meta[property="og:title"]').getAttribute('content'),route);
@@ -224,13 +225,24 @@ try {
         if(route==='contact'){
           assert.equal(await page.locator('h1').innerText(),'Connect on engineering, technology and delivery.');
           assert.match(await page.locator('main').innerText(),/new product introduction/i);
-          assert.equal(await page.locator('[data-contact-state="pending-approval"]').count(),1);
-          assert.equal(await page.locator('[data-resume-state="pending-approval"]').count(),1);
-          assert.equal(await page.locator('main a[href^="mailto:"]').count(),0);
-          assert.equal(await page.locator('main a[href^="tel:"]').count(),0);
-          assert.equal(await page.locator('main a[href*="linkedin.com"]').count(),0);
-          assert.equal(await page.locator('main a[download]').count(),0);
-          assert.equal(await page.locator('main a[href$=".pdf"]').count(),0);
+          if(production){
+            assert.equal(publication.contact.status,'approved');
+            assert.equal(publication.resume.status,'approved');
+            assert.equal(await page.locator('[data-contact-state="approved"]').count(),1);
+            assert.equal(await page.locator('[data-resume-state="approved"]').count(),1);
+            assert.equal(await page.locator('[data-approved-contact-link]').getAttribute('href'),publication.contact.href);
+            assert.equal(await page.locator('[data-approved-resume-link]').getAttribute('href'),publication.resume.assetPath);
+            assert.equal(await page.locator('[data-approved-resume-link]').getAttribute('download'),'');
+            assert.equal(await page.locator('[data-contact-state="pending-approval"],[data-resume-state="pending-approval"]').count(),0);
+          }else{
+            assert.equal(await page.locator('[data-contact-state="pending-approval"]').count(),1);
+            assert.equal(await page.locator('[data-resume-state="pending-approval"]').count(),1);
+            assert.equal(await page.locator('main a[href^="mailto:"]').count(),0);
+            assert.equal(await page.locator('main a[href^="tel:"]').count(),0);
+            assert.equal(await page.locator('main a[href*="linkedin.com"]').count(),0);
+            assert.equal(await page.locator('main a[download]').count(),0);
+            assert.equal(await page.locator('main a[href$=".pdf"]').count(),0);
+          }
           assert.equal(await page.locator('main form').count(),0);
           const navigation=page.locator('[data-contact-navigation]');
           assert.deepEqual(await navigation.locator('a').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href'))),[base+'work/',base+'about/',base+'research/']);

@@ -28,6 +28,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:links
       - run: npm run test:responsive
+      - run: npm run test:performance
       - name: Verify dependency manifests unchanged
         run: git diff --exit-code -- package.json package-lock.json
       - name: Upload design specimen screenshots
@@ -46,5 +47,7 @@ jobs:
             test-results/insights-*.png
             test-results/mvp-audit.json
             test-results/production-prep-audit.json
+            test-results/performance-diagnostics.json
+            test-results/release-review-*.png
           if-no-files-found: error
           retention-days: 14

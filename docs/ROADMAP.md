@@ -20,7 +20,8 @@
 6. PP-006 Engineering demonstrations — EL-001 v0.11.0 accepted; other independent tools optional, individually reviewed.
 7. PP-007 Launch preparation and publication:
    - A v0.12.0: prelaunch gap closure (Insights, editorial consistency, privacy-gated contact/résumé placeholders, QA and blocker register) — accepted; no deployment.
-   - B.1 v0.13.0: publication content & production readiness, non-sensitive preparatory code, asset filtering/metadata audits, owner approval gates — scope approved, candidate; no deployment.
+   - B.1 v0.13.0: publication content & production readiness, non-sensitive preparatory code, asset filtering/metadata audits, owner approval gates — accepted; no deployment.
+   - B.1 Final QA v0.14.0: release pipeline parity, production-aware content/privacy assertions, lab performance diagnostics and final handoff — engineering candidate, owner acceptance pending.
    - B.2 v1.0.0: separately authorized final contact/résumé, production QA and release configuration, hostname/SEO, protected manual launch.
 8. PP-008 Continuous development — versioned improvements.
 

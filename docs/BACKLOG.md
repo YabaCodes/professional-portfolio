@@ -21,3 +21,7 @@
 - [x] PP-007A: accepted v0.12.0, PR #16 merged, final CI #46 passed; no deployment.
 - PP-007B.1: approved non-sensitive publication/production readiness code candidate v0.13.0; CI and owner acceptance pending.
 - PP-007B.2: separately authorize exact contact and résumé public files, production SEO/specimen exclusion, manual accessibility, device and performance checks, Pages environment protection and deployment. These are NOT complete.
+
+- [x] PP-007B.1: accepted v0.13.0, PR #17 merged, CI #48 passed; no deployment.
+- PP-007B.1 Final QA v0.14.0: automated release parity, privacy/build/metadata regression and Chromium lab diagnostics, review PR/CI pending.
+- Outstanding owner decisions: exact contact and résumé for public Git, policy/claim and physical assistive-device checks, approved Pages environment and explicit Gate C production authorization.

@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.13.0 — candidate (not released)
+## 0.14.0 — candidate (not released)
+- Make integrated content/privacy regression fail closed in both prelaunch and separately authorized production release states; preserve all accepted evidence and synthetic labels.
+- Add contact/résumé production-mode browser assertions and release-workflow parity contract; the manual deployment job now runs MVP/metadata, privacy, links, accessibility and local lab diagnostics.
+- Record mobile/desktop Chromium timing/resource evidence and preview screenshots without claiming field Core Web Vitals or manual screen-reader certification.
+- Document remaining exact personal-content, production-hostname, real device, employer-policy and manual Pages launch approvals. No contact addresses, PDFs, personal data, Pages activation or deployment.
+
+## 0.13.0 — accepted 2026-11-25 (PR #17; not deployed)
 - Prepare production-only static artifact exclusion for the internal design specimen and conditional indexing; prelaunch flag/noindex and manual-only deploy remain unchanged.
 - Add synthetic fixture tests for the fail-closed release transformation, full-page metadata/canonical/privacy readiness audit and production-mode-aware responsive assertions.
 - Strengthen manual release precondition to require exact, separately approved contact/résumé records and a public PDF asset. Do not commit personal information or the résumé.
