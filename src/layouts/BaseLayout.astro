@@ -6,6 +6,7 @@ import '../styles/global.css';
 import Header from '../components/shell/Header.astro';
 import Footer from '../components/shell/Footer.astro';
 import { identity, sitePath, routeHref } from '../lib/site';
+import release from '../../config/release.json';
 interface Props {
   title: string;
   description: string;
@@ -21,7 +22,7 @@ const canonicalUrl = Astro.site ? new URL(routeHref(route), Astro.site).href : u
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
+    {!release.publicationEnabled && <meta name="robots" content="noindex, nofollow" />}
     <meta name="description" content={description} />
     <meta name="theme-color" content="#101E2A" />
     <title>{documentTitle}</title>

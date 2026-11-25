@@ -5,6 +5,8 @@ import path from 'node:path';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 const root = path.resolve('dist');
+const release=JSON.parse(await readFile('config/release.json','utf8'));
+const production=release.publicationEnabled===true;
 const base = '/professional-portfolio/';
 const competencyMap={"COMP-001":["CS-001"],"COMP-002":["CS-001","CS-004","CRED-002","PAT-001"],"COMP-003":["CS-001"],"COMP-004":["CS-001","CS-003"],"COMP-005":["CS-003","CRED-003"],"COMP-006":["CS-001","CS-003"],"COMP-007":["CS-001","CS-003"],"COMP-008":["CS-001","CS-003"],"COMP-009":["CS-003"],"COMP-010":["CS-002","EL-001"],"COMP-011":["CS-002"],"COMP-012":["CS-002","CRED-004"],"COMP-013":["CS-004","CRED-001","PUB-001","PUB-002"],"COMP-014":["CS-004","CRED-001","PUB-001","PUB-002","PUB-003"],"COMP-015":["CS-004","CS-002","PUB-001","PUB-002"],"COMP-016":["CS-004","PUB-001","PUB-002","PUB-003","PAT-001"]};
 const caseRoutes={"CS-001":"requirements-to-manufacturing-readiness","CS-002":"engineering-for-manufacturing-performance","CS-003":"leading-complex-engineering-programs","CS-004":"advanced-lattice-structures"};
@@ -87,13 +89,14 @@ try {
     await page.evaluate(()=>document.activeElement?.blur());
     await page.screenshot({path:`test-results/design-${width}.png`,fullPage:true});
     if (width === 390 || width === 1440) {
-      const routes = ['about','work','work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance','work/leading-complex-engineering-programs','work/advanced-lattice-structures','expertise','insights','research','contact','insights/lab','insights/lab/manufacturing-performance-oee-analyzer','design-system'];
+      const routes = ['about','work','work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance','work/leading-complex-engineering-programs','work/advanced-lattice-structures','expertise','insights','research','contact','insights/lab','insights/lab/manufacturing-performance-oee-analyzer',...(production?[]:['design-system'])];
       const origin = `http://127.0.0.1:${server.address().port}`;
       for (const route of routes) {
         const response = await page.goto(origin + base + route + '/', {waitUntil:'networkidle'});
         assert.equal(response.status(),200,route);
         assert.equal(await page.locator('h1').count(),1,route);
-        assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex, nofollow',route);
+        if(production) assert.equal(await page.locator('meta[name="robots"]').count(),0,route+' must be indexable');
+        else assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex, nofollow',route);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > document.documentElement.clientWidth),false,route);
         const links = await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
         assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || (href.startsWith('https://') && ['doi.org','orcid.org','patents.google.com','patentimages.storage.googleapis.com'].includes(new URL(href).hostname))),route+' base path');
@@ -212,7 +215,7 @@ try {
         }
         if(route!=='design-system'){
           assert.equal(await page.locator('footer a[href="'+base+'design-system/"]').count(),0);
-          assert.equal(await page.locator('footer [data-prelaunch-footer-notice]').count(),1);
+          assert.equal(await page.locator('footer [data-prelaunch-footer-notice]').count(),production?0:1);
           const footerCta=page.locator('footer [data-contact-callout]');
           assert.equal(await footerCta.getAttribute('href'),base+'contact/');
           const footerBox=await footerCta.boundingBox();

@@ -18,8 +18,9 @@
 | PP-005E | Accepted 2026-11-23; PR #13 merged; CI passed |
 | PP-005F | Accepted 2026-11-23; PR #14 merged; CI #38 passed |
 | PP-006 / EL-001 | Accepted 2026-11-24; PR #15 merged, CI #43 passed |
-| PP-007A | v0.12.0 candidate, editorial review approved; CI/owner acceptance pending |
-| PP-007B / PP-008 | Planned |
+| PP-007A | Accepted 2026-11-25; PR #16 merged; CI #46 passed |
+| PP-007B.1 | v0.13.0 candidate, scope review approved; CI and owner acceptance pending |
+| PP-007B.2 / PP-008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
 
@@ -80,3 +81,7 @@ PP-006 / EL-001: scope review v1.0 approved all eight components. v0.11.0 candid
 PP-006 / EL-001 accepted: final head 6c037dd2bcadce70ee41fb7824f4ca97aa75ebe1, CI #43 (45181903529) success. Owner merged PR #15 (ba6bba7ce703b106a511e2d86ab4b5405a72661f) and deleted branch. v0.11.0 accepted, no deployment.
 
 PP-007A: 2026-11-24 editorial review v1.0 approved all seven areas without corrections; v0.12.0 candidate. Focus: approved Insights landing with EL-001 and no invented articles, public navigation/metadata consistency, internal design-specimen isolation, typed fail-closed contact/résumé gates with no actual destinations, prelaunch audit and PP-007B closure ledger. AC-01–13 in docs/PP_007A_READINESS.md. Final CI and owner acceptance pending. The deployment gate and noindex remain disabled; not launch-ready.
+
+PP-007A v0.12.0 accepted: final PR head f79db8a2ebc29ddc5944e38cc19bc7f08ba340e7, CI #46 (45420996762) success; owner merged PR #16 at c4170ee8234385a7843905fab3dbb4e4fd297fa6 and deleted branch. No deployment.
+
+PP-007B.1 2026-11-25: S01–07, Gates A/B/C, AC-01–16 and B01–05 approved as non-sensitive preparation. v0.13.0 candidate. Production-only specimen filtering and indexing transition prepared but disabled; current build remains noindex, contact/resume null/pending, Pages off. Expanded automated metadata/indexing and privacy audits plus final production closure register. CI and owner review pending. Private item-level Git-publication approvals and PP-007B.2 launch are separate decisions. See docs/PP_007B1_PRODUCTION_READINESS.md.
