@@ -1,6 +1,6 @@
 {
   "name": "professional-portfolio",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -18,7 +18,8 @@
     "test:build": "node scripts/check-build.mjs",
     "test:links": "node scripts/check-links.mjs",
     "test:mvp": "node scripts/check-mvp.mjs",
-    "test:production-prep": "node scripts/check-production-prep.mjs"
+    "test:production-prep": "node scripts/check-production-prep.mjs",
+    "test:performance": "node scripts/check-performance.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "5.3.0",

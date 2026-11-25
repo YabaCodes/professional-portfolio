@@ -19,7 +19,8 @@
 | PP-005F | Accepted 2026-11-23; PR #14 merged; CI #38 passed |
 | PP-006 / EL-001 | Accepted 2026-11-24; PR #15 merged, CI #43 passed |
 | PP-007A | Accepted 2026-11-25; PR #16 merged; CI #46 passed |
-| PP-007B.1 | v0.13.0 candidate, scope review approved; CI and owner acceptance pending |
+| PP-007B.1 | Accepted 2026-11-25; PR #17 merged, CI #48 passed |
+| PP-007B.1 / Final QA | v0.14.0 candidate; CI and owner review pending |
 | PP-007B.2 / PP-008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
@@ -85,3 +86,7 @@ PP-007A: 2026-11-24 editorial review v1.0 approved all seven areas without corre
 PP-007A v0.12.0 accepted: final PR head f79db8a2ebc29ddc5944e38cc19bc7f08ba340e7, CI #46 (45420996762) success; owner merged PR #16 at c4170ee8234385a7843905fab3dbb4e4fd297fa6 and deleted branch. No deployment.
 
 PP-007B.1 2026-11-25: S01–07, Gates A/B/C, AC-01–16 and B01–05 approved as non-sensitive preparation. v0.13.0 candidate. Production-only specimen filtering and indexing transition prepared but disabled; current build remains noindex, contact/resume null/pending, Pages off. Expanded automated metadata/indexing and privacy audits plus final production closure register. CI and owner review pending. Private item-level Git-publication approvals and PP-007B.2 launch are separate decisions. See docs/PP_007B1_PRODUCTION_READINESS.md.
+
+PP-007B.1 v0.13.0 accepted: owner merged PR #17 at 3c79a79b2e067bbf75e9f2e588b93999763f7ae3, deleted branch, CI #48 (45516467006) success. No deployment. Contact and résumé remain null/pending.
+
+PP-007B.1 Final QA v0.14.0 candidate: production-aware MVP/privacy regression and release pipeline parity, local Chromium performance diagnostics, browser contact/resume production-mode assertions, static metadata and release runbook. Owner directed completion of remaining engineering-side tasks. No personal details, employer data, release activation or deployment authorized. See docs/PP_007B1_FINAL_QA.md.

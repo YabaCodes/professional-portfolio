@@ -39,9 +39,14 @@ jobs:
       - run: npm run test:design
       - run: npm run build
       - run: npm run test:build
+      - run: npm run test:mvp
+      - run: npm run test:production-prep
       - run: npx playwright install --with-deps chromium
       - run: npm run test:links
       - run: npm run test:responsive
+      - run: npm run test:performance
+      - name: Verify source and dependency manifests unchanged
+        run: git diff --exit-code -- package.json package-lock.json config/release.json config/public-facing.json
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
