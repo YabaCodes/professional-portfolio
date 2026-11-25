@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.14.0 — candidate (not released)
+## 0.14.1 — candidate (not released)
+- Publish only the explicitly owner-approved LinkedIn Contact destination `https://www.linkedin.com/in/yabam`, with approved label `Connect on LinkedIn`, as a public-repository item.
+- Update prelaunch privacy, release-contract and responsive/axe regression checks to permit this exact link and continue rejecting other contact destinations and all résumé assets.
+- Preserve disabled Pages deployment, `noindex, nofollow`, empty résumé approval fields, employer confidentiality and separate owner merge authorization. No website deployment.
+
+## 0.14.0 — accepted 2026-11-25 (PR #18; not deployed)
 - Make integrated content/privacy regression fail closed in both prelaunch and separately authorized production release states; preserve all accepted evidence and synthetic labels.
 - Add contact/résumé production-mode browser assertions and release-workflow parity contract; the manual deployment job now runs MVP/metadata, privacy, links, accessibility and local lab diagnostics.
 - Record mobile/desktop Chromium timing/resource evidence and preview screenshots without claiming field Core Web Vitals or manual screen-reader certification.

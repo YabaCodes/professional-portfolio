@@ -1,9 +1,9 @@
 {
   "contact": {
-    "status": "pending",
-    "label": null,
-    "href": null,
-    "approvalReference": null
+    "status": "approved",
+    "label": "Connect on LinkedIn",
+    "href": "https://www.linkedin.com/in/yabam",
+    "approvalReference": "PP-007B-LINKEDIN-001"
   },
   "resume": {
     "status": "pending",

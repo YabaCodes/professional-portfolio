@@ -2,7 +2,7 @@
 
 Static-first professional portfolio for Yeabsra Mekdim.
 
-**Status:** v0.14.0 PP-007B.1 final QA candidate. v0.13.0 PP-007B.1 accepted; website not deployed.
+**Status:** v0.14.1 exact-item LinkedIn contact publication candidate. v0.14.0 Final Engineering QA accepted; website not deployed.
 
 ## Development
 Use Node.js 24 LTS (`nvm use`). After dependencies are locked, run `npm ci`.
@@ -23,7 +23,7 @@ Project Pages base: `/professional-portfolio`. Manual-only deployment workflow c
 
 Career, credentials, all four case studies, sixteen competency groups, three public research records and one granted US patent contain approved wording. No independent Insights articles have been authorized; accepted functional synthetic EL-001 is the featured Lab demonstration. Add only externally reviewed and authorized public records; do not insert private draft data. See docs/CONTENT_GOVERNANCE.md and docs/ARCHITECTURE.md. CS-002 includes an independent percentage-factor OEE preview; CS-003 includes a hypothetical readiness assessment, not release authorization. The full time/count-based EL-001 analyzer is accepted as a separate independent tool (v0.11.0), with synthetic inputs and no employer data.
 
-**Contact & résumé:** no personal contact destinations, email addresses, professional profile links, résumé PDF or contact form have been published. The prelaunch Contact page is an editorial presentation; separate item-level approval is required for any real destination or file. Publication gates are held in config/public-facing.json with null pending destinations; item-level approval is required for changes. See docs/PP_007B1_FINAL_QA.md for production-aware regression and final release handoff, and PP_007B1_PRODUCTION_READINESS.md for the original scope;  earlier PP-005F/EL-001 documents remain historical. The site is **not launch ready**. No Pages activation or deployment is authorized.
+**Contact & résumé:** the portfolio owner has explicitly approved **only** the LinkedIn URL `https://www.linkedin.com/in/yabam` and the Contact page label **Connect on LinkedIn** for inclusion in this public repository. There is no approved email address, phone, alternative profile, résumé PDF, download link or contact form. The résumé configuration remains null/pending. Any contact change or new asset requires a separate exact-item approval. See `docs/PP_007B2_LINKEDIN_APPROVAL.md` and `config/public-facing.json`. See docs/PP_007B1_FINAL_QA.md for production-aware regression and final release handoff, and PP_007B1_PRODUCTION_READINESS.md for the original scope;  earlier PP-005F/EL-001 documents remain historical. The site is **not launch ready**. No Pages activation or deployment is authorized.
 
 Publication is disabled in config/release.json; do not activate Pages or invoke deployment before explicit launch approval. See docs/RELEASE_PROCESS.md. Size budgets are not measured Core Web Vitals.
 

@@ -10,9 +10,9 @@ const prelaunch=!release.publicationEnabled;
 if(prelaunch){
  assert.deepEqual(release,{publicationEnabled:false,approvalReference:null,releaseVersion:null});
  assert.deepEqual(facing,{
-  contact:{status:'pending',label:null,href:null,approvalReference:null},
+  contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
- },'Current prelaunch repository contains no authorized personal destinations or résumé');
+ },'Current prelaunch repository must contain only the approved LinkedIn destination, with résumé still blocked');
 }
 async function collect(dir){
  const entries=[];
@@ -77,7 +77,7 @@ const result={
  releaseEnabled:release.publicationEnabled,mode:prelaunch?'prelaunch':'production',
  checkedContentPages:contentPages.length,
  designSpecimenInStaticOutput:pages.includes('design-system/index.html'),
- metadataAndIndexingChecks:'passed',privacyGate:prelaunch?'locked':'approval-reference-required',
+ metadataAndIndexingChecks:'passed',privacyGate:prelaunch?'exact-LinkedIn-approved-resume-locked':'approval-reference-required',
  manualAccessibilityTested:false,realCoreWebVitalsMeasured:false,productionHostnameVerified:false,
  launchReady:false,blockingRequirements:blockers,
 };

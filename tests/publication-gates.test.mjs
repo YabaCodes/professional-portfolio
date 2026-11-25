@@ -24,3 +24,17 @@ test('approval schema fails closed on missing approval, dangerous URLs and non-P
  assert.throws(()=>resolveResume({...approved,assetPath:'/professional-portfolio/synthetic.pdf',approvalReference:''}),/asset-level approval/);
  assert.deepEqual(resolveResume({...approved,assetPath:'/professional-portfolio/synthetic.pdf'}),{label:'Synthetic contact',assetPath:'/professional-portfolio/synthetic.pdf'});
 });
+
+test('exact LinkedIn link is an authorized public contact item; résumé remains unapproved',async()=>{
+ const {readFile}=await import('node:fs/promises');
+ const config=JSON.parse(await readFile(new URL('../config/public-facing.json',import.meta.url),'utf8'));
+ assert.deepEqual(config.contact,{
+  status:'approved',
+  label:'Connect on LinkedIn',
+  href:'https://www.linkedin.com/in/yabam',
+  approvalReference:'PP-007B-LINKEDIN-001'
+ });
+ assert.deepEqual(resolveContact(config.contact),{label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam'});
+ assert.deepEqual(config.resume,{status:'pending',label:null,assetPath:null,approvalReference:null});
+ assert.equal(resolveResume(config.resume),null);
+});
