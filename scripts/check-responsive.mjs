@@ -100,7 +100,7 @@ try {
         else assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'),'noindex, nofollow',route);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth > document.documentElement.clientWidth),false,route);
         const links = await page.locator('a[href]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href')));
-        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || (href.startsWith('https://') && ['doi.org','orcid.org','patents.google.com','patentimages.storage.googleapis.com'].includes(new URL(href).hostname)) || (production && href===publication.contact.href)),route+' base path');
+        assert.ok(links.every(href=>href.startsWith('#') || href.startsWith('/professional-portfolio/') || (href.startsWith('https://') && ['doi.org','orcid.org','patents.google.com','patentimages.storage.googleapis.com'].includes(new URL(href).hostname)) || (publication.contact.status==='approved' && href===publication.contact.href)),route+' base path');
         if(route !== 'design-system') {
           assert.ok(await page.locator('meta[name="description"]').getAttribute('content'),route);
           assert.ok(await page.locator('meta[property="og:title"]').getAttribute('content'),route);
@@ -235,13 +235,21 @@ try {
             assert.equal(await page.locator('[data-approved-resume-link]').getAttribute('download'),'');
             assert.equal(await page.locator('[data-contact-state="pending-approval"],[data-resume-state="pending-approval"]').count(),0);
           }else{
-            assert.equal(await page.locator('[data-contact-state="pending-approval"]').count(),1);
+            assert.equal(publication.contact.status,'approved');
+            assert.equal(publication.resume.status,'pending');
+            assert.equal(await page.locator('[data-contact-state="approved"]').count(),1);
             assert.equal(await page.locator('[data-resume-state="pending-approval"]').count(),1);
+            const approvedLink=page.locator('[data-approved-contact-link]');
+            assert.equal(await approvedLink.count(),1);
+            assert.equal(await approvedLink.getAttribute('href'),'https://www.linkedin.com/in/yabam');
+            assert.equal((await approvedLink.innerText()).replace(/\s*→\s*$/,'').trim(),'Connect on LinkedIn');
+            assert.equal(await page.locator('main a[href*="linkedin.com"]').count(),1);
             assert.equal(await page.locator('main a[href^="mailto:"]').count(),0);
             assert.equal(await page.locator('main a[href^="tel:"]').count(),0);
-            assert.equal(await page.locator('main a[href*="linkedin.com"]').count(),0);
             assert.equal(await page.locator('main a[download]').count(),0);
             assert.equal(await page.locator('main a[href$=".pdf"]').count(),0);
+            const contactBox=await approvedLink.boundingBox();
+            assert.ok(contactBox&&contactBox.width>=44&&contactBox.height>=44,'Approved LinkedIn contact target');
           }
           assert.equal(await page.locator('main form').count(),0);
           const navigation=page.locator('[data-contact-navigation]');

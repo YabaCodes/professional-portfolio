@@ -20,7 +20,8 @@
 | PP-006 / EL-001 | Accepted 2026-11-24; PR #15 merged, CI #43 passed |
 | PP-007A | Accepted 2026-11-25; PR #16 merged; CI #46 passed |
 | PP-007B.1 | Accepted 2026-11-25; PR #17 merged, CI #48 passed |
-| PP-007B.1 / Final QA | v0.14.0 candidate; CI and owner review pending |
+| PP-007B.1 / Final QA | Accepted 2026-11-25; PR #18 merged, CI #50 passed |
+| PP-007B.2 / LinkedIn contact | v0.14.1 candidate; exact URL and label approved for public repository; CI and owner merge pending |
 | PP-007B.2 / PP-008 | Planned |
 
 PP-004A: all 11 criteria met; final head 99a5d22c7628f901a56cae2f1755d7fed182be51, CI run 44996785562 success. Owner merged PR #1 (1b748968a528fcd4240ae1ce785ce10aacd953bb) and deleted branch. No deployment or unapproved content.
@@ -90,3 +91,7 @@ PP-007B.1 2026-11-25: S01–07, Gates A/B/C, AC-01–16 and B01–05 approved as
 PP-007B.1 v0.13.0 accepted: owner merged PR #17 at 3c79a79b2e067bbf75e9f2e588b93999763f7ae3, deleted branch, CI #48 (45516467006) success. No deployment. Contact and résumé remain null/pending.
 
 PP-007B.1 Final QA v0.14.0 candidate: production-aware MVP/privacy regression and release pipeline parity, local Chromium performance diagnostics, browser contact/resume production-mode assertions, static metadata and release runbook. Owner directed completion of remaining engineering-side tasks. No personal details, employer data, release activation or deployment authorized. See docs/PP_007B1_FINAL_QA.md.
+
+PP-007B.1 Final QA v0.14.0 accepted: owner merged PR #18 at 6b216e8d1a700003b7cdd3646c272ffb30c2ff14 and deleted branch, CI #50 (45520372516) success. No launch authorized.
+
+PP-007B.2 LinkedIn exact-item approval (2026-11-25): only https://www.linkedin.com/in/yabam with visible label 'Connect on LinkedIn' authorized for public Git inclusion on the Contact page. v0.14.1 candidate; update fail-closed link and browser tests. Résumé/email/phone/alternate profiles and deployment remain unapproved. See docs/PP_007B2_LINKEDIN_APPROVAL.md. Draft PR and owner merge acceptance remain separate.

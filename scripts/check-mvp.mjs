@@ -25,10 +25,10 @@ const approvedContact=resolveContact(publicFacing.contact);
 const approvedResume=resolveResume(publicFacing.resume);
 if(prelaunch){
  assert.deepEqual(publicFacing,{
-  contact:{status:'pending',label:null,href:null,approvalReference:null},
+  contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
- },'Prelaunch must contain no personal destinations or résumé metadata');
- assert.equal(approvedContact,null);
+ },'Prelaunch must contain only the exact separately approved LinkedIn destination and no résumé');
+ assert.deepEqual(approvedContact,{label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam'});
  assert.equal(approvedResume,null);
 }else {
  assert.ok(approvedContact&&approvedResume,'Production requires separately approved contact and résumé');
@@ -67,10 +67,14 @@ const contact=await html('contact');
 assert.match(contact,/Connect on engineering, technology and delivery\./);
 assert.doesNotMatch(contact,/<form\b/i,'No unapproved data collection/contact form');
 if(prelaunch){
- assert.equal((contact.match(/data-contact-state="pending-approval"/g)??[]).length,1);
+ assert.equal((contact.match(/data-contact-state="approved"/g)??[]).length,1);
  assert.equal((contact.match(/data-resume-state="pending-approval"/g)??[]).length,1);
- assert.doesNotMatch(contact,/<a\b[^>]*href="(?:mailto:|tel:|https:\/\/(?:www\.)?linkedin\.com)/i);
- assert.doesNotMatch(contact,/<a\b[^>]*(?:\bdownload\b|href="[^"]*\.(?:pdf|docx)(?:[#?][^"]*)?")/i);
+ assert.match(contact,/data-approved-contact-link/);
+ assert.ok(contact.includes('href="'+approvedContact.href+'"'),'The exact approved LinkedIn URL must render');
+ assert.ok(contact.includes('Connect on LinkedIn'),'The exact approved link label must render');
+ assert.doesNotMatch(contact,/<a\b[^>]*href="(?:mailto:|tel:)/i,'Unapproved direct email/phone');
+ assert.doesNotMatch(contact,/<a\b[^>]*(?:\bdownload\b|href="[^"]*\.(?:pdf|docx)(?:[#?][^"]*)?")/i,'Unapproved résumé link');
+ assert.equal((contact.match(/href="https:\/\/www\.linkedin\.com\/in\/yabam"/g)??[]).length,1,'One explicitly approved LinkedIn destination only');
 }else{
  assert.match(contact,/data-contact-state="approved"/);
  assert.match(contact,/data-resume-state="approved"/);
@@ -103,7 +107,7 @@ const robots=await readFile(path.join(root,'robots.txt'),'utf8');
 if(prelaunch)assert.match(robots,/Disallow:\s*\//);
 else {assert.match(robots,/Allow:\s*\//);assert.doesNotMatch(robots,/Disallow:\s*\//)}
 const blockers=[
- {id:'B01-CONTACT',status:prelaunch?'pending-item-approval':'structure-verified-manual-approval-required'},
+ {id:'B01-CONTACT',status:'exact-LinkedIn-destination-approved-for-public-repository'},
  {id:'B02-RESUME',status:prelaunch?'pending-exact-pdf':'structure-verified-manual-document-review-required'},
  {id:'B03-SPECIMEN',status:prelaunch?'production-filter-prepared':'excluded-from-artifact'},
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
@@ -112,7 +116,7 @@ const blockers=[
 const report={milestone:'PP-007B.1 / final QA',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
  websiteDeployedByThisWorkflow:false,approvedEvidence:counts,primaryRoutes:routes.length,
- releaseEnabled:release.publicationEnabled,contactAssetState:prelaunch?'pending':'approved-structure-only',
+ releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-approved-for-public-repository',
  resumeAssetState:prelaunch?'pending':'approved-structure-only',
  automatedContentAndPrivacyChecksPassed:true,
  manualAccessibilityCertified:false,fieldCoreWebVitalsVerified:false,

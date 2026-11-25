@@ -35,7 +35,7 @@ test('current publishing flag remains disabled; production preparation may never
  const [manifest,publicFacing]=await Promise.all([read('config/release.json'),read('config/public-facing.json')]);
  assert.deepEqual(JSON.parse(manifest),{publicationEnabled:false,approvalReference:null,releaseVersion:null});
  assert.deepEqual(JSON.parse(publicFacing),{
-  contact:{status:'pending',label:null,href:null,approvalReference:null},
+  contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
  });
 });
