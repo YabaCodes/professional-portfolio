@@ -25,7 +25,7 @@ test('approval schema fails closed on missing approval, dangerous URLs and non-P
  assert.deepEqual(resolveResume({...approved,assetPath:'/professional-portfolio/synthetic.pdf'}),{label:'Synthetic contact',assetPath:'/professional-portfolio/synthetic.pdf'});
 });
 
-test('exact LinkedIn link is an authorized public contact item; résumé remains unapproved',async()=>{
+test('exact LinkedIn link and email address are authorized public contact items; résumé remains unapproved',async()=>{
  const {readFile}=await import('node:fs/promises');
  const config=JSON.parse(await readFile(new URL('../config/public-facing.json',import.meta.url),'utf8'));
  assert.deepEqual(config.contact,{
@@ -35,6 +35,14 @@ test('exact LinkedIn link is an authorized public contact item; résumé remains
   approvalReference:'PP-007B-LINKEDIN-001'
  });
  assert.deepEqual(resolveContact(config.contact),{label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam'});
+ assert.deepEqual(config.email,{
+  status:'approved',
+  label:'Email me',
+  href:'mailto:yeabcb@gmail.com',
+  approvalReference:'PP-008-EMAIL-001'
+ });
+ assert.deepEqual(resolveContact(config.email),{label:'Email me',href:'mailto:yeabcb@gmail.com'});
+ assert.deepEqual(Object.keys(config),['contact','email','resume'],'No other public contact item may be added without approval');
  assert.deepEqual(config.resume,{status:'pending',label:null,assetPath:null,approvalReference:null});
  assert.equal(resolveResume(config.resume),null);
 });

@@ -37,7 +37,7 @@ const canonicalUrl = Astro.site ? new URL(routeHref(route), Astro.site).href : u
   </head>
   <body class="flex min-h-screen flex-col">
     <a class="skip-link action-link" href="#main-content">Skip to content</a>
-    <Header current={route} />
+    <Header />
     <main id="main-content" tabindex="-1" class="flex-1">
       <slot />
     </main>

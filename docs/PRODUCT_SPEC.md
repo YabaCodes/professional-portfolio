@@ -3,6 +3,9 @@
 ## Purpose
 A premium public professional portfolio that complements a résumé and LinkedIn profile, demonstrates engineering capability through evidence, supports cross-industry career opportunities and evolves independently of any employer.
 
+## Current scope (PP-008, 2026-11-26)
+One-page résumé. Title line: Senior Process Development Engineer · SHL Medical · Taiwan. Headline: From requirements definition to mass production. Sections: hero with at-a-glance facts; how I deliver a machine (six phases: define the requirements, align with the supplier, review the design, track the build, prove the machine, support validation and production); throughout every project; experience; skills; education and certifications; publications and patent; contact (LinkedIn, email). No case studies, project examples, competency pages, articles or lab tools. Exact wording: src/lib/portfolio.ts. The PP-001/PP-002 sections below are kept as history and are superseded where they conflict.
+
 ## Approved identity (PP-001)
 Name: Yeabsra Mekdim. Positioning: Engineering & Technical Program Leadership.
 Headline: Engineering complex systems. Delivering meaningful outcomes.

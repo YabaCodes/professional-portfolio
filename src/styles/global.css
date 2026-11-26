@@ -85,9 +85,34 @@
   .technical-surface .action-link:hover { background: var(--color-ivory); }
   .technical-caption { font-family: var(--font-technical); font-size: .75rem; color: var(--color-slate); line-height: 1.6; }
   .technical-surface .technical-caption { color: var(--color-structural); }
+  .ghost-link {
+    display: inline-flex; min-height: 44px; min-width: 44px; align-items: center; justify-content: center;
+    padding: 10px 20px; border: 1px solid var(--color-slate); border-radius: 4px; font-weight: 500;
+    text-decoration: none; transition: border-color var(--transition-duration), background-color var(--transition-duration);
+  }
+  .technical-surface .ghost-link { color: var(--color-ivory); }
+  .technical-surface .ghost-link:hover { border-color: var(--color-jade); background: var(--color-graphite); }
+  .action-link, .ghost-link { transition-property: background-color, border-color, color, transform; }
+  .action-link:active, .ghost-link:active { transform: scale(.97); }
   .skip-link { position: absolute; z-index: 10; top: 8px; left: 8px; transform: translateY(-200%); }
   .skip-link:focus { position: relative; top: auto; left: auto; transform: none; align-self: flex-start; margin: 8px; }
   .skip-link:focus-visible { outline: 3px solid var(--color-deep-teal); outline-offset: 3px; }
+}
+/* Motion: progressive enhancement only. Content is fully visible without it. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  @supports (interpolate-size: allow-keywords) and selector(::details-content) {
+    :root { interpolate-size: allow-keywords; }
+    details.phase::details-content { block-size: 0; overflow: clip; transition: block-size .3s ease, content-visibility .3s allow-discrete; }
+    details.phase[open]::details-content { block-size: auto; }
+  }
+  @supports (animation-timeline: view()) {
+    [data-reveal] { animation: reveal-up linear both; animation-timeline: view(); animation-range: entry 0% entry 30%; }
+  }
+}
+@keyframes reveal-up { from { opacity: 0; translate: 0 24px; } to { opacity: 1; translate: 0 0; } }
+@media print {
+  [data-reveal] { animation: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }

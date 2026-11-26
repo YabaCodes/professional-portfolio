@@ -1,5 +1,5 @@
 import { z } from 'astro/zod';
-import { evidenceTypes,pillarNames,caseSections,validPartialDate } from './model';
+import { evidenceTypes,pillarNames,validPartialDate } from './model';
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(v=>{
   const d=new Date(v+'T00:00:00Z'); return Number.isFinite(d.valueOf()) && d.toISOString().slice(0,10)===v;
 },'Invalid calendar date');
@@ -12,39 +12,7 @@ const base = z.object({
   publicationStatus:z.literal('approved'),published:date,revised:date.optional(),
   relatedIds:z.array(text).default([]),references:z.array(ref).default([]),
 }).strict();
-const caseFields = Object.fromEntries(caseSections.map(s=>[s.id,text])) as Record<typeof caseSections[number]['id'],typeof text>;
 export const schemas = {
-  'case-studies':base.extend({
-    sections:z.object(caseFields).strict(),
-    role:text,context:text,period:text,
-    illustration:z.enum(['lattice','system','performance','leadership']).optional(),
-    methodSteps:z.array(z.object({title:text,description:text}).strict()).default([]),
-    comparison:z.object({
-      title:text,subtitle:text,rows:z.array(z.object({label:text,value:z.number().finite().nonnegative(),approximate:z.boolean()}).strict()).min(1),
-      sourceUrl:z.string().url().refine(v=>/^https:\/\//i.test(v)),note:text,
-    }).strict().refine(v=>v.rows.some(r=>r.value>0),'Comparison must contain a positive value').optional(),
-    contributions:z.array(text).default([]),
-    contributionNote:text.optional(),
-    tradeoffs:z.array(z.object({decision:text,tradeoff:text}).strict()).default([]),
-    technicalExample:z.object({
-      title:text,illustration:z.literal('positioning'),objective:text,
-      concepts:z.tuple([z.object({title:text,description:text}).strict(),z.object({title:text,description:text}).strict()]),
-      interpretation:text,disclosure:text,
-    }).strict().optional(),
-    oeeExample:z.object({
-      title:text,defaults:z.object({availability:z.number().int().min(0).max(100),performance:z.number().int().min(0).max(100),quality:z.number().int().min(0).max(100)}).strict(),
-      disclosure:text,interpretation:text,status:text,
-    }).strict().optional(),
-    readinessExample:z.object({
-      title:text,criteria:z.array(z.object({label:text,maturity:z.number().int().min(0).max(3),mandatory:z.boolean()}).strict()).length(6).refine(items=>new Set(items.map(item=>item.label)).size===items.length,'Duplicate readiness criterion'),
-      disclosure:text,interpretation:text,limitation:text,
-    }).strict().optional(),
-    plannedTools:z.array(z.object({id:z.string().regex(/^EL-[0-9]{3,}$/),title:text,description:text}).strict()).default([]),
-    competencies:z.array(text).default([]),
-  }).refine(v=>!v.comparison||v.references.some(r=>r.url===v.comparison?.sourceUrl),'Comparison source must be a listed reference'),
-  competencies:base,
-  insights:base.extend({body:text}),
-  demonstrations:base.extend({inputs:z.array(text).min(1),outputs:z.array(text).min(1),assumptions:z.array(text).min(1),limitations:z.array(text).min(1),method:text}),
   publications:base.extend({
     authors:z.array(text).min(1),venue:text,year:z.number().int().min(1900).max(2100),
     doi:z.string().regex(/^10\.\d{4,9}\/\S+$/),

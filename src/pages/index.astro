@@ -1,65 +1,223 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ConceptualSystem from '../components/illustrations/ConceptualSystem.astro';
-import CredibilityStrip from '../components/content/CredibilityStrip.astro';
-import { identity,pillars,routeHref } from '../lib/site';
-import {pillarIds} from '../lib/content/expertise';
-import {getCollection} from 'astro:content';
-import {loadCatalog} from '../lib/content/catalog';
-import CaseStudyCards from '../components/content/CaseStudyCards.astro';
+import { getCollection } from 'astro:content';
+import { loadCatalog } from '../lib/content/catalog';
+import { identity } from '../lib/site';
+import { hero, atAGlance, process, phases, practice, experienceHeading, skills, contact, displayDate } from '../lib/portfolio';
+import { approvedContact, approvedEmail, approvedResume } from '../lib/publication';
 await loadCatalog();
-const work=(await getCollection('case-studies')).sort((a,b)=>a.data.id.localeCompare(b.data.id));
+const career = (await getCollection('career')).map(e => e.data).sort((a, b) => b.start.localeCompare(a.start));
+const credentials = (await getCollection('credentials')).map(e => e.data)
+  .sort((a, b) => (a.category === b.category ? b.issued.localeCompare(a.issued) : a.category === 'education' ? -1 : 1));
+const publications = (await getCollection('publications')).map(e => e.data).sort((a, b) => a.year - b.year || a.id.localeCompare(b.id));
+const patents = (await getCollection('patents')).map(e => e.data);
+const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 <BaseLayout title={identity.name} description={identity.introduction} home>
- <section class="technical-surface section-space" aria-labelledby="hero-heading">
-  <div class="page-container editorial-grid items-center" data-grid="responsive">
-   <div class="span-two-thirds">
-    <p class="technical-label mb-6">{identity.positioning}</p>
-    <h1 id="hero-heading" class="hero-title max-w-[16ch]">{identity.headline[0]}<span class="mt-4 block text-jade">{identity.headline[1]}</span></h1>
-    <p class="secondary-text reading-width mt-6">{identity.introduction}</p>
-    <div class="flex flex-wrap gap-4 mt-8">
-     <a href={routeHref('work')} class="action-link">Explore selected work <span aria-hidden="true">→</span></a>
-     <a href={routeHref('about')} class="inline-flex min-h-11 items-center">Professional profile</a>
+  <section class="technical-surface hero" aria-labelledby="hero-heading">
+    <div class="page-container hero-grid">
+      <div class="hero-copy">
+        <p class="technical-label">{hero.titleLine}</p>
+        <h1 id="hero-heading" class="hero-title">{hero.headline}</h1>
+        <p class="hero-intro">{hero.introduction}</p>
+        <div class="button-row">
+          {approvedContact && <a class="action-link" href={approvedContact.href} data-hero-contact>{approvedContact.label} <span aria-hidden="true">→</span></a>}
+          {approvedEmail && <a class="ghost-link" href={approvedEmail.href} data-hero-email>{approvedEmail.label}</a>}
+          {approvedResume && <a class="ghost-link" href={approvedResume.assetPath} download data-hero-resume>{approvedResume.label}</a>}
+        </div>
+      </div>
+      <dl class="glance" aria-label="At a glance">
+        {atAGlance.map(item => <div class="glance-row"><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
+      </dl>
     </div>
-   </div>
-   <ConceptualSystem class="span-one-third"/>
-  </div>
- </section>
- <section class="page-container section-space" aria-labelledby="profile">
-  <div class="editorial-grid items-center">
-   <div class="span-one-third"><p class="technical-label mb-3">01 / Profile</p><h2 id="profile">Yeabsra Mekdim</h2></div>
-   <div class="span-two-thirds"><p class="reading-width">{identity.introduction}</p><a class="inline-flex min-h-11 items-center mt-3" href={routeHref('about')}>About me <span aria-hidden="true">→</span></a></div>
-  </div>
-  <CredibilityStrip/>
- </section>
- <section class="page-container pb-16" aria-labelledby="selected-work">
-  <hr class="rule mb-10"/>
-  <p class="technical-label mb-3">02 / Selected work</p><h2 id="selected-work">Engineering in practice.</h2>
-  <p class="secondary-text mt-4 reading-width">Selected work, engineering methodology and authorized professional evidence.</p>
-  <CaseStudyCards entries={work.slice(0,4)}/>
-  {work.length===0&&<p class="technical-caption mt-5">Case study content is under development and separate review.</p>}
-  <a class="inline-flex min-h-11 items-center mt-5" href={routeHref('work')}>Selected work <span aria-hidden="true">→</span></a>
- </section>
- <section class="page-container pb-16" aria-labelledby="pillars-title">
-  <hr class="rule mb-10"/>
-  <p class="technical-label mb-3">03 / Professional expertise</p><h2 id="pillars-title">Four professional pillars.</h2>
-  <div class="editorial-grid mt-8">{pillars.map((pillar,i)=><div class="span-half border-t border-structural pt-5 pb-4"><p class="technical-label mb-3">{String(i+1).padStart(2,'0')}</p><h3><a href={routeHref('expertise')+'#pillar-'+pillarIds[i]} class="inline-flex min-h-11 min-w-11 items-center">{pillar}</a></h3></div>)}</div>
-  <a class="inline-flex min-h-11 items-center mt-4" href={routeHref('expertise')}>Explore expertise <span aria-hidden="true">→</span></a>
- </section>
- <section class="technical-surface section-space" aria-labelledby="lab">
-  <div class="page-container editorial-grid items-center">
-   <div class="span-two-thirds"><p class="technical-label mb-3">04 / Engineering Lab</p><h2 id="lab">Independent engineering demonstrations.</h2><p class="secondary-text reading-width mt-5">Original engineering tools, transparent assumptions and independently developed demonstrations.</p><a class="action-link mt-6" href={routeHref('insights/lab')}>Explore Engineering Lab <span aria-hidden="true">→</span></a></div>
-   <div class="span-one-third border border-slate p-5"><p class="technical-label">EL-001 / Independent demonstration</p><h3 class="mt-3">Overall Equipment Effectiveness</h3><p class="secondary-text mt-3 text-sm">Interactive OEE analysis with independently defined synthetic scenarios.</p><a class="inline-flex min-h-11 items-center mt-3" href={routeHref("insights/lab/manufacturing-performance-oee-analyzer")}>Open OEE analyzer <span aria-hidden="true">→</span></a></div>
-  </div>
- </section>
- <section class="page-container section-space" aria-labelledby="research">
-  <p class="technical-label mb-3">05 / Research & innovation</p><h2 id="research">Research and intellectual property.</h2>
-  <p class="reading-width mt-5">I have contributed to three academic publications and am a co-inventor of a granted United States patent.</p>
-  <a class="inline-flex min-h-11 items-center mt-5" href={routeHref('research')}>Explore research & innovation <span aria-hidden="true">→</span></a>
- </section>
- <section class="page-container pb-16" aria-labelledby="contact">
-  <hr class="rule mb-10"/><p class="technical-label mb-3">06 / Résumé & contact</p><h2 id="contact">Professional opportunities.</h2>
-  <p class="reading-width secondary-text mt-4">Explore ways to connect around engineering leadership, manufacturing technology and complex technical programs.</p>
-  <a class="action-link mt-6" href={routeHref('contact')}>Résumé & contact <span aria-hidden="true">→</span></a>
- </section>
+  </section>
+
+  <section id="process" class="page-container section-block" aria-labelledby="process-heading" data-reveal>
+    <p class="technical-label">How I work</p>
+    <h2 id="process-heading" class="mt-2">{process.heading}</h2>
+    <p class="secondary-text reading-width mt-3">{process.introduction}</p>
+    <ol class="phase-list mt-8" aria-label="Machine delivery phases">
+      {phases.map((p, i) => (
+        <li data-phase={p.id}>
+          <details class="phase" name="phase" open={i === 0}>
+            <summary class="phase-summary">
+              <span class="phase-num">{pad(i + 1)}</span>
+              <span class="phase-title">{p.title}</span>
+              <span class="phase-line">{p.summary}</span>
+              <span class="phase-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="phase-body">
+              <div class="phase-role"><p class="technical-label">My role</p><p class="mt-2">{p.role}</p></div>
+              <div class="phase-deliver"><p class="technical-label">I deliver</p><p class="mt-2">{p.deliver}</p></div>
+            </div>
+          </details>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="page-container practice-wrap" aria-labelledby="practice-heading" data-reveal>
+    <div class="technical-surface practice">
+      <h2 id="practice-heading" class="technical-label">{practice.label}</h2>
+      <p class="practice-statement">{practice.statement}</p>
+      <ul class="chip-row" aria-label="Standards and practices">
+        {practice.labels.map(label => <li class="chip chip-dark">{label}</li>)}
+      </ul>
+      <div class="practice-docs">
+        <p class="technical-label">Documents I write</p>
+        <p class="secondary-text mt-2">{practice.documents}</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="section-block section-ruled" aria-labelledby="experience-heading" data-reveal>
+    <div class="page-container">
+      <p class="technical-label">Experience</p>
+      <h2 id="experience-heading" class="mt-2">{experienceHeading}</h2>
+      <ol class="role-list mt-8">
+        {career.map(role => (
+          <li class="role" data-record-id={role.id}>
+            <p class="role-dates">{displayDate(role.start)} – {role.end ? displayDate(role.end) : 'now'}</p>
+            <div>
+              <h3 class="role-title">{role.role}</h3>
+              <p class="secondary-text mt-1">{role.summary}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="skills" class="page-container section-block" aria-labelledby="skills-heading" data-reveal>
+    <p class="technical-label">Skills</p>
+    <h2 id="skills-heading" class="mt-2">{skills.heading}</h2>
+    <div class="skill-groups mt-8">
+      {skills.groups.map(group => (
+        <div class="skill-group" data-skill-group={group.group}>
+          <h3 class="skill-name">{group.group}</h3>
+          <ul class="chip-row" aria-label={group.group}>
+            {group.items.map(item => <li class="chip">{item}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="publications" class="section-block section-ruled" aria-labelledby="publications-heading" data-reveal>
+    <div class="page-container credentials-grid">
+      <div>
+        <h2 class="technical-label" id="education-heading">Education and certifications</h2>
+        <ul class="credential-list mt-6" aria-labelledby="education-heading">
+          {credentials.map(c => (
+            <li data-credential-id={c.id}>
+              <p class="credential-title">{c.title}</p>
+              <p class="secondary-text text-sm">{c.issuer} · {c.issued}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="technical-label" id="publications-heading">Publications and patent</h2>
+        <ol class="publication-list mt-6">
+          {publications.map(p => (
+            <li data-publication-id={p.id}>
+              <a class="publication-title" href={'https://doi.org/' + p.doi}>{p.title}</a>
+              <p class="secondary-text text-sm">{p.venue} · {p.year}{p.authorship === 'first-author' ? ' · first author' : ''}</p>
+            </li>
+          ))}
+          {patents.map(p => (
+            <li class="patent" data-patent-id={p.id}>
+              <a class="publication-title" href={'https://patents.google.com/patent/' + p.patentNumber}>{p.title}</a>
+              <p class="secondary-text text-sm">{p.patentNumber.replace(/^US(\d+)B(\d)$/, 'US $1 B$2')} · granted patent · co-inventor</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="technical-surface section-block" aria-labelledby="contact-heading">
+    <div class="page-container contact-row">
+      <div class="reading-width">
+        <h2 id="contact-heading">{contact.heading}</h2>
+        <p class="secondary-text mt-3">{contact.introduction}</p>
+      </div>
+      <div class="button-row">
+        {approvedContact && <a class="action-link" href={approvedContact.href} data-approved-contact-link>{approvedContact.label} <span aria-hidden="true">→</span></a>}
+        {approvedEmail && emailAddress && <a class="ghost-link" href={approvedEmail.href} data-approved-email-link>{emailAddress}</a>}
+        {approvedResume && <a class="ghost-link" href={approvedResume.assetPath} download data-approved-resume-link>{approvedResume.label}</a>}
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(48px, 8vw, 96px); }
+  .hero-grid { display: grid; gap: 40px; align-items: start; }
+  .hero-copy { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+  .hero-title { max-width: 16ch; letter-spacing: -.035em; }
+  .hero-intro { color: var(--color-structural); font-size: clamp(1.05rem, 1rem + .3vw, 1.2rem); max-width: 58ch; }
+  .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .glance { margin: 0; border: 1px solid var(--color-graphite); border-radius: 6px; padding: 4px 20px; }
+  .glance-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--color-graphite); }
+  .glance-row:last-child { border-bottom: 0; }
+  .glance dt { font-family: var(--font-technical); font-size: .8rem; color: var(--color-structural); }
+  .glance dd { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; white-space: nowrap; }
+  @media (min-width: 1024px) { .hero-grid { grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr); gap: 56px; } }
+
+  .section-block { padding-block: clamp(56px, 7vw, 88px); }
+  .section-ruled { border-top: 1px solid var(--color-structural); }
+
+  .phase-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--color-structural); }
+  .phase-list > li { border-bottom: 1px solid var(--color-structural); }
+  .phase-summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 2.5rem minmax(0, 1fr) 1.5rem; gap: 4px 16px; align-items: baseline; padding: 20px 0; min-height: 44px; }
+  .phase-summary::-webkit-details-marker { display: none; }
+  .phase-num { font-family: var(--font-technical); font-size: .85rem; color: var(--color-deep-teal); }
+  .phase-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 1.05rem + .4vw, 1.4rem); color: var(--color-navy); letter-spacing: -.02em; }
+  .phase-line { grid-column: 2 / 3; color: var(--color-slate); }
+  .phase-icon { grid-column: 3; grid-row: 1; justify-self: end; width: 14px; height: 14px; position: relative; }
+  .phase-icon::before, .phase-icon::after { content: ''; position: absolute; inset: 6px 0 auto; height: 2px; background: var(--color-deep-teal); transition: transform var(--transition-duration); }
+  .phase-icon::after { transform: rotate(90deg); }
+  .phase[open] .phase-icon::after { transform: rotate(0deg); }
+  .phase-summary:hover .phase-title { color: var(--color-deep-teal); }
+  .phase-body { display: grid; gap: 20px; padding: 0 0 28px; }
+  .phase-deliver { background: #fff; border: 1px solid var(--color-structural); border-radius: 6px; padding: 16px 18px; align-self: start; }
+  @media (min-width: 768px) {
+    .phase-summary { grid-template-columns: 3rem minmax(0, 16rem) minmax(0, 1fr) 1.5rem; }
+    .phase-line { grid-column: 3; grid-row: 1; }
+    .phase-icon { grid-column: 4; }
+    .phase-body { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 24px 40px; padding-left: calc(3rem + 16px); }
+  }
+
+  .practice-wrap { padding-bottom: clamp(56px, 7vw, 88px); }
+  .practice { border-radius: 6px; padding: clamp(24px, 4vw, 36px); display: flex; flex-direction: column; gap: 18px; }
+  .practice-statement { max-width: 72ch; font-size: 1.05rem; }
+  .practice-docs { border-top: 1px solid var(--color-slate); padding-top: 18px; }
+
+  .chip-row { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-size: .875rem; line-height: 1.4; background: #fff; border: 1px solid var(--color-structural); border-radius: 999px; padding: 5px 12px; }
+  .chip-dark { background: transparent; border-color: var(--color-slate); color: var(--color-ivory); }
+
+  .role-list { list-style: none; margin: 0; padding: 0; }
+  .role { display: grid; gap: 4px 32px; padding: 20px 0; border-top: 1px solid var(--color-structural); }
+  .role:last-child { border-bottom: 1px solid var(--color-structural); }
+  .role-dates { font-family: var(--font-technical); font-size: .875rem; color: var(--color-slate); }
+  .role-title { font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem); }
+  @media (min-width: 768px) { .role { grid-template-columns: 12rem minmax(0, 1fr); } }
+
+  .skill-groups { display: flex; flex-direction: column; }
+  .skill-group { display: grid; gap: 10px 32px; padding: 18px 0; border-top: 1px solid var(--color-structural); }
+  .skill-name { font-size: 1.05rem; }
+  @media (min-width: 768px) { .skill-group { grid-template-columns: 14rem minmax(0, 1fr); } }
+
+  .credentials-grid { display: grid; gap: 40px; }
+  @media (min-width: 1024px) { .credentials-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 56px; } }
+  .credential-list, .publication-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .credential-title { font-weight: 600; color: var(--color-navy); }
+  .publication-title { font-weight: 600; color: var(--color-navy); display: inline; }
+  .publication-title:hover { color: var(--color-deep-teal); }
+  .patent { border-top: 1px solid var(--color-structural); padding-top: 16px; }
+
+  .contact-row { display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
+</style>

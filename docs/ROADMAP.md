@@ -24,6 +24,7 @@
    - B.1 Final QA v0.14.0: release pipeline parity, production-aware content/privacy assertions, lab performance diagnostics and final handoff — accepted; no deployment.
    - B.2 item-level LinkedIn v0.14.1: exact owner-approved public contact link and label, résumé still pending; candidate review PR, no launch authorization.
    - B.2 v1.0.0: separately authorized final contact/résumé, production QA and release configuration, hostname/SEO, protected manual launch.
-8. PP-008 Continuous development — versioned improvements.
+8. PP-008 One-page résumé overhaul v0.15.0 — candidate (2026-11-26): owner-directed restructure around the standard machine-delivery procedure; case studies, Expertise, Insights and Engineering Lab retired.
+9. PP-009 Continuous development — versioned improvements.
 
-Engineering Lab sequence: EL-001 OEE analyzer; EL-002 cycle-time/bottleneck; EL-003 supplier concept evaluation; EL-004 risk-based validation; EL-005 tolerance stack-up; EL-006 downtime Pareto/root cause; EL-007 traceability; EL-008 manufacturing simulation; EL-009 program risk; EL-010 TPMS/lattice explorer. Priorities may be revised by owner. At least one polished functional tool before launch.
+Engineering Lab sequence (retired from the public site by PP-008; kept for reference): EL-001 OEE analyzer; EL-002 cycle-time/bottleneck; EL-003 supplier concept evaluation; EL-004 risk-based validation; EL-005 tolerance stack-up; EL-006 downtime Pareto/root cause; EL-007 traceability; EL-008 manufacturing simulation; EL-009 program risk; EL-010 TPMS/lattice explorer. Priorities may be revised by owner. At least one polished functional tool before launch.

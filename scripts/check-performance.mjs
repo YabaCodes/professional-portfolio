@@ -17,8 +17,7 @@ const server=createServer(async(req,res)=>{
   res.writeHead(200,{'Content-Type':types[path.extname(file)]??'application/octet-stream'}).end(await readFile(file));
  }catch{res.writeHead(404).end()}
 });
-const routes=['','about','work','expertise','insights','research','contact',
- 'insights/lab/manufacturing-performance-oee-analyzer'];
+const routes=[''];
 const widths=[390,1440];
 await mkdir('test-results',{recursive:true});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -71,16 +70,13 @@ try{
    assert.equal(performance.pageOverflow,false,route+' responsive layout overflow');
    assert.equal(performance.localFontReady,true,route+' local fonts ready');
    assert.ok(performance.localResourceCount<120,route+' unexpected resource explosion');
-   if(['','contact','insights/lab/manufacturing-performance-oee-analyzer'].includes(route)){
-    const name=route===''?'home':route==='contact'?'contact':'engineering-lab';
-    await page.screenshot({path:'test-results/release-review-'+name+'-'+width+'.png',fullPage:true});
-   }
+   await page.screenshot({path:'test-results/release-review-home-'+width+'.png',fullPage:true});
    results.push({route:route||'home',viewportWidth:width,...performance});
    console.log(width+'px / '+(route||'home')+': browser performance diagnostic PASS');
   }
   await ctx.close();
  }
- const data={milestone:'PP-007B.1 / final QA',source:'headless Chromium local built site',
+ const data={milestone:'PP-008 / one-page résumé',source:'headless Chromium local built site',
   labOnly:true,fieldCoreWebVitals:false,lighthouseAudit:false,physicalDeviceTested:false,
   manualScreenReaderTested:false,results};
  await writeFile('test-results/performance-diagnostics.json',JSON.stringify(data,null,2)+'\n');
