@@ -36,6 +36,7 @@ test('current publishing flag remains disabled; production preparation may never
  assert.deepEqual(JSON.parse(manifest),{publicationEnabled:false,approvalReference:null,releaseVersion:null});
  assert.deepEqual(JSON.parse(publicFacing),{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
+  email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
  });
 });

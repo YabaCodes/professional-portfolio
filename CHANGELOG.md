@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.14.1 — candidate (not released)
+## 0.15.0 — candidate (not released)
+- Rebuild the site as a one-page résumé centred on the owner's standard machine-delivery procedure: hero, six-phase accordion, practice band, experience, grouped skills, education, certifications, publications, patent and contact.
+- Remove all individual project examples: the Work page and four case studies, Expertise, Insights, Engineering Lab and the OEE analyzer, plus the separate About, Research and Contact pages, their collections, components, engineering modules and unit tests.
+- Publish the owner-approved wording (PP-008-COPY-001) and add the approved email contact item `yeabcb@gmail.com` (PP-008-EMAIL-001). Résumé remains pending.
+- Remove approval and evidence labels from visitor-facing text; add CSS-only motion with reduced-motion support; close the mobile menu after a section is chosen.
+- Rewrite build, MVP, production-prep, responsive/axe and performance checks for the single page. Release flag, noindex and manual-only deployment unchanged. No deployment.
+
+## 0.14.1 — accepted 2026-11-25 (PR #19; not deployed)
 - Publish only the explicitly owner-approved LinkedIn Contact destination `https://www.linkedin.com/in/yabam`, with approved label `Connect on LinkedIn`, as a public-repository item.
 - Update prelaunch privacy, release-contract and responsive/axe regression checks to permit this exact link and continue rejecting other contact destinations and all résumé assets.
 - Preserve disabled Pages deployment, `noindex, nofollow`, empty résumé approval fields, employer confidentiality and separate owner merge authorization. No website deployment.

@@ -5,6 +5,12 @@
     "href": "https://www.linkedin.com/in/yabam",
     "approvalReference": "PP-007B-LINKEDIN-001"
   },
+  "email": {
+    "status": "approved",
+    "label": "Email me",
+    "href": "mailto:yeabcb@gmail.com",
+    "approvalReference": "PP-008-EMAIL-001"
+  },
   "resume": {
     "status": "pending",
     "label": null,

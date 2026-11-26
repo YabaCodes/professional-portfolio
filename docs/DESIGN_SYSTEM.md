@@ -22,3 +22,5 @@ Targets: WCAG 2.2 AA; review 320/390/768/1024/1440px; LCP <=2.5s, CLS <=0.1, INP
 
 ## Implementation — PP-004B
 Use Fontsource packages bundled as local assets by Astro/Vite; Manrope Variable and Inter Variable for display/body and IBM Plex Mono 400 for metadata. The package lock records exact versions and SIL OFL-1.1 license metadata; build copies each package's OFL notice to dist/licenses. No runtime external font service. Central tokens and responsive utilities live in src/styles/global.css. Browser screenshot artifacts are development specimens, not approved publication content.
+## One-page résumé — PP-008
+Homepage sequence: dark hero with title line, headline, introduction, actions and an at-a-glance list; six-phase delivery accordion; dark practice band; experience list; grouped skill chips; education, certifications, publications and patent; dark contact band; minimal footer. Palette, type, grid, 44 px targets and contrast rules unchanged. Motion: 150–250 ms press and hover feedback, a 300 ms phase-open height transition and a scroll-driven fade-in, all disabled under reduced motion and invisible to print.

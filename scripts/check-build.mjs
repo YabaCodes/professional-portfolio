@@ -19,7 +19,9 @@ async function walk(dir) {
 const files=await walk(root);
 const byPath=new Map();
 for(const file of files)byPath.set(path.relative(root,file).split(path.sep).join('/'),file);
-const required=['index.html','about/index.html','work/index.html','expertise/index.html','insights/index.html','research/index.html','contact/index.html','insights/lab/index.html','insights/lab/manufacturing-performance-oee-analyzer/index.html','favicon.svg','robots.txt'];
+const required=['index.html','favicon.svg','robots.txt'];
+const retired=['about','work','expertise','insights','research','contact'];
+for(const route of retired)assert.ok(![...byPath.keys()].some(p=>p.startsWith(route+'/')),'Retired route still built: '+route);
 for(const name of required)assert.ok(byPath.has(name),'Missing build output '+name);
 const htmlFiles=[...byPath].filter(([p])=>p.endsWith('.html'));
 const forbidden=/(^|\/)(\.env(?:\.|$)|\.git(?:\/|$)|node_modules(?:\/|$)|package(?:-lock)?\.json$|AGENTS\.md$)|\.(?:pem|key|map|zip|csv|xlsx|docx|step|stp|dwg|dxf)$/i;

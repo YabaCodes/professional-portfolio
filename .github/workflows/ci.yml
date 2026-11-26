@@ -35,16 +35,10 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: design-specimen-screenshots
+          name: portfolio-review-screenshots
           path: |
-            test-results/design-*.png
-            test-results/profile-*.png
-            test-results/case-study-*.png
-            test-results/expertise-*.png
-            test-results/research-*.png
-            test-results/contact-*.png
-            test-results/engineering-lab-*.png
-            test-results/insights-*.png
+            test-results/home-*.png
+            test-results/design-specimen-*.png
             test-results/mvp-audit.json
             test-results/production-prep-audit.json
             test-results/performance-diagnostics.json

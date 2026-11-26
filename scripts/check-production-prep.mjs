@@ -11,8 +11,9 @@ if(prelaunch){
  assert.deepEqual(release,{publicationEnabled:false,approvalReference:null,releaseVersion:null});
  assert.deepEqual(facing,{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
+  email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
- },'Current prelaunch repository must contain only the approved LinkedIn destination, with résumé still blocked');
+ },'Current prelaunch repository must contain only the approved LinkedIn and email destinations, with résumé still blocked');
 }
 async function collect(dir){
  const entries=[];
@@ -26,7 +27,7 @@ async function collect(dir){
 const assets=await collect(root);
 const pages=assets.filter(p=>p.endsWith('/index.html')||p==='index.html').sort();
 const contentPages=pages.filter(p=>p!=='design-system/index.html');
-assert.equal(contentPages.length,13,'Expected approved publication-safe route inventory');
+assert.deepEqual(contentPages,['index.html'],'Expected the single approved one-page résumé');
 assert.ok(prelaunch?pages.includes('design-system/index.html'):!pages.includes('design-system/index.html'),
  'Design specimen must exist only in the prelaunch QA artifact');
 assert.ok(!assets.some(file=>/\.(?:pdf|docx|xlsx|csv|key|pem)$/i.test(file)) || !prelaunch,
@@ -66,18 +67,18 @@ const robots=await readFile(path.join(root,'robots.txt'),'utf8');
 if(prelaunch)assert.match(robots,/Disallow:\s*\//);
 else {assert.match(robots,/Allow:\s*\//);assert.doesNotMatch(robots,/Disallow:\s*\//)}
 const blockers=[
- {id:'B01-CONTACT',owner:'Portfolio owner',status:facing.contact.status==='approved'?'approved-scope-only':'open',closure:'Exact publication-approved destination, label, review reference and rendered link audit'},
+ {id:'B01-CONTACT',owner:'Portfolio owner',status:facing.contact.status==='approved'&&facing.email?.status==='approved'?'approved-scope-only':'open',closure:'Exact publication-approved destination, label, review reference and rendered link audit'},
  {id:'B02-RESUME',owner:'Portfolio owner',status:facing.resume.status==='approved'?'approved-scope-only':'open',closure:'Exact PDF approval, source confidentiality, metadata/links and file integrity review'},
  {id:'B03-SPECIMEN',owner:'Engineering reviewer',status:prelaunch?'production-filter-prepared':'production-exclusion-verified',closure:'Approved production artifact must omit internal specimen; final build review'},
  {id:'B04-MANUAL-QA',owner:'Portfolio owner and engineering reviewer',status:'open',closure:'Real keyboard, assistive technology, physical-device, claim review and measured performance evidence'},
  {id:'B05-LAUNCH',owner:'Portfolio owner',status:'not-authorized',closure:'Final main SHA/version, hosting protection, launch approval and authorized manual dispatch'}
 ];
 const result={
- milestone:'PP-007B.1',candidateVersion:pkg.version,
+ milestone:'PP-008',candidateVersion:pkg.version,
  releaseEnabled:release.publicationEnabled,mode:prelaunch?'prelaunch':'production',
  checkedContentPages:contentPages.length,
  designSpecimenInStaticOutput:pages.includes('design-system/index.html'),
- metadataAndIndexingChecks:'passed',privacyGate:prelaunch?'exact-LinkedIn-approved-resume-locked':'approval-reference-required',
+ metadataAndIndexingChecks:'passed',privacyGate:prelaunch?'exact-LinkedIn-and-email-approved-resume-locked':'approval-reference-required',
  manualAccessibilityTested:false,realCoreWebVitalsMeasured:false,productionHostnameVerified:false,
  launchReady:false,blockingRequirements:blockers,
 };

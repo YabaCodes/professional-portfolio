@@ -10,8 +10,9 @@ requireRelease(release,(await readJson('package.json')).version,{
 });
 const facing=await readJson('config/public-facing.json');
 const contact=resolveContact(facing.contact);
+const email=resolveContact(facing.email);
 const resume=resolveResume(facing.resume);
-if(!contact||!resume)throw new Error('Exact public contact and résumé asset authorizations are required before launch');
+if(!contact||!email||!resume)throw new Error('Exact public contact, email and résumé asset authorizations are required before launch');
 const rel=resume.assetPath.slice('/professional-portfolio/'.length);
 if(!rel||resume.assetPath!=='/professional-portfolio/'+rel)throw new Error('Invalid approved résumé asset path');
 await access(join('public',rel));

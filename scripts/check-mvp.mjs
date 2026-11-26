@@ -2,14 +2,11 @@ import assert from 'node:assert/strict';
 import {mkdir,readFile,readdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {resolveContact,resolveResume} from '../src/lib/publication-gates.ts';
+import {hero,phases,practice,skills,contact as contactCopy} from '../src/lib/portfolio.ts';
 
 const root=path.resolve('dist');
-const routes=['','about','work','expertise','insights','insights/lab','research','contact',
- 'work/requirements-to-manufacturing-readiness','work/engineering-for-manufacturing-performance',
- 'work/leading-complex-engineering-programs','work/advanced-lattice-structures',
- 'insights/lab/manufacturing-performance-oee-analyzer'];
+const routes=[''];
 const html=route=>readFile(path.join(root,route,'index.html'),'utf8');
-const pages=await Promise.all(routes.map(html));
 const readJson=async file=>JSON.parse(await readFile(file,'utf8'));
 const [release,publicFacing,packageInfo]=await Promise.all([
  readJson('config/release.json'),readJson('config/public-facing.json'),readJson('package.json')]);
@@ -22,68 +19,60 @@ else {
  assert.ok(Number(packageInfo.version.split('.')[0])>=1,'Production version must be v1.x+');
 }
 const approvedContact=resolveContact(publicFacing.contact);
+const approvedEmail=resolveContact(publicFacing.email);
 const approvedResume=resolveResume(publicFacing.resume);
 if(prelaunch){
  assert.deepEqual(publicFacing,{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
+  email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
- },'Prelaunch must contain only the exact separately approved LinkedIn destination and no résumé');
- assert.deepEqual(approvedContact,{label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam'});
+ },'Prelaunch must contain only the separately approved LinkedIn and email destinations and no résumé');
  assert.equal(approvedResume,null);
-}else {
- assert.ok(approvedContact&&approvedResume,'Production requires separately approved contact and résumé');
-}
-for(const [index,page] of pages.entries()){
- if(prelaunch)assert.match(page,/name="robots" content="noindex, nofollow"/,'Missing prelaunch noindex '+routes[index]);
- else assert.doesNotMatch(page,/<meta[^>]+name="robots"[^>]+noindex/i,'Production page must not be noindexed: '+routes[index]);
- assert.match(page,/data-contact-callout/,'Missing contact navigation: '+routes[index]);
- if(prelaunch)assert.match(page,/data-prelaunch-footer-notice/,'Missing review disclosure: '+routes[index]);
- else assert.doesNotMatch(page,/data-prelaunch-footer-notice|Development specimen|Not authorized for production deployment/i,
-  'Production may not contain development labels: '+routes[index]);
- assert.doesNotMatch(page,/href="\/professional-portfolio\/design-system\//,'Internal fixture link forbidden: '+routes[index]);
-}
-const readCollection=async name=>readJson('src/content/'+name+'.json');
-const [cases,competencies,publications,patents,demonstrations,insights]=await Promise.all(
- ['case-studies','competencies','publications','patents','demonstrations','insights'].map(readCollection));
-const counts={caseStudies:cases.length,competencies:competencies.length,
- publications:publications.length,patents:patents.length,
- demonstrations:demonstrations.length,insights:insights.length};
-assert.deepEqual(counts,{caseStudies:4,competencies:16,publications:3,
- patents:1,demonstrations:1,insights:0},'Approved evidence inventory changed');
-assert.equal(demonstrations[0].id,'EL-001');
-assert.equal(demonstrations[0].evidenceType,'independent-demonstration');
-assert.deepEqual(demonstrations[0].relatedIds,['CS-002']);
-const lab=await html('insights/lab/manufacturing-performance-oee-analyzer');
-assert.match(lab,/data-el001-analyzer/);
-assert.match(lab,/Synthetic production inputs/);
-assert.match(lab,/Independent technical demonstration/);
-assert.match(lab,/Illustrative or simulated results/);
-const insightsPage=await html('insights');
-assert.match(insightsPage,/Exploring engineering through evidence and experimentation\./);
-assert.match(insightsPage,/data-featured-demonstration="EL-001"/);
-assert.match(insightsPage,/data-featured-lab-link/);
-assert.doesNotMatch(insightsPage,/Development specimen|Section foundation|Final professional content has not been approved/);
-const contact=await html('contact');
-assert.match(contact,/Connect on engineering, technology and delivery\./);
-assert.doesNotMatch(contact,/<form\b/i,'No unapproved data collection/contact form');
+}else assert.ok(approvedContact&&approvedEmail&&approvedResume,'Production requires separately approved contact, email and résumé');
+
+const page=await html('');
+const text=page.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g,'').replace(/<[^>]+>/g,' ')
+ .replace(/&amp;/g,'&').replace(/&#39;|&rsquo;/g,'’').replace(/\s+/g,' ');
 if(prelaunch){
- assert.equal((contact.match(/data-contact-state="approved"/g)??[]).length,1);
- assert.equal((contact.match(/data-resume-state="pending-approval"/g)??[]).length,1);
- assert.match(contact,/data-approved-contact-link/);
- assert.ok(contact.includes('href="'+approvedContact.href+'"'),'The exact approved LinkedIn URL must render');
- assert.ok(contact.includes('Connect on LinkedIn'),'The exact approved link label must render');
- assert.doesNotMatch(contact,/<a\b[^>]*href="(?:mailto:|tel:)/i,'Unapproved direct email/phone');
- assert.doesNotMatch(contact,/<a\b[^>]*(?:\bdownload\b|href="[^"]*\.(?:pdf|docx)(?:[#?][^"]*)?")/i,'Unapproved résumé link');
- assert.equal((contact.match(/href="https:\/\/www\.linkedin\.com\/in\/yabam"/g)??[]).length,1,'One explicitly approved LinkedIn destination only');
+ assert.match(page,/name="robots" content="noindex, nofollow"/,'Missing prelaunch noindex');
+ assert.match(page,/data-prelaunch-footer-notice/,'Missing review disclosure');
 }else{
- assert.match(contact,/data-contact-state="approved"/);
- assert.match(contact,/data-resume-state="approved"/);
- assert.ok(contact.includes('href="'+approvedContact.href+'"'),'Exact authorized contact destination missing');
- assert.ok(contact.includes('href="'+approvedResume.assetPath+'"'),'Exact authorized résumé URL missing');
- assert.match(contact,/data-approved-contact-link/);
- assert.match(contact,/data-approved-resume-link/);
- assert.doesNotMatch(contact,/data-contact-state="pending-approval"|data-resume-state="pending-approval"/);
+ assert.doesNotMatch(page,/<meta[^>]+name="robots"[^>]+noindex/i,'Production page must not be noindexed');
+ assert.doesNotMatch(page,/data-prelaunch-footer-notice|Development specimen|Not authorized for production deployment/i,'Production may not contain development labels');
 }
+assert.doesNotMatch(page,/href="\/professional-portfolio\/design-system\//,'Internal fixture link forbidden');
+
+// The approved copy renders exactly once, word for word.
+for(const words of [hero.titleLine,hero.headline,hero.introduction,practice.statement,practice.documents,contactCopy.heading,contactCopy.introduction])
+ assert.ok(text.includes(words),'Approved copy missing: '+words.slice(0,60));
+assert.equal((page.match(/data-phase="/g)??[]).length,6,'Exactly six delivery phases');
+for(const p of phases){
+ for(const words of [p.title,p.summary,p.role,p.deliver])assert.ok(text.includes(words),'Phase copy missing: '+p.id+' '+words.slice(0,40));
+}
+for(const group of skills.groups)for(const item of group.items)assert.ok(text.includes(item),'Skill missing: '+item);
+// Retired content must not return to the public page.
+assert.doesNotMatch(text,/Authorized professional experience|Does not represent actual employer equipment|approved professional channel|not implemented|Selected work|Engineering Lab|OEE analyzer/i,
+ 'Retired labels or retired sections rendered');
+
+// Contact: only the separately approved destinations.
+assert.doesNotMatch(page,/<form\b/i,'No data collection or contact form');
+assert.doesNotMatch(page,/<a\b[^>]*href="tel:/i,'No phone number');
+const mailto=[...page.matchAll(/<a\b[^>]*href="(mailto:[^"]+)"/gi)].map(m=>m[1]);
+const linkedin=[...page.matchAll(/<a\b[^>]*href="(https:\/\/(?:www\.)?linkedin\.com[^"]*)"/gi)].map(m=>m[1]);
+assert.deepEqual([...new Set(mailto)],[approvedEmail.href],'Only the approved email address may render');
+assert.deepEqual([...new Set(linkedin)],[approvedContact.href],'Only the approved LinkedIn profile may render');
+assert.match(page,/data-approved-contact-link/);
+assert.match(page,/data-approved-email-link/);
+if(prelaunch)assert.doesNotMatch(page,/<a\b[^>]*(?:\bdownload\b|href="[^"]*\.(?:pdf|docx)(?:[#?][^"]*)?")/i,'Unapproved résumé link');
+else assert.ok(page.includes('href="'+approvedResume.assetPath+'"'),'Exact authorized résumé URL missing');
+
+const readCollection=async name=>readJson('src/content/'+name+'.json');
+const [publications,patents,credentials,career]=await Promise.all(['publications','patents','credentials','career'].map(readCollection));
+const counts={publications:publications.length,patents:patents.length,credentials:credentials.length,career:career.length};
+assert.deepEqual(counts,{publications:3,patents:1,credentials:4,career:4},'Approved record inventory changed');
+for(const record of [...publications,...patents,...credentials,...career])
+ assert.ok(page.includes('data-'+({PUB:'publication',PAT:'patent',CRED:'credential',CAR:'record'})[record.id.split('-')[0]]+'-id="'+record.id+'"'),'Record not rendered: '+record.id);
+
 async function collect(dir){
  const names=[];
  for(const item of await readdir(dir,{withFileTypes:true})){
@@ -96,27 +85,24 @@ async function collect(dir){
 const assets=await collect(root);
 const pdfs=assets.filter(p=>/\.pdf$/i.test(p));
 if(prelaunch)assert.deepEqual(pdfs,[],'No unapproved PDF may enter a prelaunch artifact');
-else {
- const approvedPath=approvedResume.assetPath.replace(/^\/professional-portfolio\//,'');
- assert.deepEqual(pdfs,[approvedPath],'Exactly one approved public résumé PDF may be deployed');
-}
-assert.equal(assets.includes('design-system/index.html'),prelaunch,
- 'Internal specimen must exist only in prelaunch build');
+else assert.deepEqual(pdfs,[approvedResume.assetPath.replace(/^\/professional-portfolio\//,'')],'Exactly one approved public résumé PDF may be deployed');
+const pages=assets.filter(p=>p.endsWith('index.html')).sort();
+assert.deepEqual(pages,prelaunch?['design-system/index.html','index.html']:['index.html'],'One public page; the internal specimen only in prelaunch');
 if(prelaunch)assert.match(await html('design-system'),/noindex, nofollow/);
 const robots=await readFile(path.join(root,'robots.txt'),'utf8');
 if(prelaunch)assert.match(robots,/Disallow:\s*\//);
 else {assert.match(robots,/Allow:\s*\//);assert.doesNotMatch(robots,/Disallow:\s*\//)}
 const blockers=[
- {id:'B01-CONTACT',status:'exact-LinkedIn-destination-approved-for-public-repository'},
+ {id:'B01-CONTACT',status:'exact-LinkedIn-and-email-approved-for-public-repository'},
  {id:'B02-RESUME',status:prelaunch?'pending-exact-pdf':'structure-verified-manual-document-review-required'},
  {id:'B03-SPECIMEN',status:prelaunch?'production-filter-prepared':'excluded-from-artifact'},
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
  {id:'B05-LAUNCH',status:'owner-release-authorization-required'}
 ];
-const report={milestone:'PP-007B.1 / final QA',version:packageInfo.version,
+const report={milestone:'PP-008 / one-page résumé',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
- websiteDeployedByThisWorkflow:false,approvedEvidence:counts,primaryRoutes:routes.length,
- releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-approved-for-public-repository',
+ websiteDeployedByThisWorkflow:false,approvedRecords:counts,primaryRoutes:routes.length,deliveryPhases:phases.length,
+ releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-and-email-approved-for-public-repository',
  resumeAssetState:prelaunch?'pending':'approved-structure-only',
  automatedContentAndPrivacyChecksPassed:true,
  manualAccessibilityCertified:false,fieldCoreWebVitalsVerified:false,
@@ -124,4 +110,4 @@ const report={milestone:'PP-007B.1 / final QA',version:packageInfo.version,
 await mkdir('test-results',{recursive:true});
 await writeFile('test-results/mvp-audit.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report,null,2));
-console.log('Evidence inventory, contact/résumé authorization states, prelaunch/production assets and disclosure gates PASS');
+console.log('Approved copy, record inventory, contact authorization, prelaunch/production assets and disclosure gates PASS');
