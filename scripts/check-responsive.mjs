@@ -134,7 +134,7 @@ try {
     await minTarget(contact.locator('a'),'contact');
     await minTarget(page.locator('section[aria-labelledby="hero-heading"] a'),'hero action');
     assert.equal(await page.locator('main form, a[href^="tel:"]').count(),0);
-    if (production) assert.equal(await page.locator('[data-approved-resume-link]').getAttribute('href'),publication.resume.assetPath);
+    if (production && publication.resume.status === 'approved') assert.equal(await page.locator('[data-approved-resume-link]').getAttribute('href'),publication.resume.assetPath);
     else assert.equal(await page.locator('a[download], a[href$=".pdf"]').count(),0);
     assert.equal(await page.locator('footer [data-prelaunch-footer-notice]').count(),production?0:1);
     assert.equal(await page.locator('a[href*="/design-system/"]').count(),0);

@@ -12,8 +12,11 @@ const facing=await readJson('config/public-facing.json');
 const contact=resolveContact(facing.contact);
 const email=resolveContact(facing.email);
 const resume=resolveResume(facing.resume);
-if(!contact||!email||!resume)throw new Error('Exact public contact, email and résumé asset authorizations are required before launch');
-const rel=resume.assetPath.slice('/professional-portfolio/'.length);
-if(!rel||resume.assetPath!=='/professional-portfolio/'+rel)throw new Error('Invalid approved résumé asset path');
-await access(join('public',rel));
+if(!contact||!email)throw new Error('Exact public contact and email authorizations are required before launch');
+// Résumé is optional since PP-010-001 (owner launched without one); if configured, its exact PDF must exist.
+if(resume){
+ const rel=resume.assetPath.slice('/professional-portfolio/'.length);
+ if(!rel||resume.assetPath!=='/professional-portfolio/'+rel)throw new Error('Invalid approved résumé asset path');
+ await access(join('public',rel));
+}
 console.log('Release preconditions passed. Manual owner/employer authorization and protected environment review remain necessary.');

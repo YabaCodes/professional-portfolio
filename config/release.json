@@ -1,5 +1,5 @@
 {
-  "publicationEnabled": false,
-  "approvalReference": null,
-  "releaseVersion": null
+  "publicationEnabled": true,
+  "approvalReference": "PP-010-001",
+  "releaseVersion": "1.0.0"
 }

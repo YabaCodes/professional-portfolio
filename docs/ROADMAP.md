@@ -25,7 +25,8 @@
    - B.2 item-level LinkedIn v0.14.1: exact owner-approved public contact link and label, résumé still pending; candidate review PR, no launch authorization.
    - B.2 v1.0.0: separately authorized final contact/résumé, production QA and release configuration, hostname/SEO, protected manual launch.
 8. PP-008 One-page résumé overhaul v0.15.0 — accepted 2026-11-26 (PR #20): owner-directed restructure around the standard machine-delivery procedure; case studies, Expertise, Insights and Engineering Lab retired.
-9. PP-009 Cleanroom redesign and accurate content v0.16.0 — candidate (2026-11-27).
-10. PP-010 Continuous development — versioned improvements.
+9. PP-009 Cleanroom redesign and accurate content v0.16.0 — accepted 2026-11-27 (PR #21).
+10. PP-010 Launch v1.0.0 on GitHub Pages — release PR (2026-11-27).
+11. PP-011 Continuous development — versioned improvements.
 
 Engineering Lab sequence (retired from the public site by PP-008; kept for reference): EL-001 OEE analyzer; EL-002 cycle-time/bottleneck; EL-003 supplier concept evaluation; EL-004 risk-based validation; EL-005 tolerance stack-up; EL-006 downtime Pareto/root cause; EL-007 traceability; EL-008 manufacturing simulation; EL-009 program risk; EL-010 TPMS/lattice explorer. Priorities may be revised by owner. At least one polished functional tool before launch.

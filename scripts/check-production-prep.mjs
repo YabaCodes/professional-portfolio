@@ -7,13 +7,14 @@ const facing=JSON.parse(await readFile('config/public-facing.json','utf8'));
 const pkg=JSON.parse(await readFile('package.json','utf8'));
 assert.equal(typeof release.publicationEnabled,'boolean','Publication flag must be explicitly boolean');
 const prelaunch=!release.publicationEnabled;
-if(prelaunch){
- assert.deepEqual(release,{publicationEnabled:false,approvalReference:null,releaseVersion:null});
+if(prelaunch)assert.deepEqual(release,{publicationEnabled:false,approvalReference:null,releaseVersion:null});
+else assert.deepEqual(release,{publicationEnabled:true,approvalReference:'PP-010-001',releaseVersion:pkg.version});
+{
  assert.deepEqual(facing,{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
   email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
- },'Current prelaunch repository must contain only the approved LinkedIn and email destinations, with résumé still blocked');
+ },'Only the approved LinkedIn and email destinations; résumé not published');
 }
 async function collect(dir){
  const entries=[];
@@ -68,13 +69,13 @@ if(prelaunch)assert.match(robots,/Disallow:\s*\//);
 else {assert.match(robots,/Allow:\s*\//);assert.doesNotMatch(robots,/Disallow:\s*\//)}
 const blockers=[
  {id:'B01-CONTACT',owner:'Portfolio owner',status:facing.contact.status==='approved'&&facing.email?.status==='approved'?'approved-scope-only':'open',closure:'Exact publication-approved destination, label, review reference and rendered link audit'},
- {id:'B02-RESUME',owner:'Portfolio owner',status:facing.resume.status==='approved'?'approved-scope-only':'open',closure:'Exact PDF approval, source confidentiality, metadata/links and file integrity review'},
+ {id:'B02-RESUME',owner:'Portfolio owner',status:facing.resume.status==='approved'?'approved-scope-only':prelaunch?'open':'launch-without-resume-approved',closure:'Exact PDF approval, source confidentiality, metadata/links and file integrity review'},
  {id:'B03-SPECIMEN',owner:'Engineering reviewer',status:prelaunch?'production-filter-prepared':'production-exclusion-verified',closure:'Approved production artifact must omit internal specimen; final build review'},
  {id:'B04-MANUAL-QA',owner:'Portfolio owner and engineering reviewer',status:'open',closure:'Real keyboard, assistive technology, physical-device, claim review and measured performance evidence'},
- {id:'B05-LAUNCH',owner:'Portfolio owner',status:'not-authorized',closure:'Final main SHA/version, hosting protection, launch approval and authorized manual dispatch'}
+ {id:'B05-LAUNCH',owner:'Portfolio owner',status:prelaunch?'not-authorized':'authorized-'+release.approvalReference,closure:'Final main SHA/version, hosting protection, launch approval and authorized manual dispatch'}
 ];
 const result={
- milestone:'PP-009',candidateVersion:pkg.version,
+ milestone:'PP-010',candidateVersion:pkg.version,
  releaseEnabled:release.publicationEnabled,mode:prelaunch?'prelaunch':'production',
  checkedContentPages:contentPages.length,
  designSpecimenInStaticOutput:pages.includes('design-system/index.html'),
