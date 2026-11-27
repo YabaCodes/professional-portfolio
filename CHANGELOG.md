@@ -1,6 +1,10 @@
 # Changelog
 
-## 1.0.0 — launch candidate (PP-010-001)
+## 1.1.0 — candidate
+- Replace the delivery section with the owner's own wording: "Manufacturing Equipment Development Lifecycle", eight steps (01–08) with short titles and keyword lines, each opening to a one-line description, technical responsibilities and key deliverables. Step 04 is "Equipment Development & Commissioning".
+- Show automation skills as separate chips with the specification, design review and testing note.
+
+## 1.0.0 — launched 2026-11-28 (PR #22; deploy run 46075734165)
 - Enable publication: the page is indexable, robots.txt allows crawling, the prelaunch notice is removed and the internal design specimen is pruned from the published artifact.
 - Launch without a résumé PDF by owner decision; the release gate now requires only the approved LinkedIn and email, and still enforces an exact PDF if a résumé is approved later.
 - Accept approval references from any portfolio milestone (PP-0NN). Update release, MVP, production-preparation and responsive checks and their unit tests for production mode.
