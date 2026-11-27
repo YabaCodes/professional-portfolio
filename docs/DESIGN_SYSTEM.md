@@ -24,3 +24,20 @@ Targets: WCAG 2.2 AA; review 320/390/768/1024/1440px; LCP <=2.5s, CLS <=0.1, INP
 Use Fontsource packages bundled as local assets by Astro/Vite; Manrope Variable and Inter Variable for display/body and IBM Plex Mono 400 for metadata. The package lock records exact versions and SIL OFL-1.1 license metadata; build copies each package's OFL notice to dist/licenses. No runtime external font service. Central tokens and responsive utilities live in src/styles/global.css. Browser screenshot artifacts are development specimens, not approved publication content.
 ## One-page résumé — PP-008
 Homepage sequence: dark hero with title line, headline, introduction, actions and an at-a-glance list; six-phase delivery accordion; dark practice band; experience list; grouped skill chips; education, certifications, publications and patent; dark contact band; minimal footer. Palette, type, grid, 44 px targets and contrast rules unchanged. Motion: 150–250 ms press and hover feedback, a 300 ms phase-open height transition and a scroll-driven fade-in, all disabled under reduced motion and invisible to print.
+## Cleanroom — PP-009 (supersedes the Technical Editorial palette and fonts above)
+Owner-selected 2026-11-27 (PP-009-DESIGN-001). Calm, bright and precise, like a cleanroom: white ground, mist panels, ink text and a single cobalt accent.
+
+| Token | Hex | Use |
+|---|---|---|
+| White | #FFFFFF | Page ground |
+| Mist | #EEF2F5 | Panels, chips, glance box |
+| Ink | #15191E | Headings and text |
+| Body | #2B323A | Long text |
+| Steel | #55606B | Secondary text |
+| Outline | #7D8995 | Secondary button and menu edges (3:1) |
+| Line | #E3E8EC | Dividers |
+| Cobalt | #2342B0 | Primary action, open phase, labels |
+| Cobalt deep | #16297A | Hover |
+| Cobalt tint | #E8ECFB | Open phase panel, completed phases |
+
+Type: Instrument Sans Variable (weight and width axes), self-hosted through Fontsource; headings 600 at 92 % width with tight tracking; body 16–17 px, line height 1.6. Shapes: pill buttons and chips, 22 px panels, 14 px inner panels, no shadows except the mobile menu. The delivery phases are a numbered stepper: earlier phases turn cobalt tint with a cobalt line, the open phase is solid cobalt. Numbers are used only because the phases are a sequence. Motion is unchanged from PP-008 and respects reduced motion. Contrast is checked by `npm run test:design`.

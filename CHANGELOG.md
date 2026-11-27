@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.15.0 — candidate (not released)
+## 0.16.0 — candidate (not released)
+- Apply the owner-selected Cleanroom look: white and mist surfaces, ink text, one cobalt accent, Instrument Sans, pill buttons, a numbered phase stepper that marks finished and open phases, and a track record box.
+- Rewrite the delivery procedure from the owner's own description with eight standard phases (URS to validation, handover and mass production), including IQ, OQ and PQ at process integration, FAT and SAT; remove details that came from the job description.
+- Add owner-approved figures (machines and fixtures completed and in progress), international work in Germany, Switzerland and the US, and "(Team Lead)" on the senior role; merge the separate team-lead record into it (three roles).
+- Replace three font packages with one; remove the unused illustration; rewrite the internal design specimen; update palette, content and browser checks. Release flag, noindex and manual-only deployment unchanged. No deployment.
+
+## 0.15.0 — accepted 2026-11-26 (PR #20; not deployed)
 - Rebuild the site as a one-page résumé centred on the owner's standard machine-delivery procedure: hero, six-phase accordion, practice band, experience, grouped skills, education, certifications, publications, patent and contact.
 - Remove all individual project examples: the Work page and four case studies, Expertise, Insights, Engineering Lab and the OEE analyzer, plus the separate About, Research and Contact pages, their collections, components, engineering modules and unit tests.
 - Publish the owner-approved wording (PP-008-COPY-001) and add the approved email contact item `yeabcb@gmail.com` (PP-008-EMAIL-001). Résumé remains pending.

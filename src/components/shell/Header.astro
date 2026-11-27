@@ -2,14 +2,14 @@
 import Wordmark from '../brand/Wordmark.astro';
 import { routeHref, sectionHref, sections } from '../../lib/site';
 ---
-<header class="technical-surface site-header">
+<header class="site-header">
   <div class="page-container header-row">
     <a href={routeHref('')} class="brand-link" aria-label="Yeabsra Mekdim — home"><Wordmark /></a>
     <nav aria-label="Primary navigation" class="desktop-nav">
       {sections.map(s => <a href={sectionHref(s.id)} class="nav-link">{s.label}</a>)}
     </nav>
     <details class="mobile-nav">
-      <summary class="menu-toggle">Menu <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor"><path d="M3 5h14M3 10h14M3 15h14" stroke-width="1.5"/></svg></summary>
+      <summary class="menu-toggle">Menu <svg aria-hidden="true" viewBox="0 0 18 18" width="18" height="18" fill="none" stroke="currentColor"><path d="M3 6h12M3 12h12" stroke-width="1.6" stroke-linecap="round"/></svg></summary>
       <nav aria-label="Mobile primary navigation" class="mobile-links">
         {sections.map(s => <a href={sectionHref(s.id)} class="nav-link">{s.label}</a>)}
       </nav>
@@ -23,15 +23,18 @@ import { routeHref, sectionHref, sections } from '../../lib/site';
   }
 </script>
 <style>
-  .site-header { border-bottom: 1px solid var(--color-slate); }
-  .header-row { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:72px; padding-block:10px; }
-  .brand-link { display:inline-flex; align-items:center; min-height:44px; min-width:44px; color:var(--color-ivory); text-decoration:none; font-size:clamp(.94rem,2.1vw,1.1rem); }
-  .desktop-nav { display:none; align-items:center; gap:clamp(6px,1.5vw,22px); }
-  .nav-link { display:flex; align-items:center; min-height:44px; min-width:44px; padding:6px 4px; color:var(--color-structural); text-decoration:none; font-size:.9rem; }
-  .nav-link:hover { color:var(--color-jade); text-decoration:underline; text-underline-offset:6px; }
+  .site-header { background: var(--color-white); border-bottom: 1px solid var(--color-line); }
+  .header-row { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:68px; padding-block:10px; }
+  .brand-link { display:inline-flex; align-items:center; min-height:44px; min-width:44px; color:var(--color-ink); text-decoration:none; font-size:1.0625rem; }
+  .brand-link:hover { color:var(--color-cobalt); }
+  .desktop-nav { display:none; align-items:center; gap:clamp(4px,1.4vw,20px); }
+  .nav-link { display:flex; align-items:center; min-height:44px; min-width:44px; padding:6px 8px; color:var(--color-steel); text-decoration:none; font-size:.9375rem; font-weight:500; border-radius:999px; }
+  .nav-link:hover { color:var(--color-ink); background:var(--color-mist); }
   .mobile-nav { position:relative; flex-shrink:0; }
-  .menu-toggle { cursor:pointer; display:flex; align-items:center; gap:8px; min-height:44px; min-width:44px; padding-inline:8px; color:var(--color-ivory); list-style:none; font-size:.9rem; }
+  .menu-toggle { cursor:pointer; display:flex; align-items:center; gap:8px; min-height:44px; min-width:44px; padding-inline:16px; color:var(--color-ink); list-style:none; font-size:.9375rem; font-weight:500; border:1px solid var(--color-outline); border-radius:999px; background:var(--color-white); }
   .menu-toggle::-webkit-details-marker { display:none; }
-  .mobile-links { position:absolute; inset-inline-end:0; top:calc(100% + 8px); width:min(240px,calc(100vw - 40px)); background:var(--color-navy); border:1px solid var(--color-slate); padding:8px 16px; z-index:5; }
+  .mobile-nav[open] .menu-toggle { background:var(--color-mist); }
+  .mobile-links { position:absolute; inset-inline-end:0; top:calc(100% + 8px); width:min(240px,calc(100vw - 40px)); background:var(--color-white); border:1px solid var(--color-line); border-radius:var(--radius-inner); box-shadow:0 12px 32px rgb(21 25 30 / .12); padding:8px; z-index:5; }
+  .mobile-links .nav-link { color:var(--color-ink); padding-inline:12px; border-radius:10px; }
   @media(min-width:900px) { .desktop-nav {display:flex;} .mobile-nav {display:none;} }
 </style>

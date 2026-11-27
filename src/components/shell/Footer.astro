@@ -2,13 +2,13 @@
 import release from '../../../config/release.json';
 import { identity } from '../../lib/site';
 ---
-<footer class="technical-surface site-footer">
+<footer class="site-footer">
   <div class="page-container footer-row">
-    <p class="secondary-text">© 2026 {identity.name}</p>
-    {!release.publicationEnabled && <p class="technical-caption" data-prelaunch-footer-notice>Prelaunch review — publication disabled.</p>}
+    <p>© 2026 {identity.name}</p>
+    {!release.publicationEnabled && <p data-prelaunch-footer-notice>Prelaunch review — publication disabled.</p>}
   </div>
 </footer>
 <style>
-  .site-footer { border-top: 1px solid var(--color-graphite); }
-  .footer-row { display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; align-items:center; padding-block:24px; font-size:.875rem; }
+  .site-footer { border-top: 1px solid var(--color-line); }
+  .footer-row { display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between; align-items:center; padding-block:24px; font-size:.875rem; color:var(--color-steel); }
 </style>

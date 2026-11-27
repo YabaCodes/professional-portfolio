@@ -1,8 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 const packages = [
-  ['@fontsource-variable/manrope', 'manrope'],
-  ['@fontsource-variable/inter', 'inter'],
-  ['@fontsource/ibm-plex-mono', 'ibm-plex-mono'],
+  ['@fontsource-variable/instrument-sans', 'instrument-sans'],
 ];
 await mkdir('dist/licenses', { recursive: true });
 for (const [pkg, name] of packages) {

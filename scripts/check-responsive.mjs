@@ -47,7 +47,7 @@ try {
     await page.evaluate(() => document.fonts.ready);
     const metrics = await page.evaluate(async () => ({
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
-      fonts: await Promise.all(['700 32px "Manrope Variable"','400 16px "Inter Variable"','400 12px "IBM Plex Mono"'].map(async font => (await document.fonts.load(font)).length > 0 && document.fonts.check(font))),
+      fonts: await Promise.all(['600 32px "Instrument Sans Variable"','400 16px "Instrument Sans Variable"'].map(async font => (await document.fonts.load(font)).length > 0 && document.fonts.check(font))),
       h1: [...document.querySelectorAll('h1')].map(h => h.textContent.trim()),
       ids: [...document.querySelectorAll('main section[id]')].map(s => s.id),
     }));
@@ -95,23 +95,32 @@ try {
     if (mobile) assert.equal(await menu.getAttribute('open'),null,'mobile menu closes after choosing a section');
     await page.evaluate(()=>window.scrollTo(0,0));
 
-    // Six phases: one open at a time, operable from the keyboard.
+    // Eight phases: one open at a time, operable from the keyboard; earlier phases read as done.
     const phaseItems = page.locator('[data-phase] details.phase');
+    const openStates = () => phaseItems.evaluateAll(nodes=>nodes.map(n=>n.open));
+    const only = index => phases.map((_, i) => i === index);
     assert.equal(await phaseItems.count(),phases.length);
-    assert.deepEqual(await phaseItems.evaluateAll(nodes=>nodes.map(n=>n.open)),[true,false,false,false,false,false]);
+    assert.deepEqual(await openStates(),only(0));
     assert.deepEqual(await page.locator('[data-phase] .phase-title').allTextContents(),phases.map(p=>p.title));
     await minTarget(page.locator('[data-phase] summary'),'phase summary');
-    await page.locator('[data-phase="prove"] summary').focus();
+    const fat = phases.findIndex(p => p.id === 'fat');
+    await page.locator('[data-phase="fat"] summary').focus();
     await page.keyboard.press('Enter');
-    assert.deepEqual(await phaseItems.evaluateAll(nodes=>nodes.map(n=>n.open)),[false,false,false,false,true,false],'exclusive accordion');
-    assert.equal(await page.locator('[data-phase="prove"] .phase-body').isVisible(),true);
-    assert.ok((await page.locator('[data-phase="prove"] .phase-body').innerText()).includes('factory acceptance test (FAT)'));
+    assert.deepEqual(await openStates(),only(fat),'exclusive accordion');
+    assert.equal(await page.locator('[data-phase="fat"] .phase-body').isVisible(),true);
+    assert.ok((await page.locator('[data-phase="fat"] .phase-body').innerText()).includes('IQ, OQ and PQ'));
+    await page.waitForTimeout(100); // let colour transitions settle
+    const dotColors = await page.locator('[data-phase] .step-dot').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).backgroundColor));
+    assert.equal(dotColors[fat],'rgb(35, 66, 176)','open phase marked in cobalt');
+    assert.ok(dotColors.slice(0,fat).every(c=>c==='rgb(232, 236, 251)'),'earlier phases marked done');
+    assert.ok(dotColors.slice(fat+1).every(c=>c==='rgb(255, 255, 255)'),'later phases unmarked');
     assert.deepEqual(await scan(page),[]);
     await page.keyboard.press('Enter');
-    assert.equal(await page.locator('[data-phase="prove"] details').evaluate(n=>n.open),false);
+    assert.equal(await page.locator('[data-phase="fat"] details').evaluate(n=>n.open),false);
+    assert.equal(await page.locator('[data-track-record] li').count(),5,'track record items');
 
     // Résumé content.
-    assert.equal(await page.locator('[data-record-id]').count(),4);
+    assert.equal(await page.locator('[data-record-id]').count(),3);
     assert.equal(await page.locator('[data-credential-id]').count(),4);
     assert.equal(await page.locator('[data-publication-id]').count(),3);
     assert.equal(await page.locator('[data-patent-id]').count(),1);

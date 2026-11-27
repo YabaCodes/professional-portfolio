@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdir,readFile,readdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {resolveContact,resolveResume} from '../src/lib/publication-gates.ts';
-import {hero,phases,practice,skills,contact as contactCopy} from '../src/lib/portfolio.ts';
+import {hero,atAGlance,phases,trackRecord,practice,skills,contact as contactCopy} from '../src/lib/portfolio.ts';
 
 const root=path.resolve('dist');
 const routes=[''];
@@ -43,15 +43,18 @@ if(prelaunch){
 assert.doesNotMatch(page,/href="\/professional-portfolio\/design-system\//,'Internal fixture link forbidden');
 
 // The approved copy renders exactly once, word for word.
-for(const words of [hero.titleLine,hero.headline,hero.introduction,practice.statement,practice.documents,contactCopy.heading,contactCopy.introduction])
+for(const words of [hero.titleLine,hero.headline,hero.introduction,practice.statement,practice.international,contactCopy.heading,contactCopy.introduction])
  assert.ok(text.includes(words),'Approved copy missing: '+words.slice(0,60));
-assert.equal((page.match(/data-phase="/g)??[]).length,6,'Exactly six delivery phases');
+for(const item of atAGlance)assert.ok(text.includes(item.label)&&text.includes(item.value),'At-a-glance item missing: '+item.label);
+for(const t of [...trackRecord.completed,...trackRecord.inProgress])assert.ok(text.includes(t.item),'Track record item missing: '+t.item);
+assert.equal((page.match(/data-phase="/g)??[]).length,8,'Exactly eight delivery phases');
+assert.deepEqual(phases.map(p=>p.id),['urs','srm','design','build','pi','fat','sat','validation'],'Standard phase order');
 for(const p of phases){
  for(const words of [p.title,p.summary,p.role,p.deliver])assert.ok(text.includes(words),'Phase copy missing: '+p.id+' '+words.slice(0,40));
 }
 for(const group of skills.groups)for(const item of group.items)assert.ok(text.includes(item),'Skill missing: '+item);
 // Retired content must not return to the public page.
-assert.doesNotMatch(text,/Authorized professional experience|Does not represent actual employer equipment|approved professional channel|not implemented|Selected work|Engineering Lab|OEE analyzer/i,
+assert.doesNotMatch(text,/Authorized professional experience|Does not represent actual employer equipment|approved professional channel|not implemented|Selected work|Engineering Lab|OEE analyzer|Functional Engineering Team Lead|Documents I write/i,
  'Retired labels or retired sections rendered');
 
 // Contact: only the separately approved destinations.
@@ -69,7 +72,7 @@ else assert.ok(page.includes('href="'+approvedResume.assetPath+'"'),'Exact autho
 const readCollection=async name=>readJson('src/content/'+name+'.json');
 const [publications,patents,credentials,career]=await Promise.all(['publications','patents','credentials','career'].map(readCollection));
 const counts={publications:publications.length,patents:patents.length,credentials:credentials.length,career:career.length};
-assert.deepEqual(counts,{publications:3,patents:1,credentials:4,career:4},'Approved record inventory changed');
+assert.deepEqual(counts,{publications:3,patents:1,credentials:4,career:3},'Approved record inventory changed');
 for(const record of [...publications,...patents,...credentials,...career])
  assert.ok(page.includes('data-'+({PUB:'publication',PAT:'patent',CRED:'credential',CAR:'record'})[record.id.split('-')[0]]+'-id="'+record.id+'"'),'Record not rendered: '+record.id);
 
@@ -99,7 +102,7 @@ const blockers=[
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
  {id:'B05-LAUNCH',status:'owner-release-authorization-required'}
 ];
-const report={milestone:'PP-008 / one-page résumé',version:packageInfo.version,
+const report={milestone:'PP-009 / Cleanroom one-page résumé',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
  websiteDeployedByThisWorkflow:false,approvedRecords:counts,primaryRoutes:routes.length,deliveryPhases:phases.length,
  releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-and-email-approved-for-public-repository',
