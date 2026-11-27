@@ -76,7 +76,7 @@ try{
   }
   await ctx.close();
  }
- const data={milestone:'PP-008 / one-page résumé',source:'headless Chromium local built site',
+ const data={milestone:'PP-009 / Cleanroom one-page résumé',source:'headless Chromium local built site',
   labOnly:true,fieldCoreWebVitals:false,lighthouseAudit:false,physicalDeviceTested:false,
   manualScreenReaderTested:false,results};
  await writeFile('test-results/performance-diagnostics.json',JSON.stringify(data,null,2)+'\n');

@@ -74,7 +74,7 @@ const blockers=[
  {id:'B05-LAUNCH',owner:'Portfolio owner',status:'not-authorized',closure:'Final main SHA/version, hosting protection, launch approval and authorized manual dispatch'}
 ];
 const result={
- milestone:'PP-008',candidateVersion:pkg.version,
+ milestone:'PP-009',candidateVersion:pkg.version,
  releaseEnabled:release.publicationEnabled,mode:prelaunch?'prelaunch':'production',
  checkedContentPages:contentPages.length,
  designSpecimenInStaticOutput:pages.includes('design-system/index.html'),

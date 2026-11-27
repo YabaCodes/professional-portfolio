@@ -3,7 +3,7 @@ import Monogram from './Monogram.astro';
 interface Props { withMark?: boolean; }
 const { withMark = false } = Astro.props;
 ---
-<span class="inline-flex min-w-0 items-center gap-3 font-display font-bold leading-tight tracking-[.015em]">
-  {withMark && <Monogram class="w-10 shrink-0 text-deep-teal" />}
+<span class="inline-flex min-w-0 items-center gap-3 font-display font-semibold leading-tight tracking-[-.01em]">
+  {withMark && <Monogram class="w-10 shrink-0 text-cobalt" />}
   <span>Yeabsra Mekdim</span>
 </span>
