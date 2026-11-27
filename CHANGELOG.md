@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.16.0 — candidate (not released)
+## 1.0.0 — launch candidate (PP-010-001)
+- Enable publication: the page is indexable, robots.txt allows crawling, the prelaunch notice is removed and the internal design specimen is pruned from the published artifact.
+- Launch without a résumé PDF by owner decision; the release gate now requires only the approved LinkedIn and email, and still enforces an exact PDF if a résumé is approved later.
+- Accept approval references from any portfolio milestone (PP-0NN). Update release, MVP, production-preparation and responsive checks and their unit tests for production mode.
+
+## 0.16.0 — accepted 2026-11-27 (PR #21; not deployed)
 - Apply the owner-selected Cleanroom look: white and mist surfaces, ink text, one cobalt accent, Instrument Sans, pill buttons, a numbered phase stepper that marks finished and open phases, and a track record box.
 - Rewrite the delivery procedure from the owner's own description with eight standard phases (URS to validation, handover and mass production), including IQ, OQ and PQ at process integration, FAT and SAT; remove details that came from the job description.
 - Add owner-approved figures (machines and fixtures completed and in progress), international work in Germany, Switzerland and the US, and "(Team Lead)" on the senior role; merge the separate team-lead record into it (three roles).

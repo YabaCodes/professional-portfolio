@@ -14,21 +14,22 @@ assert.equal(typeof release.publicationEnabled,'boolean','Release flag must be b
 const prelaunch=release.publicationEnabled===false;
 if(prelaunch)assert.deepEqual(release,{publicationEnabled:false,approvalReference:null,releaseVersion:null});
 else {
- assert.ok(/^PP-007[A-Z]?(?:-[0-9]{3})?$/.test(release.approvalReference??''),'Production approval reference is missing');
+ assert.ok(/^PP-0[0-9]{2}[A-Z]?(?:-[0-9]{3})?$/.test(release.approvalReference??''),'Production approval reference is missing');
  assert.equal(release.releaseVersion,packageInfo.version,'Production version must be exact');
  assert.ok(Number(packageInfo.version.split('.')[0])>=1,'Production version must be v1.x+');
 }
 const approvedContact=resolveContact(publicFacing.contact);
 const approvedEmail=resolveContact(publicFacing.email);
 const approvedResume=resolveResume(publicFacing.resume);
-if(prelaunch){
+{
  assert.deepEqual(publicFacing,{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
   email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
- },'Prelaunch must contain only the separately approved LinkedIn and email destinations and no résumé');
+ },'Only the separately approved LinkedIn and email destinations; résumé pending (launch without résumé approved under PP-010-001)');
+ assert.ok(approvedContact&&approvedEmail,'Approved LinkedIn and email required');
  assert.equal(approvedResume,null);
-}else assert.ok(approvedContact&&approvedEmail&&approvedResume,'Production requires separately approved contact, email and résumé');
+}
 
 const page=await html('');
 const text=page.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g,'').replace(/<[^>]+>/g,' ')
@@ -66,7 +67,7 @@ assert.deepEqual([...new Set(mailto)],[approvedEmail.href],'Only the approved em
 assert.deepEqual([...new Set(linkedin)],[approvedContact.href],'Only the approved LinkedIn profile may render');
 assert.match(page,/data-approved-contact-link/);
 assert.match(page,/data-approved-email-link/);
-if(prelaunch)assert.doesNotMatch(page,/<a\b[^>]*(?:\bdownload\b|href="[^"]*\.(?:pdf|docx)(?:[#?][^"]*)?")/i,'Unapproved résumé link');
+if(!approvedResume)assert.doesNotMatch(page,/<a\b[^>]*(?:\bdownload\b|href="[^"]*\.(?:pdf|docx)(?:[#?][^"]*)?")/i,'Unapproved résumé link');
 else assert.ok(page.includes('href="'+approvedResume.assetPath+'"'),'Exact authorized résumé URL missing');
 
 const readCollection=async name=>readJson('src/content/'+name+'.json');
@@ -87,8 +88,7 @@ async function collect(dir){
 }
 const assets=await collect(root);
 const pdfs=assets.filter(p=>/\.pdf$/i.test(p));
-if(prelaunch)assert.deepEqual(pdfs,[],'No unapproved PDF may enter a prelaunch artifact');
-else assert.deepEqual(pdfs,[approvedResume.assetPath.replace(/^\/professional-portfolio\//,'')],'Exactly one approved public résumé PDF may be deployed');
+assert.deepEqual(pdfs,approvedResume?[approvedResume.assetPath.replace(/^\/professional-portfolio\//,'')]:[],'Only an approved résumé PDF may be deployed');
 const pages=assets.filter(p=>p.endsWith('index.html')).sort();
 assert.deepEqual(pages,prelaunch?['design-system/index.html','index.html']:['index.html'],'One public page; the internal specimen only in prelaunch');
 if(prelaunch)assert.match(await html('design-system'),/noindex, nofollow/);
@@ -97,16 +97,16 @@ if(prelaunch)assert.match(robots,/Disallow:\s*\//);
 else {assert.match(robots,/Allow:\s*\//);assert.doesNotMatch(robots,/Disallow:\s*\//)}
 const blockers=[
  {id:'B01-CONTACT',status:'exact-LinkedIn-and-email-approved-for-public-repository'},
- {id:'B02-RESUME',status:prelaunch?'pending-exact-pdf':'structure-verified-manual-document-review-required'},
+ {id:'B02-RESUME',status:prelaunch?'pending-exact-pdf':'not-published-launch-without-resume-approved'},
  {id:'B03-SPECIMEN',status:prelaunch?'production-filter-prepared':'excluded-from-artifact'},
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
- {id:'B05-LAUNCH',status:'owner-release-authorization-required'}
+ {id:'B05-LAUNCH',status:prelaunch?'owner-release-authorization-required':'authorized-'+release.approvalReference}
 ];
-const report={milestone:'PP-009 / Cleanroom one-page résumé',version:packageInfo.version,
+const report={milestone:'PP-010 / launch v1.0.0',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
  websiteDeployedByThisWorkflow:false,approvedRecords:counts,primaryRoutes:routes.length,deliveryPhases:phases.length,
  releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-and-email-approved-for-public-repository',
- resumeAssetState:prelaunch?'pending':'approved-structure-only',
+ resumeAssetState:'pending-not-published',
  automatedContentAndPrivacyChecksPassed:true,
  manualAccessibilityCertified:false,fieldCoreWebVitalsVerified:false,
  launchReady:false,blockingRequirements:blockers};
