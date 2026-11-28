@@ -22,14 +22,14 @@ export const atAGlance = {
   /** Years are counted from the first role (Project Engineer, February 2022) at build time and rounded down. */
   experience: { since: '2022-02', label: 'Medical Device Assembly Equipment Development' },
   machines: [
-    { value: '12', label: 'Equipment projects completed', detail: '4 automated assembly machines, 8 manual assembly fixtures' },
-    { value: '3', label: 'Equipment projects ongoing', detail: 'Automated assembly machines' },
+    { value: '12', label: 'Equipment Projects Completed', detail: '4 automated assembly machines, 8 manual assembly fixtures' },
+    { value: '3', label: 'Equipment Projects Ongoing', detail: 'Automated assembly machines' },
   ],
-  scale: { value: 'Up to USD 10M', label: 'CapEx per fully automated machine' },
+  scale: { value: 'Up to USD 10M', label: 'CapEx per Fully Automated Machine' },
   facts: [
     { value: '4 countries', label: 'Based in Taiwan; machine testing and installation in Germany, Switzerland and the US', wide: true },
     { value: 'PMP®', label: 'Project Management Professional', wide: false },
-    { value: '1', label: 'Granted US patent', wide: false },
+    { value: '1', label: 'Granted US Patent', wide: false },
   ],
 } as const;
 
@@ -175,16 +175,16 @@ export const machine = {
     { id: 'feeding', title: 'Feeding', phases: ['urs', 'fat', 'sat'],
       function: 'A device has many components, so they are fed at stations all around the machine, from bowl feeders and tray loaders. Both can be integrated with an automated storage and retrieval system (ASRS) for automated component feeding and replenishment.',
       role: 'I define the feeding and detection requirements, including the tray loader interface, and verify them at FAT and SAT.' },
-    { id: 'assembly', title: 'Handling and assembly', phases: ['urs', 'pi'],
+    { id: 'assembly', title: 'Handling and Assembly', phases: ['urs', 'pi'],
       function: 'At the feeding stations, grippers and suction cups place each component on the Work Piece Carrier (WPC) and the station assembles it, step by step.',
       role: 'I translate the lab-developed assembly process and its parameters into assembly specifications, then challenge them at the upper and lower specification limits during process integration.' },
-    { id: 'inspection', title: 'Control and inspection', phases: ['urs', 'fat'],
+    { id: 'inspection', title: 'Control and Inspection', phases: ['urs', 'fat'],
       function: 'Inspection takes place within assembly stations or at dedicated inspection stations, for example force-displacement monitoring and vision inspection; bad parts are removed at the reject station before unloading.',
       role: 'I define the inspection and detection requirements from the assembly risk assessment and verify the inspection systems at FAT.' },
-    { id: 'monitoring', title: 'Process monitoring and optimization', phases: ['pi', 'fat', 'sat'],
+    { id: 'monitoring', title: 'Process Monitoring and Optimization', phases: ['pi', 'fat', 'sat'],
       function: 'Critical process parameters are monitored and recorded at the stations, and the data is used to make the process robust and optimize it.',
       role: 'I identify the critical process parameters during process integration, optimize the process within its boundaries and verify the monitoring at FAT and SAT.' },
-    { id: 'qc', title: 'Final inspection', phases: ['urs', 'fat', 'sat'],
+    { id: 'qc', title: 'Final Inspection', phases: ['urs', 'fat', 'sat'],
       function: 'Final inspection confirms each assembled device meets the specified conditions; the reject station removes nonconforming devices.',
       role: 'I define the acceptance criteria for final inspection and verify them, including rejection, at FAT and SAT.' },
     { id: 'unloading', title: 'Unloading', phases: ['urs', 'fat'],
@@ -196,14 +196,14 @@ export const machine = {
     { id: 'safety', title: 'Safety', phases: ['urs', 'design', 'fat'],
       function: 'Guarding with access doors encloses the machine, and its safety functions protect operators and maintenance staff.',
       role: 'I define the safety requirements in the URS, review machine safety in design reviews and verify the safety mechanisms at FAT.' },
-    { id: 'mes', title: 'MES integration', phases: ['urs', 'fat', 'sat'],
+    { id: 'mes', title: 'MES Integration', phases: ['urs', 'fat', 'sat'],
       function: 'The machine control system exchanges data with the manufacturing execution system (MES): batch and product data, results for each device, audit trails and reports, for full traceability.',
       role: 'I define the MES interface, data and audit-trail requirements and verify the communication at FAT and SAT.' },
   ],
 } as const;
 
 export const trackRecord = {
-  heading: 'Track record',
+  heading: 'Track Record',
   introduction: 'From low-volume semi-automated machines for clinical trials, design analysis and design verification (DV) to high-volume fully automated machines at up to 160\u00A0parts per minute (ppm), with CapEx up to USD\u00A010\u00A0million per fully automated machine.',
   completed: [
     { count: 1, item: 'High-volume fully automated assembly machine, 60\u00A0ppm' },
@@ -230,10 +230,10 @@ export const experienceSubheading = 'SHL Medical, Taiwan · since 2022';
 export const skills = {
   heading: 'Skills',
   groups: [
-    { group: 'Equipment and process', items: ['Industrialization of automated assembly equipment', 'User requirement specification (URS)', 'Requirements traceability', 'Design review', 'Process integration and challenge testing', 'FAT and SAT', 'Equipment qualification and validation support', 'IT, MES and SAP integration testing', 'Root-cause investigation', 'Process improvement'] },
-    { group: 'Quality and compliance', items: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Risk analysis into requirements'] },
-    { group: 'Automation technology', note: 'Specification, design review and testing of control systems, PLC, HMI, SCADA and robotics.', items: ['Control systems', 'PLC', 'HMI', 'SCADA', 'Robotics', 'CAD'] },
-    { group: 'Project and people', items: ['Project management (PMP)', 'Supplier management', 'Cross-functional coordination', 'Training and knowledge transfer'] },
+    { group: 'Equipment and Process', items: ['Industrialization of automated assembly equipment', 'User requirement specification (URS)', 'Requirements traceability', 'Design review', 'Process integration and challenge testing', 'FAT and SAT', 'Equipment qualification and validation support', 'IT, MES and SAP integration testing', 'Root-cause investigation', 'Process improvement'] },
+    { group: 'Quality and Compliance', items: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Risk analysis into requirements'] },
+    { group: 'Automation Technology', items: ['Control systems', 'PLC', 'HMI', 'SCADA', 'Robotics', 'CAD'] },
+    { group: 'Project and People', items: ['Project management (PMP)', 'Supplier management', 'Cross-functional coordination', 'Training and knowledge transfer'] },
     { group: 'Analysis', items: ['Design for Six Sigma (Green Belt)', 'Statistics', 'Measurement system analysis'] },
     { group: 'Languages', items: ['English (advanced)', 'Amharic (native)'] },
   ],

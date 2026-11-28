@@ -8,7 +8,7 @@ export const identity = {
 
 /** One-page résumé: navigation jumps to sections of the home page. */
 export const sections = [
-  { id: 'process', label: 'How I work' },
+  { id: 'process', label: 'How I Work' },
   { id: 'machine', label: 'Technologies' },
   { id: 'experience', label: 'Experience' },
   { id: 'skills', label: 'Skills' },

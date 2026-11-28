@@ -170,9 +170,9 @@ const label = 'Schematic top view of an automated assembly machine with a closed
         <div class="spot-panel" data-spot-panel={spot.id} hidden={i !== 0}>
           <h3 class="spot-title">{spot.title}</h3>
           <p class="spot-text">{spot.function}</p>
-          <p class="spot-label">My role</p>
+          <p class="spot-label">My Role</p>
           <p class="spot-text">{spot.role}</p>
-          <p class="spot-label">Lifecycle steps</p>
+          <p class="spot-label">Lifecycle Steps</p>
           <ul class="spot-steps">
             {spot.phases.map(id => <li><a href={`#phase-${id}`}>{pad(index[id])} {phaseShort[id]}</a></li>)}
           </ul>
