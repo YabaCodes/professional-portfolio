@@ -2,7 +2,7 @@
 
 ## 1.3.0 — candidate
 - Add a process-flow diagram (01–08) before the phase details; each box opens its phase.
-- Add the Equipment Layout section: an original schematic top view of an automated assembly cell with numbered callouts and six topics linked to the lifecycle.
+- Add the Equipment Layout section: an original schematic top view of an automated assembly machine with a closed-loop transfer system (ten stations, feeding all around, a single reject station before unloading), numbered callouts and eight topics linked to the lifecycle.
 - Remove the contact buttons from the hero; add a sticky section bar on phones and a sticky header on desktop.
 - Plain section headings; clearer glance wording; skills trimmed to the owner's own items; fix stretched skill chips on desktop.
 - New original phase icons; small page script for opening phases from links, switching layout topics and marking the current section.
