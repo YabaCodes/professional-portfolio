@@ -1,0 +1,140 @@
+---
+/**
+ * Equipment layout: an original, schematic top view of a typical automated assembly cell
+ * (no real machine, supplier or product). Numbered callouts match the topic list; selecting
+ * a topic highlights its area and shows what the owner specifies, reviews and tests there.
+ * The first topic is shown without JavaScript.
+ */
+import { machine, phases, phaseShort } from '../../lib/portfolio';
+const index = Object.fromEntries(phases.map((p, i) => [p.id, i]));
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+const n = Object.fromEntries(machine.spots.map((s, i) => [s.id, i + 1]));
+const first = machine.spots[0].id;
+const on = (id: string) => (id === first ? 'z is-active' : 'z');
+---
+<div class="explorer" data-explorer>
+  <figure class="explorer-figure">
+    <svg class="layout" viewBox="0 0 400 252" role="img" aria-label="Schematic top view of an automated assembly cell: transfer system with feeding, two assembly stations, inspection, reject and unload stations, safety guarding with access doors, operator panel, control cabinet and a link to MES and SAP">
+      <!-- transfer system -->
+      <rect x="58" y="92" width="244" height="64" rx="32" class="track" />
+      <rect x="78" y="108" width="204" height="32" rx="16" class="track-inner" />
+      {[96, 150, 204, 258].map(x => <rect x={x} y="95" width="16" height="10" rx="2" class="pallet" />)}
+      {[110, 170, 230].map(x => <rect x={x} y="143" width="16" height="10" rx="2" class="pallet" />)}
+      <path d="M233 100h7m-3-3l3 3-3 3M127 148h-7m3-3l-3 3 3 3" class="flow-arrow" />
+      <!-- stations without a topic -->
+      <rect x="62" y="54" width="52" height="32" rx="4" class="station" />
+      <text x="88" y="74" class="label">Feeding</text>
+      <rect x="242" y="54" width="52" height="32" rx="4" class="station" />
+      <text x="268" y="74" class="label">Reject</text>
+      <rect x="242" y="162" width="52" height="28" rx="4" class="station" />
+      <text x="268" y="180" class="label">Unload</text>
+      <circle cx="88" cy="22" r="13" class="station" />
+      <path d="M80 22a8 8 0 0 1 16 0M84 22a4 4 0 0 1 8 0" class="thin" />
+      <path d="M88 35v19" class="thin" />
+      <text x="70" y="26" class="label label-end">Bowl feeder</text>
+
+      <g data-spot="assembly" class={on('assembly')}>
+        <rect x="122" y="54" width="52" height="32" rx="4" class="station zone" />
+        <text x="148" y="74" class="label">Assembly 1</text>
+        <rect x="122" y="162" width="52" height="28" rx="4" class="station zone" />
+        <text x="148" y="180" class="label">Assembly 2</text>
+        <g class="balloon"><circle cx="174" cy="54" r="8" /><text x="174" y="57.5">{n.assembly}</text></g>
+      </g>
+      <g data-spot="inspection" class={on('inspection')}>
+        <rect x="182" y="54" width="52" height="32" rx="4" class="station zone" />
+        <text x="208" y="74" class="label">Inspection</text>
+        <g class="balloon"><circle cx="234" cy="54" r="8" /><text x="234" y="57.5">{n.inspection}</text></g>
+      </g>
+      <g data-spot="safety" class={on('safety')}>
+        <path d="M60 196H30V46h300v150h-30M268 196H92" class="guard zone" />
+        <path d="M60 196v30a32 32 0 0 0 32-30M300 196v30a32 32 0 0 1-32-30" class="door zone" />
+        <g class="balloon"><circle cx="30" cy="122" r="8" /><text x="30" y="125.5">{n.safety}</text></g>
+      </g>
+      <g data-spot="controls" class={on('controls')}>
+        <path d="M186 196v8" class="thin" />
+        <rect x="166" y="204" width="40" height="14" rx="3" class="station zone" />
+        <text x="186" y="214.5" class="label">HMI</text>
+        <path d="M330 146h10" class="thin" />
+        <rect x="340" y="104" width="40" height="78" rx="4" class="station zone" />
+        <text x="360" y="143" class="label" transform="rotate(-90 360 143)">Control cabinet</text>
+        <g class="balloon"><circle cx="380" cy="104" r="8" /><text x="380" y="107.5">{n.controls}</text></g>
+      </g>
+      <g data-spot="integration" class={on('integration')}>
+        <path d="M360 104V38" class="cable zone" />
+        <rect x="334" y="12" width="52" height="24" rx="4" class="station zone" />
+        <text x="360" y="27.5" class="label">MES / SAP</text>
+        <g class="balloon"><circle cx="386" cy="12" r="8" /><text x="386" y="15.5">{n.integration}</text></g>
+      </g>
+      <g data-spot="operation" class={on('operation')}>
+        <circle cx="186" cy="238" r="7" class="station zone" />
+        <text x="200" y="241.5" class="label label-start">Operator</text>
+        <g class="balloon"><circle cx="172" cy="238" r="8" /><text x="172" y="241.5">{n.operation}</text></g>
+      </g>
+    </svg>
+    <figcaption class="layout-caption">Schematic, not to scale. Not a specific machine.</figcaption>
+  </figure>
+  <div class="explorer-side">
+    <ul class="spot-chips" aria-label="Areas of the cell">
+      {machine.spots.map((spot, i) => (
+        <li><button type="button" class:list={['spot-chip', { 'is-active': i === 0 }]} data-spot={spot.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+          <span class="chip-num" aria-hidden="true">{i + 1}</span>{spot.title}
+        </button></li>
+      ))}
+    </ul>
+    <div class="spot-panels" aria-live="polite">
+      {machine.spots.map((spot, i) => (
+        <div class="spot-panel" data-spot-panel={spot.id} hidden={i !== 0}>
+          <h3 class="spot-title">{spot.title}</h3>
+          <p class="spot-text">{spot.text}</p>
+          <p class="spot-steps-label">Lifecycle steps</p>
+          <ul class="spot-steps">
+            {spot.phases.map(id => <li><a href={`#phase-${id}`}>{pad(index[id])} {phaseShort[id]}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+<style>
+  .explorer { margin-top: 28px; display: grid; gap: 24px; align-items: start; }
+  .explorer-figure { margin: 0; padding: 16px; border: 1px solid #D5DCE3; border-radius: var(--radius-panel); background: var(--color-white); }
+  .layout { display: block; width: 100%; height: auto; overflow: visible; }
+  .layout-caption { margin-top: 8px; font-size: .8125rem; color: var(--color-steel); }
+  .track { fill: var(--color-mist); stroke: var(--color-ink); stroke-width: 1.3; }
+  .track-inner { fill: var(--color-white); stroke: #9AA5B1; stroke-width: 1; }
+  .pallet { fill: var(--color-white); stroke: var(--color-ink); stroke-width: 1; }
+  .flow-arrow { fill: none; stroke: var(--color-steel); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .station { fill: var(--color-white); stroke: var(--color-ink); stroke-width: 1.2; }
+  .thin { fill: none; stroke: var(--color-ink); stroke-width: 1; }
+  .guard { fill: none; stroke: var(--color-ink); stroke-width: 2.2; }
+  .door { fill: none; stroke: var(--color-steel); stroke-width: 1; stroke-dasharray: 3 2; }
+  .cable { fill: none; stroke: var(--color-steel); stroke-width: 1.2; stroke-dasharray: 4 3; }
+  .label { font-size: 9.5px; fill: var(--color-ink); text-anchor: middle; }
+  .label-end { text-anchor: end; }
+  .label-start { text-anchor: start; }
+  .balloon circle { fill: var(--color-white); stroke: var(--color-cobalt); stroke-width: 1.4; }
+  .balloon text { font-size: 9.5px; font-weight: 600; fill: var(--color-cobalt); text-anchor: middle; }
+  .zone { transition: fill .2s, stroke .2s; }
+  .z.is-active .zone { stroke: var(--color-cobalt); }
+  .z.is-active .station.zone { fill: var(--color-cobalt-tint); stroke-width: 2; }
+  .z.is-active .guard, .z.is-active .door, .z.is-active .cable { stroke: var(--color-cobalt); }
+  .z.is-active .balloon circle { fill: var(--color-cobalt); }
+  .z.is-active .balloon text { fill: var(--color-white); }
+  .spot-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .spot-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 999px; border: 1px solid #D5DCE3; background: var(--color-white); color: var(--color-ink); font: inherit; font-size: .9375rem; cursor: pointer; transition: background-color .2s, border-color .2s; }
+  .chip-num { width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; border: 1.4px solid var(--color-cobalt); color: var(--color-cobalt); font-size: .75rem; font-weight: 600; }
+  .spot-chip:hover { border-color: var(--color-cobalt); }
+  .spot-chip.is-active { background: var(--color-cobalt-tint); border-color: var(--color-cobalt); color: var(--color-cobalt-deep); }
+  .spot-chip.is-active .chip-num { background: var(--color-cobalt); color: var(--color-white); }
+  .spot-panels { margin-top: 16px; padding: 20px; border-radius: var(--radius-inner); background: var(--color-cobalt-tint); min-height: 11rem; }
+  .spot-title { font-size: 1.1875rem; }
+  .spot-text { margin-top: 8px; color: var(--color-ink); }
+  .spot-steps-label { margin-top: 14px; font-size: .875rem; font-weight: 600; color: var(--color-cobalt); }
+  .spot-steps { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .spot-steps a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--color-white); color: var(--color-ink); text-decoration: none; font-size: .9375rem; font-weight: 500; }
+  .spot-steps a:hover { color: var(--color-cobalt); }
+  @media (min-width: 1024px) {
+    .explorer { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; }
+    .explorer-figure { padding: 24px; }
+  }
+</style>

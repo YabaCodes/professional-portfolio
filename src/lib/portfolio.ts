@@ -6,20 +6,20 @@
  * Change only with fresh owner approval.
  */
 export const hero = {
-  titleLine: 'Senior Process Development Engineer (Team Lead) · SHL Medical · Taiwan',
+  titleLine: 'Senior Process Development Engineer (Team\u00A0Lead) · SHL Medical · Taiwan',
   headline: 'From requirements definition to mass production.',
   introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
 } as const;
 
 export const atAGlance = {
   machines: [
-    { value: '11', label: 'Machine developments completed', detail: '3 automated and 8 manual assembly' },
-    { value: '3', label: 'Machine developments ongoing', detail: 'Automated assembly machines' },
+    { value: '11', label: 'Equipment projects completed', detail: '3 automated assembly machines, 8 manual assembly fixtures' },
+    { value: '3', label: 'Equipment projects ongoing', detail: 'Automated assembly machines' },
   ],
   facts: [
     { value: '4 countries', label: 'Based in Taiwan; machine testing and installation in Germany, Switzerland and the US', wide: true },
     { value: 'PMP®', label: 'Project Management Professional', wide: false },
-    { value: '01', label: 'Granted US patent', wide: false },
+    { value: '1', label: 'Granted US patent', wide: false },
   ],
 } as const;
 
@@ -143,6 +143,36 @@ export const phases = [
   },
 ] as const;
 
+/** Short phase labels used by the equipment-layout links. */
+export const phaseShort = {
+  urs: 'Requirements', srm: 'Supplier', design: 'Design', build: 'Development',
+  pi: 'Integration', fat: 'FAT', sat: 'SAT', validation: 'Production',
+} as const;
+export type PhaseId = keyof typeof phaseShort;
+
+/**
+ * Machine explorer on a generic, original illustration (not a specific machine).
+ * Draft wording for owner review (PP-013), each line taken from the owner's lifecycle text.
+ */
+export const machine = {
+  heading: 'Equipment Layout',
+  introduction: 'Schematic top view of a typical automated assembly cell, with what I specify, review and test in each area.',
+  spots: [
+    { id: 'assembly', title: 'Assembly process', x: 49.5, y: 22, phases: ['urs', 'pi'],
+      text: 'I translate lab-developed assembly processes and process parameters into assembly specifications, then challenge them at upper and lower specification limits with representative component variation.' },
+    { id: 'inspection', title: 'Inspection and detection', x: 65.5, y: 22, phases: ['urs', 'fat'],
+      text: 'I define inspection and detection requirements from the assembly risk assessment and verify the inspection systems against them at FAT.' },
+    { id: 'controls', title: 'Controls, I/O and HMI', x: 93, y: 27.5, phases: ['design', 'fat'],
+      text: 'I review the control architecture, I/O interfaces and automation software in multidisciplinary design reviews, and verify the process controls at FAT.' },
+    { id: 'safety', title: 'Machine safety', x: 13, y: 38.5, phases: ['urs', 'design', 'fat'],
+      text: 'I define the safety requirements in the URS, review machine safety in design reviews and verify the safety mechanisms at FAT.' },
+    { id: 'integration', title: 'IT, MES and SAP', x: 94, y: 61.5, phases: ['fat', 'sat'],
+      text: 'I evaluate the equipment’s integration with IT infrastructure, MES, SAP and other enterprise systems at FAT, and again under site conditions at SAT.' },
+    { id: 'operation', title: 'Operation and maintenance', x: 47.5, y: 78, phases: ['validation'],
+      text: 'I develop the work instructions and train production operators and maintenance personnel for the transfer to production.' },
+  ],
+} as const;
+
 export const trackRecord = {
   heading: 'Track record',
   completed: [
@@ -157,28 +187,29 @@ export const trackRecord = {
 } as const;
 
 export const practice = {
-  label: 'Throughout every project',
+  label: 'Working Standards',
   statement: 'I apply good manufacturing practice, good documentation practice and our quality system, with standard project-management tools and continuous risk assessment.',
   international: 'I work from Taiwan, and the work is international: most of our machines are built by suppliers in Germany, and some are installed at our sites in Switzerland and the US, so I travel to all three for machine testing, installation and other project activities.',
   labels: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Project management (PMP)', 'Continuous risk assessment'],
 } as const;
 
-export const experienceHeading = 'SHL Medical, Taiwan · since 2022';
+export const experienceHeading = 'Experience';
+export const experienceSubheading = 'SHL Medical, Taiwan · since 2022';
 
 export const skills = {
-  heading: 'What I bring to the project.',
+  heading: 'Skills',
   groups: [
     { group: 'Equipment and process', items: ['Industrialization of automated assembly equipment', 'User requirement specification (URS)', 'Requirements traceability', 'Design review', 'Process integration and challenge testing', 'FAT and SAT', 'Equipment qualification and validation support', 'IT, MES and SAP integration testing', 'Root-cause investigation', 'Process improvement'] },
     { group: 'Quality and compliance', items: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Risk analysis into requirements'] },
     { group: 'Automation technology', note: 'Specification, design review and testing of control systems, PLC, HMI, SCADA and robotics.', items: ['Control systems', 'PLC', 'HMI', 'SCADA', 'Robotics', 'CAD'] },
-    { group: 'Project and people', items: ['Project management (PMP)', 'Project planning: milestones, resources, risk', 'Supplier management', 'Cross-functional coordination', 'Senior-management reporting', 'Team lead for three engineers', 'Training and knowledge transfer'] },
+    { group: 'Project and people', items: ['Project management (PMP)', 'Supplier management', 'Cross-functional coordination', 'Training and knowledge transfer'] },
     { group: 'Analysis', items: ['Design for Six Sigma (Green Belt)', 'Statistics', 'Measurement system analysis'] },
     { group: 'Languages', items: ['English (advanced)', 'Amharic (native)'] },
   ],
 } as const;
 
 export const contact = {
-  heading: 'Connect on engineering, technology and delivery.',
+  heading: 'Contact',
   introduction: 'Open to conversations about engineering leadership, manufacturing technology, new product introduction and complex technical programs.',
 } as const;
 
