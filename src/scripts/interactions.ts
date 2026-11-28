@@ -22,6 +22,28 @@ document.addEventListener('click', event => {
 });
 if (location.hash.startsWith('#phase-')) openPhase(location.hash.slice('#phase-'.length), false);
 
+// 1b. Opening a phase closes the open one above it, and that phase shrinks (with a short animation),
+//     pulling the tapped heading up and out of view; Safari does not hold the scroll position itself.
+//     Keep the tapped heading at its place on screen until the phase above has finished closing.
+//     Any touch, wheel or key input from the visitor ends the hold, so their own scrolling wins.
+let holdingPhase = false;
+for (const type of ['wheel', 'touchstart', 'keydown']) window.addEventListener(type, () => { holdingPhase = false; }, { passive: true });
+document.addEventListener('click', event => {
+  const summary = (event.target as Element | null)?.closest?.<HTMLElement>('details.phase > summary');
+  const details = summary?.parentElement as HTMLDetailsElement | undefined;
+  if (!summary || !details || details.open) return;
+  const top = summary.getBoundingClientRect().top;
+  const until = performance.now() + 500;
+  holdingPhase = true;
+  const hold = () => {
+    if (!holdingPhase) return;
+    const drift = summary.getBoundingClientRect().top - top;
+    if (Math.abs(drift) >= 1) window.scrollBy({ top: drift, behavior: 'instant' });
+    if (performance.now() < until) requestAnimationFrame(hold); else holdingPhase = false;
+  };
+  requestAnimationFrame(hold);
+});
+
 // 2. Single-choice group: machine-explorer topics.
 function choiceGroup(root: HTMLElement, key: 'spot', panelKey: string): void {
   const choices = Array.from(root.querySelectorAll<HTMLElement>(`[data-${key}]`));

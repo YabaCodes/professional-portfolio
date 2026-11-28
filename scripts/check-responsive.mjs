@@ -117,6 +117,19 @@ try {
     assert.deepEqual(await scan(page),[]);
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('[data-phase="fat"] details').evaluate(n=>n.open),false);
+    // Opening a phase below an open one keeps the tapped heading in place (it must not jump up out of view).
+    await page.locator('[data-phase="urs"] summary').click();
+    await page.waitForTimeout(700);
+    const piSummary=page.locator('[data-phase="pi"] summary');
+    await piSummary.evaluate(e=>e.scrollIntoView({block:'center',behavior:'instant'}));
+    await page.waitForTimeout(150);
+    const piBefore=await piSummary.evaluate(e=>e.getBoundingClientRect().top);
+    await piSummary.click();
+    await page.waitForTimeout(700);
+    const piAfter=await piSummary.evaluate(e=>e.getBoundingClientRect().top);
+    assert.ok(Math.abs(piAfter-piBefore)<=2,`opened phase stays in place at ${width}: ${Math.round(piBefore)} -> ${Math.round(piAfter)}`);
+    await piSummary.click();
+    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
     assert.equal(await page.locator('[data-track-record] li').count(),6,'track record items');
 
     // Process flow: each box opens its phase; the equipment layout switches topics.
