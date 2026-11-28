@@ -151,25 +151,40 @@ export const phaseShort = {
 export type PhaseId = keyof typeof phaseShort;
 
 /**
- * Machine explorer on a generic, original illustration (not a specific machine).
- * Draft wording for owner review (PP-013), each line taken from the owner's lifecycle text.
+ * Equipment layout: schematic of a typical modular automated assembly line, in the order the
+ * device is built (owner's flow, PP-013): feeding, handling and assembly, control and inspection,
+ * process monitoring, quality control and final inspection, device unloading, tray labeling,
+ * with AS/RS, MES, audit trails and reports. Generic; no real machine, supplier or product.
+ * "function" describes the area; "role" is the owner's responsibility, from his lifecycle text.
  */
 export const machine = {
   heading: 'Equipment Layout',
-  introduction: 'Schematic top view of a typical automated assembly cell, with what I specify, review and test in each area.',
+  introduction: 'Schematic top view of a typical modular automated assembly line, in the order the device is built. Select an area to see what it does and what I specify and verify there.',
   spots: [
-    { id: 'assembly', title: 'Assembly process', x: 49.5, y: 22, phases: ['urs', 'pi'],
-      text: 'I translate lab-developed assembly processes and process parameters into assembly specifications, then challenge them at upper and lower specification limits with representative component variation.' },
-    { id: 'inspection', title: 'Inspection and detection', x: 65.5, y: 22, phases: ['urs', 'fat'],
-      text: 'I define inspection and detection requirements from the assembly risk assessment and verify the inspection systems against them at FAT.' },
-    { id: 'controls', title: 'Controls, I/O and HMI', x: 93, y: 27.5, phases: ['design', 'fat'],
-      text: 'I review the control architecture, I/O interfaces and automation software in multidisciplinary design reviews, and verify the process controls at FAT.' },
-    { id: 'safety', title: 'Machine safety', x: 13, y: 38.5, phases: ['urs', 'design', 'fat'],
-      text: 'I define the safety requirements in the URS, review machine safety in design reviews and verify the safety mechanisms at FAT.' },
-    { id: 'integration', title: 'IT, MES and SAP', x: 94, y: 61.5, phases: ['fat', 'sat'],
-      text: 'I evaluate the equipment’s integration with IT infrastructure, MES, SAP and other enterprise systems at FAT, and again under site conditions at SAT.' },
-    { id: 'operation', title: 'Operation and maintenance', x: 47.5, y: 78, phases: ['validation'],
-      text: 'I develop the work instructions and train production operators and maintenance personnel for the transfer to production.' },
+    { id: 'feeding', title: 'Feeding', phases: ['urs', 'fat', 'sat'],
+      function: 'Components enter the line from bowl feeders or from tray loaders supplied by the automated storage and retrieval system (AS/RS).',
+      role: 'I define the feeding and detection requirements, including the tray loader interface, and verify them at FAT and SAT.' },
+    { id: 'assembly', title: 'Handling and assembly', phases: ['urs', 'pi'],
+      function: 'Grippers and suction cups transfer parts between process modules, where joining stations assemble the device.',
+      role: 'I translate the lab-developed assembly process and its parameters into assembly specifications, then challenge them at the upper and lower specification limits during process integration.' },
+    { id: 'inspection', title: 'Control and inspection', phases: ['urs', 'fat'],
+      function: 'In-process controls such as force-displacement monitoring and vision inspection check each assembly step; bad parts are rejected.',
+      role: 'I define the inspection and detection requirements from the assembly risk assessment and verify the inspection systems and bad-part rejection at FAT.' },
+    { id: 'monitoring', title: 'Process monitoring', phases: ['pi', 'fat'],
+      function: 'Critical process parameters are recorded and checked against their limits during production.',
+      role: 'I identify the critical process parameters during process integration and verify their monitoring and limits at FAT.' },
+    { id: 'qc', title: 'Quality control and final inspection', phases: ['urs', 'fat', 'sat'],
+      function: 'Final inspection confirms each assembled device before unloading; nonconforming devices are rejected.',
+      role: 'I define the acceptance criteria for final inspection and verify them, including rejection, at FAT and SAT.' },
+    { id: 'unloading', title: 'Device unloading', phases: ['urs', 'fat'],
+      function: 'Good devices are placed into trays by the tray unloader.',
+      role: 'I specify the unloading and tray-handling functions and verify the integration with the tray unloader.' },
+    { id: 'labeling', title: 'Tray labeling', phases: ['urs', 'fat', 'sat'],
+      function: 'Filled trays are labeled for identification and traceability, then returned to storage.',
+      role: 'I define the labeling and traceability requirements and verify them with MES at FAT and SAT.' },
+    { id: 'data', title: 'Data and integration', phases: ['fat', 'sat'],
+      function: 'The line keeps audit trails and reports, communicates with MES, and exchanges trays with the AS/RS.',
+      role: 'I evaluate the integration with IT infrastructure, MES, SAP and the storage system, including audit trails and reports, at FAT and under site conditions at SAT.' },
   ],
 } as const;
 

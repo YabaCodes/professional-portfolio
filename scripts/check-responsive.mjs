@@ -125,10 +125,12 @@ try {
     await page.locator('[data-flow="sat"]').click();
     await page.waitForTimeout(300);
     assert.equal(await page.locator('#phase-sat details').evaluate(n=>n.open),true,'flow box opens its phase');
-    await page.locator('[data-explorer] .spot-chip[data-spot="integration"]').click();
-    assert.equal(await page.locator('[data-spot-panel="integration"]').isVisible(),true);
-    assert.equal(await page.locator('[data-spot-panel="assembly"]').isVisible(),false);
-    assert.equal(await page.locator('[data-explorer] g.is-active[data-spot="integration"]').count(),1,'selected area highlighted on the drawing');
+    assert.equal(await page.locator('[data-spot-panel="feeding"]').isVisible(),true,'first layout topic shown by default');
+    await page.locator('[data-explorer] .spot-chip[data-spot="data"]').click();
+    assert.equal(await page.locator('[data-spot-panel="data"]').isVisible(),true);
+    assert.equal(await page.locator('[data-spot-panel="feeding"]').isVisible(),false);
+    assert.equal(await page.locator('[data-explorer] svg:visible g.is-active[data-spot="data"]').count(),1,'selected area highlighted on the visible drawing');
+    assert.equal(await page.locator('[data-explorer] svg.layout:visible').count(),1,'one drawing per screen size');
     await minTarget(page.locator('[data-explorer] button:visible, [data-explorer] .spot-steps a:visible'),'interactive control');
     assert.equal(await page.locator('.section-bar').isVisible(),mobile,'section bar only below 900px');
     if (mobile) assert.deepEqual(await page.locator('.section-bar a').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href'))),sectionIds.map(id=>base+'#'+id));

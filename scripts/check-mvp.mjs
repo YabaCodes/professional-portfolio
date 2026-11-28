@@ -49,7 +49,7 @@ for(const words of [hero.titleLine,hero.headline,hero.introduction,process.headi
 for(const item of [...atAGlance.machines,...atAGlance.facts])assert.ok(text.includes(item.label)&&text.includes(item.value)&&(!('detail' in item)||text.includes(item.detail)),'At-a-glance item missing: '+item.label);
 for(const t of [...trackRecord.completed,...trackRecord.inProgress])assert.ok(text.includes(t.item),'Track record item missing: '+t.item);
 assert.equal((page.match(/data-phase="/g)??[]).length,8,'Exactly eight delivery phases');
-for(const words of [machine.heading,machine.introduction,...machine.spots.flatMap(s=>[s.title,s.text])])
+for(const words of [machine.heading,machine.introduction,...machine.spots.flatMap(s=>[s.title,s.function,s.role])])
  assert.ok(text.includes(words),'Interactive copy missing: '+words.slice(0,50));
 assert.equal((page.match(/data-flow="/g)??[]).length,8,'Eight process-flow boxes');
 assert.deepEqual(phases.map(p=>p.id),['urs','srm','design','build','pi','fat','sat','validation'],'Standard phase order');

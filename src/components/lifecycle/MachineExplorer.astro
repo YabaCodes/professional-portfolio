@@ -1,80 +1,118 @@
 ---
 /**
- * Equipment layout: an original, schematic top view of a typical automated assembly cell
- * (no real machine, supplier or product). Numbered callouts match the topic list; selecting
- * a topic highlights its area and shows what the owner specifies, reviews and tests there.
- * The first topic is shown without JavaScript.
+ * Equipment layout: an original schematic top view of a typical modular automated assembly line,
+ * in the owner's process order (feeding → handling and assembly → control and inspection →
+ * process monitoring → QC and final inspection → device unloading → tray labeling), with tray
+ * loader and unloader, bad-part rejection, AS/RS tray loop, line control (audit trail, reports)
+ * and MES. No real machine, supplier or product. A wide drawing is shown on larger screens and
+ * a vertical one on phones; both highlight the selected area. First topic shown without JS.
  */
 import { machine, phases, phaseShort } from '../../lib/portfolio';
 const index = Object.fromEntries(phases.map((p, i) => [p.id, i]));
 const pad = (n: number) => String(n + 1).padStart(2, '0');
-const n = Object.fromEntries(machine.spots.map((s, i) => [s.id, i + 1]));
+const num = Object.fromEntries(machine.spots.map((s, i) => [s.id, i + 1]));
 const first = machine.spots[0].id;
-const on = (id: string) => (id === first ? 'z is-active' : 'z');
+const z = (id: string) => (id === first ? 'z is-active' : 'z');
+const modules = [
+  { id: 'feeding', two: ['Feeding'], one: 'Feeding' },
+  { id: 'assembly', two: ['Handling and', 'assembly'], one: 'Handling and assembly' },
+  { id: 'inspection', two: ['Control and', 'inspection'], one: 'Control and inspection' },
+  { id: 'monitoring', two: ['Process', 'monitoring'], one: 'Process monitoring' },
+  { id: 'qc', two: ['QC and final', 'inspection'], one: 'QC and final inspection' },
+  { id: 'unloading', two: ['Device', 'unloading'], one: 'Device unloading' },
+  { id: 'labeling', two: ['Tray', 'labeling'], one: 'Tray labeling' },
+];
+// Wide drawing: modules left to right above the transfer system.
+const W = modules.map((m, i) => ({ ...m, x: 102 + i * 78, y: 62, w: 70, h: 56 }));
+const wx = Object.fromEntries(W.map(m => [m.id, m.x]));
+// Tall drawing: modules top to bottom beside the transfer system.
+const T = modules.map((m, i) => ({ ...m, x: 92, y: 76 + i * 60, w: 138, h: 48 }));
+const ty = Object.fromEntries(T.map(m => [m.id, m.y]));
+const label = 'Schematic top view of a modular automated assembly line: feeding from bowl feeders and a tray loader, handling and assembly, control and inspection with bad-part rejection, process monitoring, quality control and final inspection with rejection, device unloading with a tray unloader, tray labeling, a tray loop to and from automated storage and retrieval, and line control with audit trail and reports connected to MES';
 ---
 <div class="explorer" data-explorer>
   <figure class="explorer-figure">
-    <svg class="layout" viewBox="0 0 400 252" role="img" aria-label="Schematic top view of an automated assembly cell: transfer system with feeding, two assembly stations, inspection, reject and unload stations, safety guarding with access doors, operator panel, control cabinet and a link to MES and SAP">
-      <!-- transfer system -->
-      <rect x="58" y="92" width="244" height="64" rx="32" class="track" />
-      <rect x="78" y="108" width="204" height="32" rx="16" class="track-inner" />
-      {[96, 150, 204, 258].map(x => <rect x={x} y="95" width="16" height="10" rx="2" class="pallet" />)}
-      {[110, 170, 230].map(x => <rect x={x} y="143" width="16" height="10" rx="2" class="pallet" />)}
-      <path d="M233 100h7m-3-3l3 3-3 3M127 148h-7m3-3l-3 3 3 3" class="flow-arrow" />
-      <!-- stations without a topic -->
-      <rect x="62" y="54" width="52" height="32" rx="4" class="station" />
-      <text x="88" y="74" class="label">Feeding</text>
-      <rect x="242" y="54" width="52" height="32" rx="4" class="station" />
-      <text x="268" y="74" class="label">Reject</text>
-      <rect x="242" y="162" width="52" height="28" rx="4" class="station" />
-      <text x="268" y="180" class="label">Unload</text>
-      <circle cx="88" cy="22" r="13" class="station" />
-      <path d="M80 22a8 8 0 0 1 16 0M84 22a4 4 0 0 1 8 0" class="thin" />
-      <path d="M88 35v19" class="thin" />
-      <text x="70" y="26" class="label label-end">Bowl feeder</text>
+    <!-- Wide drawing (tablet and desktop) -->
+    <svg class="layout layout-wide" viewBox="0 0 700 282" role="img" aria-label={label}>
+      <defs><marker id="arw-h" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" class="arrow-head" /></marker></defs>
+      <g data-spot="data" class={z('data')}>
+        <rect x="10" y="64" width="62" height="126" rx="4" class="station zone" />
+        <path d="M16 76h50M16 178h50" class="thin" />
+        <text x="41" y="127" class="label" transform="rotate(-90 41 127)">AS/RS</text>
+        <path d="M640 90H676V222H41V194" class="loop zone" marker-end="url(#arw-h)" />
+        <text x="480" y="217" class="label small">Labeled trays to storage</text>
+        <path d="M326 202V240M566 254H600" class="cable zone" />
+        <rect x="86" y="240" width="480" height="28" rx="4" class="station zone" />
+        <text x="326" y="258" class="label">Line control and data: audit trail, reports</text>
+        <rect x="600" y="240" width="72" height="28" rx="4" class="station zone" />
+        <text x="636" y="258" class="label">MES</text>
+        <g class="balloon"><circle cx="566" cy="240" r="8" /><text x="566" y="243.5">{num.data}</text></g>
+      </g>
+      <rect x="86" y="50" width="572" height="152" class="guard" />
+      <rect x="100" y="124" width="544" height="18" rx="9" class="track" />
+      {Array.from({ length: 14 }, (_, k) => <rect x={110 + k * 40} y="127" width="10" height="12" rx="2" class="pallet" />)}
+      <path d="M72 163H100" class="loop" marker-end="url(#arw-h)" />
+      {W.map(m => (
+        <g data-spot={m.id} class={z(m.id)}>
+          <rect x={m.x} y={m.y} width={m.w} height={m.h} rx="4" class="station zone" />
+          {m.two.length === 1
+            ? <text x={m.x + m.w / 2} y={m.y + 32} class="label">{m.two[0]}</text>
+            : <text x={m.x + m.w / 2} y={m.y + 25} class="label"><tspan x={m.x + m.w / 2}>{m.two[0]}</tspan><tspan x={m.x + m.w / 2} dy="13">{m.two[1]}</tspan></text>}
+          {m.id === 'feeding' && <>
+            <circle cx="122" cy="28" r="11" class="station zone" /><circle cx="152" cy="28" r="11" class="station zone" />
+            <path d="M115 28a7 7 0 0 1 14 0M145 28a7 7 0 0 1 14 0M122 39v23M152 39v23" class="thin" />
+            <text x="170" y="31" class="label small start">Bowl feeders</text>
+            <rect x="102" y="150" width="70" height="26" rx="4" class="station zone" /><text x="137" y="167" class="label small">Tray loader</text>
+          </>}
+          {m.id === 'inspection' && <><rect x={wx.inspection + 12} y="150" width="46" height="26" rx="4" class="station zone" /><text x={wx.inspection + 35} y="167" class="label small">Reject</text></>}
+          {m.id === 'qc' && <><rect x={wx.qc + 12} y="150" width="46" height="26" rx="4" class="station zone" /><text x={wx.qc + 35} y="167" class="label small">Reject</text></>}
+          {m.id === 'unloading' && <><rect x={wx.unloading} y="150" width="70" height="26" rx="4" class="station zone" /><text x={wx.unloading + 35} y="167" class="label small">Tray unloader</text></>}
+          <g class="balloon"><circle cx={m.x + m.w} cy={m.y} r="8" /><text x={m.x + m.w} y={m.y + 3.5}>{num[m.id]}</text></g>
+        </g>
+      ))}
+      <path d="M376 129l6 4-6 4" class="flow-arrow" />
+    </svg>
 
-      <g data-spot="assembly" class={on('assembly')}>
-        <rect x="122" y="54" width="52" height="32" rx="4" class="station zone" />
-        <text x="148" y="74" class="label">Assembly 1</text>
-        <rect x="122" y="162" width="52" height="28" rx="4" class="station zone" />
-        <text x="148" y="180" class="label">Assembly 2</text>
-        <g class="balloon"><circle cx="174" cy="54" r="8" /><text x="174" y="57.5">{n.assembly}</text></g>
+    <!-- Tall drawing (phones) -->
+    <svg class="layout layout-tall" viewBox="0 0 380 620" role="img" aria-label={label}>
+      <defs><marker id="arw-v" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" class="arrow-head" /></marker></defs>
+      <g data-spot="data" class={z('data')}>
+        <rect x="20" y="8" width="320" height="34" rx="4" class="station zone" />
+        <text x="180" y="29" class="label">AS/RS: automated storage and retrieval</text>
+        <path d="M230 460H362V25H342" class="loop zone" marker-end="url(#arw-v)" />
+        <text x="372" y="250" class="label small" transform="rotate(-90 372 250)">Labeled trays to storage</text>
+        <path d="M190 506V526M190 556V578" class="cable zone" />
+        <rect x="40" y="526" width="300" height="30" rx="4" class="station zone" />
+        <text x="190" y="545" class="label">Line control and data: audit trail, reports</text>
+        <rect x="140" y="578" width="100" height="28" rx="4" class="station zone" />
+        <text x="190" y="596" class="label">MES</text>
+        <g class="balloon"><circle cx="340" cy="526" r="8" /><text x="340" y="529.5">{num.data}</text></g>
       </g>
-      <g data-spot="inspection" class={on('inspection')}>
-        <rect x="182" y="54" width="52" height="32" rx="4" class="station zone" />
-        <text x="208" y="74" class="label">Inspection</text>
-        <g class="balloon"><circle cx="234" cy="54" r="8" /><text x="234" y="57.5">{n.inspection}</text></g>
-      </g>
-      <g data-spot="safety" class={on('safety')}>
-        <path d="M60 196H30V46h300v150h-30M268 196H92" class="guard zone" />
-        <path d="M60 196v30a32 32 0 0 0 32-30M300 196v30a32 32 0 0 1-32-30" class="door zone" />
-        <g class="balloon"><circle cx="30" cy="122" r="8" /><text x="30" y="125.5">{n.safety}</text></g>
-      </g>
-      <g data-spot="controls" class={on('controls')}>
-        <path d="M186 196v8" class="thin" />
-        <rect x="166" y="204" width="40" height="14" rx="3" class="station zone" />
-        <text x="186" y="214.5" class="label">HMI</text>
-        <path d="M330 146h10" class="thin" />
-        <rect x="340" y="104" width="40" height="78" rx="4" class="station zone" />
-        <text x="360" y="143" class="label" transform="rotate(-90 360 143)">Control cabinet</text>
-        <g class="balloon"><circle cx="380" cy="104" r="8" /><text x="380" y="107.5">{n.controls}</text></g>
-      </g>
-      <g data-spot="integration" class={on('integration')}>
-        <path d="M360 104V38" class="cable zone" />
-        <rect x="334" y="12" width="52" height="24" rx="4" class="station zone" />
-        <text x="360" y="27.5" class="label">MES / SAP</text>
-        <g class="balloon"><circle cx="386" cy="12" r="8" /><text x="386" y="15.5">{n.integration}</text></g>
-      </g>
-      <g data-spot="operation" class={on('operation')}>
-        <circle cx="186" cy="238" r="7" class="station zone" />
-        <text x="200" y="241.5" class="label label-start">Operator</text>
-        <g class="balloon"><circle cx="172" cy="238" r="8" /><text x="172" y="241.5">{n.operation}</text></g>
-      </g>
+      <rect x="40" y="60" width="300" height="446" class="guard" />
+      <rect x="60" y="76" width="18" height="416" rx="9" class="track" />
+      {Array.from({ length: 10 }, (_, k) => <rect x="64" y={86 + k * 40} width="10" height="10" rx="2" class="pallet" />)}
+      <path d="M286 42V74" class="loop" marker-end="url(#arw-v)" />
+      {T.map(m => (
+        <g data-spot={m.id} class={z(m.id)}>
+          <rect x={m.x} y={m.y} width={m.w} height={m.h} rx="4" class="station zone" />
+          <text x={m.x + m.w / 2} y={m.y + 28} class="label">{m.one}</text>
+          {m.id === 'feeding' && <>
+            <rect x="242" y="76" width="88" height="22" rx="4" class="station zone" /><text x="286" y="91" class="label small">Tray loader</text>
+            <circle cx="252" cy="112" r="7" class="station zone" /><circle cx="270" cy="112" r="7" class="station zone" />
+            <text x="282" y="115" class="label small start">Bowl feeders</text>
+          </>}
+          {m.id === 'inspection' && <><rect x="242" y={ty.inspection + 12} width="56" height="24" rx="4" class="station zone" /><text x="270" y={ty.inspection + 28} class="label small">Reject</text></>}
+          {m.id === 'qc' && <><rect x="242" y={ty.qc + 12} width="56" height="24" rx="4" class="station zone" /><text x="270" y={ty.qc + 28} class="label small">Reject</text></>}
+          {m.id === 'unloading' && <><rect x="242" y={ty.unloading + 12} width="88" height="24" rx="4" class="station zone" /><text x="286" y={ty.unloading + 28} class="label small">Tray unloader</text></>}
+          <g class="balloon"><circle cx={m.x + m.w} cy={m.y} r="8" /><text x={m.x + m.w} y={m.y + 3.5}>{num[m.id]}</text></g>
+        </g>
+      ))}
+      <path d="M65 300l4 6 4-6" class="flow-arrow" />
     </svg>
     <figcaption class="layout-caption">Schematic, not to scale. Not a specific machine.</figcaption>
   </figure>
   <div class="explorer-side">
-    <ul class="spot-chips" aria-label="Areas of the cell">
+    <ul class="spot-chips" aria-label="Areas of the line">
       {machine.spots.map((spot, i) => (
         <li><button type="button" class:list={['spot-chip', { 'is-active': i === 0 }]} data-spot={spot.id} aria-pressed={i === 0 ? 'true' : 'false'}>
           <span class="chip-num" aria-hidden="true">{i + 1}</span>{spot.title}
@@ -85,8 +123,10 @@ const on = (id: string) => (id === first ? 'z is-active' : 'z');
       {machine.spots.map((spot, i) => (
         <div class="spot-panel" data-spot-panel={spot.id} hidden={i !== 0}>
           <h3 class="spot-title">{spot.title}</h3>
-          <p class="spot-text">{spot.text}</p>
-          <p class="spot-steps-label">Lifecycle steps</p>
+          <p class="spot-text">{spot.function}</p>
+          <p class="spot-label">My role</p>
+          <p class="spot-text">{spot.role}</p>
+          <p class="spot-label">Lifecycle steps</p>
           <ul class="spot-steps">
             {spot.phases.map(id => <li><a href={`#phase-${id}`}>{pad(index[id])} {phaseShort[id]}</a></li>)}
           </ul>
@@ -99,25 +139,26 @@ const on = (id: string) => (id === first ? 'z is-active' : 'z');
   .explorer { margin-top: 28px; display: grid; gap: 24px; align-items: start; }
   .explorer-figure { margin: 0; padding: 16px; border: 1px solid #D5DCE3; border-radius: var(--radius-panel); background: var(--color-white); }
   .layout { display: block; width: 100%; height: auto; overflow: visible; }
+  .layout-wide { display: none; }
+  .layout-tall { max-width: 420px; margin-inline: auto; }
   .layout-caption { margin-top: 8px; font-size: .8125rem; color: var(--color-steel); }
-  .track { fill: var(--color-mist); stroke: var(--color-ink); stroke-width: 1.3; }
-  .track-inner { fill: var(--color-white); stroke: #9AA5B1; stroke-width: 1; }
+  .track { fill: var(--color-mist); stroke: var(--color-ink); stroke-width: 1.2; }
   .pallet { fill: var(--color-white); stroke: var(--color-ink); stroke-width: 1; }
-  .flow-arrow { fill: none; stroke: var(--color-steel); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .flow-arrow { fill: none; stroke: var(--color-cobalt); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .station { fill: var(--color-white); stroke: var(--color-ink); stroke-width: 1.2; }
-  .thin { fill: none; stroke: var(--color-ink); stroke-width: 1; }
+  .thin { fill: none; stroke: #9AA5B1; stroke-width: 1; }
   .guard { fill: none; stroke: var(--color-ink); stroke-width: 2.2; }
-  .door { fill: none; stroke: var(--color-steel); stroke-width: 1; stroke-dasharray: 3 2; }
+  .loop { fill: none; stroke: var(--color-steel); stroke-width: 1.3; }
   .cable { fill: none; stroke: var(--color-steel); stroke-width: 1.2; stroke-dasharray: 4 3; }
-  .label { font-size: 9.5px; fill: var(--color-ink); text-anchor: middle; }
-  .label-end { text-anchor: end; }
-  .label-start { text-anchor: start; }
+  .arrow-head { fill: var(--color-steel); }
+  .label { font-size: 10.5px; fill: var(--color-ink); text-anchor: middle; }
+  .label.small { font-size: 9.5px; fill: var(--color-body); }
+  .label.start { text-anchor: start; }
   .balloon circle { fill: var(--color-white); stroke: var(--color-cobalt); stroke-width: 1.4; }
   .balloon text { font-size: 9.5px; font-weight: 600; fill: var(--color-cobalt); text-anchor: middle; }
   .zone { transition: fill .2s, stroke .2s; }
-  .z.is-active .zone { stroke: var(--color-cobalt); }
-  .z.is-active .station.zone { fill: var(--color-cobalt-tint); stroke-width: 2; }
-  .z.is-active .guard, .z.is-active .door, .z.is-active .cable { stroke: var(--color-cobalt); }
+  .z.is-active .station.zone { fill: var(--color-cobalt-tint); stroke: var(--color-cobalt); stroke-width: 2; }
+  .z.is-active .loop.zone, .z.is-active .cable.zone { stroke: var(--color-cobalt); }
   .z.is-active .balloon circle { fill: var(--color-cobalt); }
   .z.is-active .balloon text { fill: var(--color-white); }
   .spot-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -126,15 +167,20 @@ const on = (id: string) => (id === first ? 'z is-active' : 'z');
   .spot-chip:hover { border-color: var(--color-cobalt); }
   .spot-chip.is-active { background: var(--color-cobalt-tint); border-color: var(--color-cobalt); color: var(--color-cobalt-deep); }
   .spot-chip.is-active .chip-num { background: var(--color-cobalt); color: var(--color-white); }
-  .spot-panels { margin-top: 16px; padding: 20px; border-radius: var(--radius-inner); background: var(--color-cobalt-tint); min-height: 11rem; }
+  .spot-panels { margin-top: 16px; padding: 20px; border-radius: var(--radius-inner); background: var(--color-cobalt-tint); min-height: 14rem; }
   .spot-title { font-size: 1.1875rem; }
-  .spot-text { margin-top: 8px; color: var(--color-ink); }
-  .spot-steps-label { margin-top: 14px; font-size: .875rem; font-weight: 600; color: var(--color-cobalt); }
+  .spot-text { margin-top: 6px; color: var(--color-ink); }
+  .spot-label { margin-top: 14px; font-size: .875rem; font-weight: 600; color: var(--color-cobalt); }
   .spot-steps { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
   .spot-steps a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--color-white); color: var(--color-ink); text-decoration: none; font-size: .9375rem; font-weight: 500; }
   .spot-steps a:hover { color: var(--color-cobalt); }
+  @media (min-width: 768px) {
+    .layout-wide { display: block; }
+    .layout-tall { display: none; }
+  }
   @media (min-width: 1024px) {
-    .explorer { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; }
     .explorer-figure { padding: 24px; }
+    .explorer-side { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 24px; align-items: start; }
+    .spot-panels { margin-top: 0; }
   }
 </style>
