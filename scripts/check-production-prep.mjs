@@ -12,7 +12,7 @@ else assert.deepEqual(release,{publicationEnabled:true,approvalReference:'PP-010
 {
  assert.deepEqual(facing,{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
-  email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
+  email:{status:'approved',label:'Connect by Email',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
  },'Only the approved LinkedIn and email destinations; résumé not published');
 }

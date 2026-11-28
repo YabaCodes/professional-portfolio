@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { loadCatalog } from '../lib/content/catalog';
 import { identity } from '../lib/site';
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait.jpg';
 import { hero, atAGlance, process, phases, trackRecord, practice, experienceHeading, experienceSubheading, skills, contact, machine, displayDate } from '../lib/portfolio';
 import ProcessFlow from '../components/lifecycle/ProcessFlow.astro';
 import MachineExplorer from '../components/lifecycle/MachineExplorer.astro';
@@ -14,14 +16,20 @@ const credentials = (await getCollection('credentials')).map(e => e.data)
   .sort((a, b) => (a.category === b.category ? b.issued.localeCompare(a.issued) : a.category === 'education' ? -1 : 1));
 const publications = (await getCollection('publications')).map(e => e.data).sort((a, b) => a.year - b.year || a.id.localeCompare(b.id));
 const patents = (await getCollection('patents')).map(e => e.data);
-const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
 
 ---
 <BaseLayout title={identity.name} description={identity.introduction} home>
   <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-grid-bg drawing-grid" aria-hidden="true"></div>
     <div class="page-container hero-grid">
       <div class="hero-copy">
-        <p class="hero-kicker">{hero.titleLine}</p>
+        <div class="hero-id">
+          <Image src={portrait} alt={`Portrait of ${hero.name}`} class="hero-portrait" widths={[96, 192, 288]} sizes="(min-width: 768px) 132px, 88px" loading="eager" fetchpriority="high" />
+          <div class="hero-id-text">
+            <p class="hero-name">{hero.name}</p>
+            <p class="hero-kicker">{hero.titleLine}</p>
+          </div>
+        </div>
         <h1 id="hero-heading" class="hero-title">{hero.headline}</h1>
         <p class="hero-intro">{hero.introduction}</p>
       </div>
@@ -104,7 +112,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
     </div>
   </section>
 
-  <section id="machine" class="section-block section-ruled" aria-labelledby="machine-heading" data-reveal>
+  <section id="machine" class="section-block section-ruled section-sheet drawing-grid" aria-labelledby="machine-heading" data-reveal>
     <div class="page-container">
       <h2 id="machine-heading">{machine.heading}</h2>
       <p class="secondary-text reading-width section-intro">{machine.introduction}</p>
@@ -191,14 +199,14 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   </section>
 
   <section id="contact" class="page-container contact-wrap" aria-labelledby="contact-heading">
-    <div class="panel contact">
+    <div class="panel contact drawing-grid">
       <div class="reading-width">
         <h2 id="contact-heading">{contact.heading}</h2>
         <p class="contact-intro">{contact.introduction}</p>
       </div>
       <div class="button-row">
         {approvedContact && <a class="action-link" href={approvedContact.href} data-approved-contact-link>{approvedContact.label}</a>}
-        {approvedEmail && emailAddress && <a class="ghost-link" href={approvedEmail.href} data-approved-email-link>{emailAddress}</a>}
+        {approvedEmail && <a class="action-link" href={approvedEmail.href} data-approved-email-link>{approvedEmail.label}</a>}
         {approvedResume && <a class="ghost-link" href={approvedResume.assetPath} download data-approved-resume-link>{approvedResume.label}</a>}
       </div>
     </div>
@@ -210,14 +218,27 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
 
 <style>
   /* Hero */
-  .hero { padding-block: clamp(40px, 7vw, 88px) clamp(40px, 6vw, 72px); }
+  .hero { position: relative; isolation: isolate; padding-block: clamp(40px, 7vw, 88px) clamp(40px, 6vw, 72px); }
+  /* Grid strongest at the top right, fading out before it reaches the text. */
+  .hero-grid-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; --grid-minor: rgb(35 66 176 / .06); --grid-major: rgb(35 66 176 / .11);
+    -webkit-mask-image: radial-gradient(120% 100% at 100% 0%, #000 20%, transparent 72%);
+    mask-image: radial-gradient(120% 100% at 100% 0%, #000 20%, transparent 72%); }
   .hero-grid { display: grid; gap: 36px; align-items: center; }
   .hero-copy { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .hero-id { display: flex; align-items: center; gap: 16px; }
+  .hero-portrait { flex: none; width: 88px; height: 88px; object-fit: cover; border-radius: var(--radius-inner); border: 1px solid #D5DCE3; background: var(--color-mist); }
+  .hero-id-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .hero-name { color: var(--color-ink); font-size: 1.125rem; font-weight: 600; line-height: 1.3; }
   .hero-kicker { color: var(--color-steel); font-size: .9375rem; line-height: 1.5; }
+  @media (min-width: 768px) {
+    .hero-id { gap: 22px; }
+    .hero-portrait { width: 132px; height: 132px; }
+    .hero-name { font-size: 1.25rem; }
+  }
   .hero-title { max-width: 15ch; }
   .hero-intro { color: var(--color-body); font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); max-width: 56ch; }
   .hero-copy .button-row { margin-top: 8px; }
-  .glance { padding: 22px; display: flex; flex-direction: column; gap: 20px; }
+  .glance { padding: 22px; display: flex; flex-direction: column; gap: 20px; background: var(--color-white); border: 1px solid #D5DCE3; box-shadow: 0 1px 0 rgb(21 25 30 / .03); }
   .glance dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 18px; }
   .glance-facts { padding-top: 20px; border-top: 1px solid #D5DCE3; }
   .glance-wide { grid-column: 1 / -1; }
@@ -226,17 +247,26 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   .glance dt { font-size: .875rem; line-height: 1.4; color: var(--color-steel); }
   .glance dd { margin: 0; }
   .glance-value { order: -1; font-size: 1.625rem; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; font-stretch: 92%; }
-  .glance-value-big { font-size: 2.75rem; line-height: 1; letter-spacing: -.03em; margin-bottom: 4px; }
+  .glance-value-big { font-size: 2.75rem; line-height: 1; letter-spacing: -.03em; margin-bottom: 4px; color: var(--color-cobalt); }
   .glance-machines dt { color: var(--color-ink); font-weight: 600; }
   .glance-detail { font-size: .875rem; line-height: 1.4; color: var(--color-steel); }
+  @media (min-width: 768px) {
+    .hero-title { max-width: none; }
+  }
+  /* Desktop: copy left, glance box right; the title shrinks with its column so it stays on one line. */
   @media (min-width: 1024px) {
     .hero-grid { grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr); gap: 56px; }
+    .hero-copy { container-type: inline-size; }
+    .hero-title { white-space: nowrap; font-size: min(4rem, 7.1cqi); }
     .glance { padding: 28px; gap: 24px; }
   }
 
   /* Sections */
   .section-block { padding-block: var(--section-space); }
   .section-ruled { border-top: 1px solid var(--color-line); }
+  /* Equipment Layout sits on a drawing sheet: mist with the drawing grid. */
+  .section-sheet { background-color: var(--color-mist); border-bottom: 1px solid var(--color-line); }
+  .section-sheet .secondary-text { color: var(--color-body); }
   .section-intro { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
 
   /* Six-to-eight phase stepper: native details, one open at a time, no script. */
@@ -283,7 +313,8 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   @media (min-width: 768px) { .track { padding: 28px; } .track-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
 
   /* Practice */
-  .practice-wrap { padding-bottom: var(--section-space); }
+  .practice-wrap { padding-block: var(--section-space); }
+  .practice { background: var(--color-cobalt-tint); }
   .practice { padding: clamp(24px, 4vw, 36px); display: flex; flex-direction: column; gap: 12px; }
   .practice-heading { font-size: 1.375rem; }
   .practice-text { color: var(--color-body); max-width: 72ch; }
@@ -316,6 +347,13 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
 
   /* Contact */
   .contact-wrap { padding-bottom: var(--section-space); }
-  .contact { padding: clamp(28px, 5vw, 48px); display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between; }
-  .contact-intro { margin-top: 14px; color: var(--color-body); }
+  .contact { padding: clamp(28px, 5vw, 48px); display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between;
+    background-color: var(--color-cobalt-deep); color: var(--color-white); --grid-minor: rgb(255 255 255 / .035); --grid-major: rgb(255 255 255 / .08); }
+  .contact h2 { color: var(--color-white); }
+  .contact-intro { margin-top: 14px; color: var(--color-cobalt-tint); }
+  .contact :focus-visible { outline-color: var(--color-white); }
+  .contact .action-link { background: var(--color-white); border-color: var(--color-white); color: var(--color-cobalt-deep); }
+  .contact .action-link:hover { background: var(--color-cobalt-tint); border-color: var(--color-cobalt-tint); color: var(--color-cobalt-deep); }
+  .contact .ghost-link { background: transparent; border-color: rgb(255 255 255 / .7); color: var(--color-white); }
+  .contact .ghost-link:hover { background: rgb(255 255 255 / .1); color: var(--color-white); }
 </style>

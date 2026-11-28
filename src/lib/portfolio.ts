@@ -6,8 +6,9 @@
  * Change only with fresh owner approval.
  */
 export const hero = {
+  name: 'Yeabsra Mekdim',
   titleLine: 'Senior Process Development Engineer (Team\u00A0Lead) · SHL Medical · Taiwan',
-  headline: 'From requirements definition to mass production.',
+  headline: 'From Concept to Mass Production',
   introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
 } as const;
 

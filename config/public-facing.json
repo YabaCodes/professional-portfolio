@@ -7,7 +7,7 @@
   },
   "email": {
     "status": "approved",
-    "label": "Email me",
+    "label": "Connect by Email",
     "href": "mailto:yeabcb@gmail.com",
     "approvalReference": "PP-008-EMAIL-001"
   },
