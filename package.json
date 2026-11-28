@@ -1,6 +1,6 @@
 {
   "name": "professional-portfolio",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "private": true,
   "type": "module",
   "engines": {
@@ -19,7 +19,8 @@
     "test:links": "node scripts/check-links.mjs",
     "test:mvp": "node scripts/check-mvp.mjs",
     "test:production-prep": "node scripts/check-production-prep.mjs",
-    "test:performance": "node scripts/check-performance.mjs"
+    "test:performance": "node scripts/check-performance.mjs",
+    "generate:link-preview": "node scripts/generate-link-preview.mjs"
   },
   "dependencies": {
     "@fontsource-variable/instrument-sans": "5.3.0",

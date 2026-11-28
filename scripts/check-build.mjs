@@ -19,7 +19,7 @@ async function walk(dir) {
 const files=await walk(root);
 const byPath=new Map();
 for(const file of files)byPath.set(path.relative(root,file).split(path.sep).join('/'),file);
-const required=['index.html','favicon.svg','robots.txt'];
+const required=['index.html','favicon.svg','robots.txt','link-preview.jpg'];
 const retired=['about','work','expertise','insights','research','contact'];
 for(const route of retired)assert.ok(![...byPath.keys()].some(p=>p.startsWith(route+'/')),'Retired route still built: '+route);
 for(const name of required)assert.ok(byPath.has(name),'Missing build output '+name);
@@ -51,3 +51,21 @@ assert.ok(css<=100*1024,'Total generated CSS gzip budget exceeded: '+css);
 assert.ok(total<=12*1024*1024,'Static build size budget exceeded: '+total);
 console.log(JSON.stringify({htmlPages:htmlFiles.length,totalBytes:total,gzipJsBytes:js,gzipCssBytes:css,budgets:{totalBytes:12*1024*1024,gzipJsBytes:150*1024,gzipCssBytes:100*1024,gzipHtmlPerPageBytes:64*1024}},null,2));
 console.log('Static output, release mode and size budget checks PASS');
+
+// Link preview (LinkedIn, messaging apps): a 1200 x 630 JPEG referenced by absolute URL.
+{
+ const jpeg=await readFile(byPath.get('link-preview.jpg'));
+ let size=null;
+ for(let i=2;i<jpeg.length-9;){ if(jpeg[i]!==0xFF){i++;continue;} const marker=jpeg[i+1]; const len=jpeg.readUInt16BE(i+2);
+  if(marker>=0xC0&&marker<=0xC3){size={height:jpeg.readUInt16BE(i+5),width:jpeg.readUInt16BE(i+7)};break;} i+=2+len; }
+ assert.deepEqual(size,{width:1200,height:630},'link preview must be 1200 x 630');
+ assert.ok(jpeg.length<=300*1024,'link preview over 300 KB');
+ assert.ok(!jpeg.includes(Buffer.from('Exif')),'link preview must not carry EXIF metadata');
+ const home=await readFile(byPath.get('index.html'),'utf8');
+ const og=home.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+ assert.ok(og&&/^https:\/\/[^/]+\/.*link-preview\.jpg$/.test(og),'og:image must be an absolute URL to link-preview.jpg: '+og);
+ assert.match(home,/<meta property="og:image:width" content="1200"/);
+ assert.match(home,/<meta property="og:image:height" content="630"/);
+ assert.match(home,/<meta property="og:image:alt" content="[^"]{20,}"/);
+ assert.match(home,/<meta name="twitter:card" content="summary_large_image"/);
+}
