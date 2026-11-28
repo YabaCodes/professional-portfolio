@@ -25,10 +25,10 @@ const patents = (await getCollection('patents')).map(e => e.data);
     <div class="page-container hero-grid">
       <div class="hero-copy">
         <div class="hero-id">
-          <Image src={portrait} alt={`Portrait of ${hero.name}`} class="hero-portrait" widths={[96, 192, 288]} sizes="(min-width: 768px) 132px, 88px" loading="eager" fetchpriority="high" />
+          <Image src={portrait} alt={`Portrait of ${hero.name}`} class="hero-portrait" widths={[96, 192, 288, 384]} sizes="(min-width: 1024px) 184px, (min-width: 768px) 132px, 88px" loading="eager" fetchpriority="high" />
           <div class="hero-id-text">
             <p class="hero-name">{hero.name}</p>
-            <p class="hero-kicker">{hero.titleLine}</p>
+            <p class="hero-kicker">{(() => { const [role, ...rest] = hero.titleLine.split(' · '); return <><span class="kicker-role">{role}</span><span class="kicker-sep"> · </span><span>{rest.join(' · ')}</span></>; })()}</p>
           </div>
         </div>
         <h1 id="hero-heading" class="hero-title">{hero.headline}</h1>
@@ -267,7 +267,15 @@ const patents = (await getCollection('patents')).map(e => e.data);
   /* Desktop: copy left, glance box right; the title shrinks with its column so it stays on one line. */
   @media (min-width: 1024px) {
     .hero-grid { grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr); gap: 56px; }
-    .hero-copy { container-type: inline-size; }
+    .hero-copy { container-type: inline-size; gap: 24px; }
+    /* Desktop: larger portrait and name so the identity block balances the glance box. */
+    .hero-id { gap: 28px; }
+    .hero-portrait { width: 184px; height: 184px; border-radius: 18px; }
+    .hero-id-text { gap: 8px; }
+    .hero-name { font-size: 1.75rem; line-height: 1.2; letter-spacing: -.01em; font-stretch: 92%; }
+    .hero-kicker { font-size: 1.0625rem; }
+    .kicker-role { display: block; }
+    .kicker-sep { display: none; }
     .hero-title { white-space: nowrap; font-size: min(4rem, 7.1cqi); }
     .glance { padding: 32px; gap: 24px; }
   }
