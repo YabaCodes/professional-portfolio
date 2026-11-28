@@ -5,6 +5,7 @@ import { loadCatalog } from '../lib/content/catalog';
 import { identity } from '../lib/site';
 import { Image } from 'astro:assets';
 import portrait from '../assets/portrait.jpg';
+import { yearsSince } from '../lib/portfolio';
 import { hero, atAGlance, process, phases, trackRecord, practice, experienceHeading, experienceSubheading, skills, contact, machine, displayDate } from '../lib/portfolio';
 import ProcessFlow from '../components/lifecycle/ProcessFlow.astro';
 import MachineExplorer from '../components/lifecycle/MachineExplorer.astro';
@@ -35,6 +36,10 @@ const patents = (await getCollection('patents')).map(e => e.data);
       </div>
       <div class="panel glance" role="group" aria-label="At a glance">
         <dl class="glance-machines">
+          <div class="glance-item glance-wide glance-years">
+            <dt>{atAGlance.experience.label}</dt>
+            <dd class="glance-value" data-glance-years>{yearsSince(atAGlance.experience.since)}+ years</dd>
+          </div>
           {atAGlance.machines.map(item => (
             <div class="glance-item">
               <dt>{item.label}</dt>
@@ -42,6 +47,10 @@ const patents = (await getCollection('patents')).map(e => e.data);
               <dd class="glance-detail">{item.detail}</dd>
             </div>
           ))}
+          <div class="glance-item glance-wide glance-scale">
+            <dt>{atAGlance.scale.label}</dt>
+            <dd class="glance-value">{atAGlance.scale.value}</dd>
+          </div>
         </dl>
         <dl class="glance-facts">
           {atAGlance.facts.map(item => (
@@ -60,7 +69,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
   <section id="process" class="section-block section-ruled" aria-labelledby="process-heading" data-reveal>
     <div class="page-container">
       <h2 id="process-heading">{process.heading}</h2>
-      <div class="reading-width section-intro">
+      <div class="reading-width section-intro intro-cols">
         {process.introduction.map(text => <p class="secondary-text">{text}</p>)}
       </div>
       <ProcessFlow />
@@ -94,6 +103,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
 
       <div class="track" data-track-record>
         <h3 id="track-heading" class="track-heading">{trackRecord.heading}</h3>
+        <p class="track-intro">{trackRecord.introduction}</p>
         <div class="track-cols">
           <div>
             <h4 class="track-label">Completed</h4>
@@ -249,6 +259,8 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .glance-value { order: -1; font-size: 1.625rem; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; font-stretch: 92%; }
   .glance-value-big { font-size: 2.75rem; line-height: 1; letter-spacing: -.03em; margin-bottom: 4px; color: var(--color-cobalt); }
   .glance-machines dt { color: var(--color-ink); font-weight: 600; }
+  .glance-machines .glance-scale dt, .glance-machines .glance-years dt { color: var(--color-steel); font-weight: 400; }
+  .glance-years { padding-bottom: 18px; border-bottom: 1px solid #D5DCE3; }
   .glance-detail { font-size: .875rem; line-height: 1.4; color: var(--color-steel); }
   @media (min-width: 768px) {
     .hero-title { max-width: none; }
@@ -264,13 +276,19 @@ const patents = (await getCollection('patents')).map(e => e.data);
   /* Sections */
   .section-block { padding-block: var(--section-space); }
   .section-ruled { border-top: 1px solid var(--color-line); }
-  /* Equipment Layout sits on a drawing sheet: mist with the drawing grid. */
+  /* Assembly Automation Technologies sits on a drawing sheet: mist with the drawing grid. */
   .section-sheet { background-color: var(--color-mist); border-bottom: 1px solid var(--color-line); }
   .section-sheet .secondary-text { color: var(--color-body); }
   .section-intro { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
 
   /* Six-to-eight phase stepper: native details, one open at a time, no script. */
   .steps { list-style: none; margin: 32px 0 0; padding: 0; max-width: 880px; }
+  /* Desktop: the lifecycle uses the full width; the two introduction paragraphs sit side by side to keep lines readable. */
+  @media (min-width: 1024px) {
+    .intro-cols { max-width: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 48px; }
+    .steps { max-width: none; }
+    .phase-body .phase-lead { max-width: 80ch; }
+  }
   .step { position: relative; padding-bottom: 14px; scroll-margin-top: 84px; }
   .step:not(:last-child)::before { content: ''; position: absolute; left: 16px; top: 50px; bottom: 0; width: 2px; border-radius: 2px; background: var(--color-line); transition: background-color var(--transition-duration); }
   .phase-summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 34px minmax(0, 1fr) 32px; gap: 14px; align-items: start; padding: 8px 0 4px; min-height: 44px; }
@@ -305,12 +323,20 @@ const patents = (await getCollection('patents')).map(e => e.data);
   /* Track record */
   .track { margin-top: 28px; max-width: 880px; padding: 24px 22px; border: 1px solid #D5DCE3; border-radius: var(--radius-panel); }
   .track-heading { font-size: 1.375rem; font-stretch: 92%; }
+  .track-intro { margin-top: 8px; color: var(--color-body); max-width: 72ch; }
   .track-cols { display: grid; gap: 20px; margin-top: 16px; }
   .track-label { font-size: .9375rem; line-height: 1.4; font-weight: 600; font-stretch: 100%; letter-spacing: 0; color: var(--color-cobalt); }
   .track-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .track-list li { display: flex; gap: 12px; align-items: baseline; }
   .track-count { flex-shrink: 0; min-width: 24px; font-size: 1.25rem; font-weight: 600; }
   @media (min-width: 768px) { .track { padding: 28px; } .track-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
+  @media (min-width: 1024px) {
+    .track { max-width: none; }
+    .track-intro { max-width: none; }
+    /* Panels use their full width: no early-wrapping text beside empty space. */
+    #machine .section-intro { max-width: none; }
+    .practice .practice-text { max-width: none; }
+  }
 
   /* Practice */
   .practice-wrap { padding-block: var(--section-space); }
@@ -327,6 +353,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .role-dates { font-size: .875rem; color: var(--color-steel); padding-top: 3px; }
   .role-summary { margin-top: 6px; color: var(--color-body); }
   @media (min-width: 768px) { .role { grid-template-columns: 11rem minmax(0, 1fr); } }
+  @media (min-width: 1024px) { .role-list { max-width: none; } }
 
   /* Skills */
   .skill-groups { display: flex; flex-direction: column; margin-top: 16px; }
@@ -356,4 +383,10 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .contact .action-link:hover { background: var(--color-cobalt-tint); border-color: var(--color-cobalt-tint); color: var(--color-cobalt-deep); }
   .contact .ghost-link { background: transparent; border-color: rgb(255 255 255 / .7); color: var(--color-white); }
   .contact .ghost-link:hover { background: rgb(255 255 255 / .1); color: var(--color-white); }
+  /* Desktop contact: text across the panel, buttons stacked on the right. */
+  @media (min-width: 1024px) {
+    .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px 56px; }
+    .contact .reading-width { max-width: none; }
+    .contact .button-row { flex-direction: column; align-items: stretch; }
+  }
 </style>

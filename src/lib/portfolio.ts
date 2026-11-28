@@ -12,11 +12,20 @@ export const hero = {
   introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
 } as const;
 
+/** Whole years since a YYYY-MM start, rounded down, at the given date. */
+export function yearsSince(start: string, at: Date = new Date()): number {
+  const [y, m] = start.split('-').map(Number);
+  return Math.floor(((at.getFullYear() - y) * 12 + (at.getMonth() + 1 - m)) / 12);
+}
+
 export const atAGlance = {
+  /** Years are counted from the first role (Project Engineer, February 2022) at build time and rounded down. */
+  experience: { since: '2022-02', label: 'Medical Device Assembly Equipment Development' },
   machines: [
-    { value: '11', label: 'Equipment projects completed', detail: '3 automated assembly machines, 8 manual assembly fixtures' },
+    { value: '12', label: 'Equipment projects completed', detail: '4 automated assembly machines, 8 manual assembly fixtures' },
     { value: '3', label: 'Equipment projects ongoing', detail: 'Automated assembly machines' },
   ],
+  scale: { value: 'Up to USD 10M', label: 'CapEx per fully automated machine' },
   facts: [
     { value: '4 countries', label: 'Based in Taiwan; machine testing and installation in Germany, Switzerland and the US', wide: true },
     { value: 'PMP®', label: 'Project Management Professional', wide: false },
@@ -160,8 +169,8 @@ export type PhaseId = keyof typeof phaseShort;
  * "role" is the owner's responsibility, from his lifecycle text.
  */
 export const machine = {
-  heading: 'Equipment Layout',
-  introduction: 'Schematic top view of a typical automated assembly machine with a closed-loop transfer system. Components are fed at stations all around the machine; the numbers in each station refer to the list. Select a topic to see what it does and what I specify and verify there.',
+  heading: 'Assembly Automation Technologies',
+  introduction: 'The technologies I specify and verify on automated assembly machines, shown on a schematic top view of a typical machine with a closed-loop transfer system. The numbers in each station refer to the topics; select one to see what it covers and my role.',
   spots: [
     { id: 'feeding', title: 'Feeding', phases: ['urs', 'fat', 'sat'],
       function: 'A device has many components, so they are fed at stations all around the machine, from bowl feeders and tray loaders; tray loaders can be supplied by an automated storage and retrieval system (AS/RS).',
@@ -172,9 +181,9 @@ export const machine = {
     { id: 'inspection', title: 'Control and inspection', phases: ['urs', 'fat'],
       function: 'Inspection takes place within assembly stations or at dedicated inspection stations, for example force-displacement monitoring and vision inspection; bad parts are removed at the reject station before unloading.',
       role: 'I define the inspection and detection requirements from the assembly risk assessment and verify the inspection systems at FAT.' },
-    { id: 'monitoring', title: 'Process monitoring', phases: ['pi', 'fat', 'sat'],
-      function: 'Critical process parameters are monitored and recorded; the machine keeps audit trails and reports and communicates with MES.',
-      role: 'I identify the critical process parameters during process integration and verify their monitoring, the audit trails and the MES communication at FAT and SAT.' },
+    { id: 'monitoring', title: 'Process monitoring and optimization', phases: ['pi', 'fat', 'sat'],
+      function: 'Critical process parameters are monitored and recorded at the stations, and the data is used to make the process robust and optimize it.',
+      role: 'I identify the critical process parameters during process integration, optimize the process within its boundaries and verify the monitoring at FAT and SAT.' },
     { id: 'qc', title: 'Final inspection', phases: ['urs', 'fat', 'sat'],
       function: 'Final inspection confirms each assembled device; the single reject station, one or two stations before unloading, removes nonconforming devices.',
       role: 'I define the acceptance criteria for final inspection and verify them, including rejection, at FAT and SAT.' },
@@ -187,14 +196,19 @@ export const machine = {
     { id: 'safety', title: 'Safety', phases: ['urs', 'design', 'fat'],
       function: 'Guarding with access doors encloses the machine, and its safety functions protect operators and maintenance staff.',
       role: 'I define the safety requirements in the URS, review machine safety in design reviews and verify the safety mechanisms at FAT.' },
+    { id: 'mes', title: 'MES integration', phases: ['urs', 'fat', 'sat'],
+      function: 'The machine control system exchanges data with the manufacturing execution system (MES): batch and product data, results for each device, audit trails and reports, for full traceability.',
+      role: 'I define the MES interface, data and audit-trail requirements and verify the communication at FAT and SAT.' },
   ],
 } as const;
 
 export const trackRecord = {
   heading: 'Track record',
+  introduction: 'From low-volume semi-automated machines for clinical trials, design analysis and design verification (DV) to high-volume fully automated machines at 60\u00A0parts per minute (ppm), with CapEx up to USD\u00A010\u00A0million per fully automated machine.',
   completed: [
-    { count: 1, item: 'Fully automated assembly machine' },
-    { count: 2, item: 'Final assembly machines' },
+    { count: 1, item: 'High-volume fully automated assembly machine, 60\u00A0ppm' },
+    { count: 1, item: 'Flexible robotic assembly line (SMART), 20\u00A0ppm' },
+    { count: 2, item: 'Final assembly machines for QC batch release' },
     { count: 8, item: 'Manual assembly fixtures' },
   ],
   inProgress: [

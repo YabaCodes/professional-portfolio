@@ -5,7 +5,8 @@
  * feeders, tray loaders); feeding stations also assemble (2) and may inspect (3) or monitor the
  * process (4); a couple of stations are dedicated to control and inspection; final inspection (5)
  * is followed by the single reject station, one station before unloading (6) to the tray unloader
- * and labeling (7); guarding with access doors is safety (8). Original, generic schematic: no real
+ * and labeling (7); guarding with access doors is safety (8); the data link to MES is MES integration (9).
+ * Original, generic schematic: no real
  * machine, supplier or product. Selecting a topic highlights every element that serves it.
  * A wide drawing on larger screens, a vertical one on phones. JS-free first state.
  */
@@ -39,7 +40,7 @@ const minis = (s: { nums: number[]; x: number; y: number; w: number; h: number }
   const step = 2 * r + 3, start = -((s.nums.length - 1) * step) / 2;
   return s.nums.map((n, k) => ({ n, id: topic(n), cx: s.x + s.w / 2 + start + k * step, cy: s.y + s.h / 2, r }));
 };
-const label = 'Schematic top view of an automated assembly machine with a closed-loop transfer system of ten stations: components are fed by bowl feeders and tray loaders at stations around the machine, where they are also assembled and in some cases inspected or process-monitored; two stations are dedicated to inspection; final inspection is followed by a single reject station and then unloading to a tray unloader and labeling; guarding with access doors encloses the machine';
+const label = 'Schematic top view of an automated assembly machine with a closed-loop transfer system of ten stations: components are fed by bowl feeders and tray loaders at stations around the machine, where they are also assembled and in some cases inspected or process-monitored; two stations are dedicated to inspection; final inspection is followed by a single reject station and then unloading to a tray unloader and labeling; guarding with access doors encloses the machine; the machine control system is connected to the manufacturing execution system (MES)';
 ---
 <div class="explorer" data-explorer>
   <figure class="explorer-figure">
@@ -92,10 +93,15 @@ const label = 'Schematic top view of an automated assembly machine with a closed
         <rect x="20" y="268" width="100" height="30" rx="4" class="box" /><text x="70" y="287" class="label">Labeling</text>
       </g>
       <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="120" cy="268" r="10" /><text x="120" y="271.5">7</text></g>
+      <g data-topics="mes" class={'ext' + on('mes')}>
+        <rect x="20" y="96" width="100" height="40" rx="4" class="box" /><text x="70" y="114" class="label strong">MES</text><text x="70" y="127" class="label small">Data and traceability</text>
+        <path d="M120 116H150" class="link data-link" />
+      </g>
+      <g data-topics="mes" class={'mini' + on('mes')}><circle cx="120" cy="96" r="10" /><text x="120" y="99.5">9</text></g>
     </svg>
 
     <!-- Tall drawing (phones), oriented like the owner's sketch -->
-    <svg class="layout layout-tall" viewBox="0 86 380 510" role="img" aria-label={label}>
+    <svg class="layout layout-tall" viewBox="0 30 380 566" role="img" aria-label={label}>
       <defs><marker id="arw-v" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" class="arrow-head" /></marker></defs>
       <rect x="96" y="96" width="208" height="460" data-topics="safety" class={'guard' + on('safety')} />
       <path d="M140 556v30a30 30 0 0 0 30-30M226 556v30a30 30 0 0 0 30-30" data-topics="safety" class={'door' + on('safety')} />
@@ -143,6 +149,11 @@ const label = 'Schematic top view of an automated assembly machine with a closed
         <rect x="4" y="172" width="84" height="28" rx="4" class="box" /><text x="46" y="190" class="label small">Labeling</text>
       </g>
       <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="88" cy="172" r="10" /><text x="88" y="175.5">7</text></g>
+      <g data-topics="mes" class={'ext' + on('mes')}>
+        <rect x="140" y="36" width="120" height="40" rx="4" class="box" /><text x="200" y="54" class="label strong">MES</text><text x="200" y="67" class="label small">Data and traceability</text>
+        <path d="M200 76V96" class="link data-link" />
+      </g>
+      <g data-topics="mes" class={'mini' + on('mes')}><circle cx="260" cy="36" r="10" /><text x="260" y="39.5">9</text></g>
     </svg>
     <figcaption class="layout-caption">Schematic, not to scale. Not a specific machine.</figcaption>
   </figure>
@@ -189,6 +200,8 @@ const label = 'Schematic top view of an automated assembly machine with a closed
   .door { fill: none; stroke: var(--color-steel); stroke-width: 1; stroke-dasharray: 3 2; transition: stroke .2s; }
   .label { font-size: 10.5px; fill: var(--color-ink); text-anchor: middle; }
   .label.small { font-size: 9.5px; }
+  .label.strong { font-weight: 600; }
+  .data-link { stroke-dasharray: 4 3; }
   .mini circle { fill: var(--color-white); stroke: var(--color-cobalt); stroke-width: 1.3; transition: fill .2s; }
   .mini text { font-size: 10px; font-weight: 600; fill: var(--color-cobalt); text-anchor: middle; transition: fill .2s; }
   .mini.is-active circle { fill: var(--color-cobalt); }

@@ -117,7 +117,7 @@ try {
     assert.deepEqual(await scan(page),[]);
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('[data-phase="fat"] details').evaluate(n=>n.open),false);
-    assert.equal(await page.locator('[data-track-record] li').count(),5,'track record items');
+    assert.equal(await page.locator('[data-track-record] li').count(),6,'track record items');
 
     // Process flow: each box opens its phase; the equipment layout switches topics.
     assert.equal(await page.locator('[data-flow]').count(),phases.length,'one flow box per phase');
