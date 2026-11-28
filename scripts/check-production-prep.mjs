@@ -56,7 +56,7 @@ for(const page of contentPages){
   robots:attr(tag(html,'meta','name','robots'),'content'),
  };
  const valid=found.lang&&found.title&&found.description&&found.ogTitle&&found.ogDescription&&
-  found.twitterCard==='summary'&&found.canonical===canonical&&found.ogUrl===canonical&&
+  found.twitterCard==='summary_large_image'&&found.canonical===canonical&&found.ogUrl===canonical&&
   (prelaunch?found.robots==='noindex, nofollow':!found.robots);
  if(!valid)errors.push({route:page,problem:'Metadata, canonical URL, or indexing-state mismatch',actual:found});
  assert.ok(!/href="\/professional-portfolio\/design-system\//.test(html),page+' exposes internal design specimen navigation');

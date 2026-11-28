@@ -118,3 +118,5 @@ PP-018 v1.5.3 deployed 2026-11-28 (run 46127265521).
 PP-019 feeding, WPC and machine rates 2026-11-28: v1.5.4. Acceptance: owner wording in the Technologies panels; rates in the hero summary and track record; all CI checks pass. Owner merge, then manual redeploy.
 PP-019 v1.5.4 deployed 2026-11-28 (run 46130877893).
 PP-020 rates in the track record only 2026-11-28: v1.5.5. Acceptance: hero summary without ppm; track record keeps 60, 20 and 160 ppm; all CI checks pass. Owner merge, then manual redeploy.
+PP-020 v1.5.5 deployed 2026-11-28 (run 46149224363).
+PP-021 link preview 2026-11-28: v1.5.6. Acceptance: link-preview.jpg 1200 x 630, under 300 KB, no EXIF; og:image absolute URL with width, height and alt; summary_large_image; all CI checks pass. Owner merge, then manual redeploy. Next: custom domain once the owner has bought one.
