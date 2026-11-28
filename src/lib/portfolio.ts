@@ -11,14 +11,17 @@ export const hero = {
   introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
 } as const;
 
-export const atAGlance = [
-  { value: '3', label: 'Assembly machines completed' },
-  { value: '8', label: 'Manual assembly fixtures completed' },
-  { value: '3', label: 'Automated machines in progress' },
-  { value: '3 countries', label: 'Germany, Switzerland and the US' },
-  { value: 'PMP®', label: 'Project Management Professional' },
-  { value: '01', label: 'Granted US patent' },
-] as const;
+export const atAGlance = {
+  machines: [
+    { value: '11', label: 'Machine developments completed', detail: '3 automated and 8 manual assembly' },
+    { value: '3', label: 'Machine developments ongoing', detail: 'Automated assembly machines' },
+  ],
+  facts: [
+    { value: '4 countries', label: 'Based in Taiwan; machine testing and installation in Germany, Switzerland and the US', wide: true },
+    { value: 'PMP®', label: 'Project Management Professional', wide: false },
+    { value: '01', label: 'Granted US patent', wide: false },
+  ],
+} as const;
 
 export const process = {
   heading: 'Manufacturing Equipment Development Lifecycle',
@@ -156,7 +159,7 @@ export const trackRecord = {
 export const practice = {
   label: 'Throughout every project',
   statement: 'I apply good manufacturing practice, good documentation practice and our quality system, with standard project-management tools and continuous risk assessment.',
-  international: 'The work is international. Most of our machines are built by suppliers in Germany, and some are installed at our sites in Switzerland and the US, so I travel to all three countries for project activities.',
+  international: 'I work from Taiwan, and the work is international: most of our machines are built by suppliers in Germany, and some are installed at our sites in Switzerland and the US, so I travel to all three for machine testing, installation and other project activities.',
   labels: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Project management (PMP)', 'Continuous risk assessment'],
 } as const;
 

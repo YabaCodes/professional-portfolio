@@ -1,6 +1,10 @@
 # Changelog
 
-## 1.1.0 — candidate
+## 1.2.0 — candidate
+- Redesign the at-a-glance box: two large machine figures (11 developments completed: 3 automated and 8 manual assembly; 3 ongoing: automated assembly machines), then 4 countries (based in Taiwan; testing and installation in Germany, Switzerland and the US), PMP and the patent.
+- Name Taiwan as the owner's base in the international sentence; rename the track record's "In progress" to "Ongoing".
+
+## 1.1.0 — deployed 2026-11-28 (PR #23; run 46087502809)
 - Replace the delivery section with the owner's own wording: "Manufacturing Equipment Development Lifecycle", eight steps (01–08) with short titles and keyword lines, each opening to a one-line description, technical responsibilities and key deliverables. Step 04 is "Equipment Development & Commissioning".
 - Show automation skills as separate chips with the specification, design review and testing note.
 

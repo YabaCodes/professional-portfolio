@@ -26,9 +26,25 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
           {approvedResume && <a class="ghost-link" href={approvedResume.assetPath} download data-hero-resume>{approvedResume.label}</a>}
         </div>
       </div>
-      <dl class="panel glance" aria-label="At a glance">
-        {atAGlance.map(item => <div class="glance-item"><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
-      </dl>
+      <div class="panel glance" role="group" aria-label="At a glance">
+        <dl class="glance-machines">
+          {atAGlance.machines.map(item => (
+            <div class="glance-item">
+              <dt>{item.label}</dt>
+              <dd class="glance-value glance-value-big">{item.value}</dd>
+              <dd class="glance-detail">{item.detail}</dd>
+            </div>
+          ))}
+        </dl>
+        <dl class="glance-facts">
+          {atAGlance.facts.map(item => (
+            <div class:list={['glance-item', { 'glance-wide': item.wide }]}>
+              <dt>{item.label}</dt>
+              <dd class="glance-value">{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </div>
   </section>
 
@@ -76,7 +92,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
             </ul>
           </div>
           <div>
-            <h4 class="track-label">In progress</h4>
+            <h4 class="track-label">Ongoing</h4>
             <ul class="track-list">
               {trackRecord.inProgress.map(t => <li><span class="track-count">{t.count}</span><span>{t.item}</span></li>)}
             </ul>
@@ -190,13 +206,21 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   .hero-title { max-width: 15ch; }
   .hero-intro { color: var(--color-body); font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); max-width: 56ch; }
   .hero-copy .button-row { margin-top: 8px; }
-  .glance { margin: 0; padding: 22px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; }
-  .glance-item { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 2px; }
+  .glance { padding: 22px; display: flex; flex-direction: column; gap: 20px; }
+  .glance dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 18px; }
+  .glance-facts { padding-top: 20px; border-top: 1px solid #D5DCE3; }
+  .glance-wide { grid-column: 1 / -1; }
+  /* Value first on screen; label (dt) stays first in the markup. */
+  .glance-item { display: flex; flex-direction: column; gap: 2px; }
   .glance dt { font-size: .875rem; line-height: 1.4; color: var(--color-steel); }
-  .glance dd { margin: 0; font-size: 1.625rem; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; font-stretch: 92%; }
+  .glance dd { margin: 0; }
+  .glance-value { order: -1; font-size: 1.625rem; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; font-stretch: 92%; }
+  .glance-value-big { font-size: 2.75rem; line-height: 1; letter-spacing: -.03em; margin-bottom: 4px; }
+  .glance-machines dt { color: var(--color-ink); font-weight: 600; }
+  .glance-detail { font-size: .875rem; line-height: 1.4; color: var(--color-steel); }
   @media (min-width: 1024px) {
     .hero-grid { grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr); gap: 56px; }
-    .glance { padding: 28px; gap: 26px 22px; }
+    .glance { padding: 28px; gap: 24px; }
   }
 
   /* Sections */
