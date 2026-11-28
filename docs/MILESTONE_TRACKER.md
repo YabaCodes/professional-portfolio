@@ -110,3 +110,5 @@ PP-014 v1.4.0 deployed 2026-11-28 (run 46108062504).
 PP-015 technologies, scale and experience 2026-11-28: v1.5.0. Acceptance: section renamed Assembly Automation Technologies with nine topics including MES integration (drawn in both layouts); glance box with years of experience (build-time, rounded down), 12 completed and CapEx; track record with machine range and types; SMART line under Project Engineer; desktop sections use the full width; all CI checks pass (320–1440 px, axe clean). Owner merge, then manual redeploy.
 PP-015 v1.5.0 deployed 2026-11-28 (run 46113573496).
 PP-016 working standards and global operations 2026-11-28: v1.5.1. Acceptance: owner's heading and two paragraphs verbatim; all CI checks pass. Owner merge, then manual redeploy.
+PP-016 v1.5.1 deployed 2026-11-28 (run 46115528930).
+PP-017 type and spacing consistency 2026-11-28: v1.5.2. Acceptance: one size per text role at every width (checked automatically), page title larger than section headings, consistent heading and panel spacing; all CI checks pass. Owner merge, then manual redeploy.

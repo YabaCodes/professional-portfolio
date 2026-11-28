@@ -161,6 +161,12 @@ try {
       return {lines,fits:r.getBoundingClientRect().width<=t.clientWidth+1,beside:g.left>=c.right};});
     if(width>=768) assert.ok(heroBox.lines===1&&heroBox.fits,'title on one line at '+width);
     if(width>=1024) assert.ok(heroBox.beside,'glance box beside the copy at '+width);
+    // Type scale stays consistent: one size per role.
+    const scale=await page.evaluate(()=>{const fs=sel=>[...new Set([...document.querySelectorAll(sel)].map(e=>getComputedStyle(e).fontSize))];
+      return {h1:parseFloat(getComputedStyle(document.querySelector('h1')).fontSize),h2:fs('main h2:not(.practice-heading)'),panel:fs('.track-heading, .practice-heading'),
+        label:fs('.track-label, .phase-body .body-label, .spot-label'),caption:fs('.flow-caption, .layout-caption'),meta:fs('.record-meta, .role-dates')};});
+    for(const [role,sizes] of Object.entries(scale)) if(Array.isArray(sizes)) assert.equal(sizes.length,1,`one ${role} size at ${width}: ${sizes}`);
+    if(width>=1024) assert.ok(scale.h1>parseFloat(scale.h2[0]),`page title larger than section headings at ${width}`);
     assert.equal(await page.locator('main form, a[href^="tel:"]').count(),0);
     if (production && publication.resume.status === 'approved') assert.equal(await page.locator('[data-approved-resume-link]').getAttribute('href'),publication.resume.assetPath);
     else assert.equal(await page.locator('a[download], a[href$=".pdf"]').count(),0);
