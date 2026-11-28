@@ -33,6 +33,8 @@ function choiceGroup(root: HTMLElement, key: 'spot', panelKey: string): void {
       if (el.tagName === 'BUTTON') el.setAttribute('aria-pressed', String(on));
     }
     for (const panel of panels) panel.hidden = panel.dataset.spotPanel !== value;
+    // Drawing elements can serve several topics (e.g. a station that assembles and inspects).
+    root.querySelectorAll<SVGElement>('[data-topics]').forEach(el => el.classList.toggle('is-active', (el.dataset.topics ?? '').split(' ').includes(value)));
   };
   for (const el of choices) if (el.tagName === 'BUTTON') el.addEventListener('click', () => select(el.dataset[key]!));
 }
