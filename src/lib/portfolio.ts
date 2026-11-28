@@ -21,58 +21,122 @@ export const atAGlance = [
 ] as const;
 
 export const process = {
-  heading: 'How I deliver a machine, on every project.',
-  introduction: 'Almost every project I run follows the same procedure, from the lab to mass production. I write and execute every protocol up to SAT, with IQ, OQ and PQ tests at process integration, FAT and SAT, and I support validation and mass production. Tap a phase to see what I do.',
+  heading: 'Manufacturing Equipment Development Lifecycle',
+  introduction: [
+    'End-to-end technical leadership of manufacturing equipment development for medical devices, from process characterization and engineering requirements definition through supplier development, equipment integration, acceptance testing, validation support and manufacturing transfer.',
+    'Responsible for translating product and process requirements into scalable manufacturing solutions, ensuring technical compliance, process robustness, equipment performance and operational readiness.',
+  ],
 } as const;
 
+/**
+ * Owner-written wording (PP-011, 2026-11-28). Titles and keyword lines follow the owner's flow;
+ * detail text is the owner's, with "equipment manufacturing" changed to "equipment development"
+ * in step 04 at his request.
+ */
 export const phases = [
   {
-    id: 'urs', title: 'User requirement specification (URS)',
-    summary: 'Turn the lab-developed assembly process and the assembly risk assessment into the machine requirements.',
-    role: 'We develop the assembly process in the lab, testing it to define the parameters for building the autoinjector, and carry out an assembly risk assessment. I turn the parameters and the risk assessment into the URS. Besides how the product must be assembled, it sets every inspection and detection, and the safety, documentation and machine functions the machine must fulfil before we accept it. Writing the URS is my main task.',
-    deliver: 'The URS.',
+    id: 'urs', title: 'Requirements Engineering',
+    tags: ['URS', 'Process requirements', 'Risk-based specifications'],
+    lead: 'Translation of product, process and risk-based requirements into comprehensive equipment engineering specifications.',
+    responsibilities: [
+      'Translate laboratory-developed assembly processes, process parameters and assembly risk assessments into functional and technical equipment requirements.',
+      'Define assembly specifications, inspection and detection requirements, process controls, machine functionality and safety requirements.',
+      'Establish equipment documentation requirements and technical acceptance criteria.',
+      'Lead the development of the URS as the technical baseline for supplier engagement, equipment design and subsequent verification activities.',
+    ],
+    deliverables: 'User Requirements Specification (URS), functional and technical requirements, risk-based process control requirements and equipment acceptance criteria.',
   },
   {
-    id: 'srm', title: 'Supplier response matrix and kickoff',
-    summary: 'Agree with the supplier which requirements will be met, and how.',
-    role: 'The supplier answers each requirement: can fulfil, cannot fulfil, or an alternative solution. I review the answers with the supplier, with feedback from our quality engineering and validation teams. I sign off the supplier response matrix, agree the final solutions, and kick off the project. From kickoff I run a weekly alignment meeting with the supplier and the whole project team, using standard project-management tools.',
-    deliver: 'Signed supplier response matrix, project kickoff and weekly alignment.',
+    id: 'srm', title: 'Supplier Technical Alignment',
+    tags: ['Feasibility', 'Technical baseline', 'Project governance'],
+    lead: 'Establishment of an agreed technical baseline and supplier execution framework.',
+    responsibilities: [
+      'Lead the technical evaluation of supplier responses against established user requirements.',
+      'Assess proposed engineering solutions, technical deviations, feasibility constraints and alternative concepts.',
+      'Coordinate cross-functional technical alignment with Quality Engineering, Validation and other relevant stakeholders.',
+      'Approve the supplier response matrix and establish the agreed technical scope.',
+      'Lead recurring supplier alignment meetings, coordinating technical decisions, deliverables, project milestones and risk mitigation.',
+    ],
+    deliverables: 'Approved supplier response matrix, agreed technical scope, project kickoff and recurring supplier project governance.',
   },
   {
-    id: 'design', title: 'Design review and approval',
-    summary: 'Trace every requirement through the machine design, then approve it.',
-    role: 'The supplier designs the machine in sections: hardware, software, controls, inputs and outputs, and safety. In several design phases and workshops I review every aspect with the supplier and trace each requirement through the design to a specific machine function. I lead this work, then approve the design so the supplier can start procurement and manufacturing.',
-    deliver: 'Design reviews, requirements traceability and design approval.',
+    id: 'design', title: 'Engineering Design Assurance',
+    tags: ['Design reviews', 'Traceability', 'Approval'],
+    lead: 'Verification of equipment design compliance against functional, technical and process requirements.',
+    responsibilities: [
+      'Lead multidisciplinary equipment design reviews covering mechanical systems, electrical hardware, automation software, control architecture, I/O interfaces and machine safety.',
+      'Evaluate proposed engineering solutions against assembly process requirements and product quality expectations.',
+      'Maintain requirements traceability between the URS and corresponding equipment design solutions.',
+      'Coordinate technical clarification and resolution of design-related issues.',
+      'Approve equipment designs for progression into procurement and manufacturing.',
+    ],
+    deliverables: 'Engineering design review records, requirements traceability, technical issue resolution and equipment design approval.',
   },
   {
-    id: 'build', title: 'Machine build',
-    summary: 'Track the supplier’s manufacturing and tests, and assess risk continuously.',
-    role: 'While the supplier manufactures, commissions and internally qualifies the machine, I keep the weekly alignment to track progress and make sure tests are completed on time. Throughout development I keep a continuous risk assessment of project delay, machine function and quality, and of where we can improve.',
-    deliver: 'Progress tracking and a continuous risk assessment.',
+    id: 'build', title: 'Equipment Development & Commissioning',
+    tags: ['Supplier oversight', 'Risk mitigation', 'Readiness'],
+    lead: 'Technical oversight of equipment development, commissioning and supplier readiness.',
+    responsibilities: [
+      'Monitor supplier execution throughout equipment development, assembly, commissioning and internal qualification.',
+      'Track technical deliverables, development milestones and testing progress against the project schedule.',
+      'Assess emerging technical, quality and schedule-related risks and coordinate mitigation activities.',
+      'Evaluate equipment functionality and identify opportunities for engineering improvements throughout development.',
+      'Coordinate supplier and cross-functional activities to maintain equipment readiness for subsequent integration and acceptance testing.',
+    ],
+    deliverables: 'Supplier progress assessments, technical risk assessments, mitigation actions and equipment readiness evaluations.',
   },
   {
-    id: 'pi', title: 'Process integration',
-    summary: 'Challenge the commissioned machine at the supplier to find its limits.',
-    role: 'Once the supplier has commissioned the machine, I go to the supplier with a process engineer from our team. We challenge the machine: we run it at the upper and lower specification limits and with component variation, define the critical parameters, and identify where it could fail and what to improve. I write the protocol and execute it, including IQ, OQ and PQ tests. The supplier resolves the issues before its internal qualification.',
-    deliver: 'Process-integration protocol with IQ, OQ and PQ tests, and its execution: critical parameters, failure points and improvements.',
+    id: 'pi', title: 'Process Integration & Characterization',
+    tags: ['Process boundaries', 'Robustness', 'Optimization'],
+    lead: 'Experimental evaluation and optimization of equipment functionality, process robustness and operating boundaries.',
+    responsibilities: [
+      'Lead equipment process integration and engineering characterization activities at the supplier facility.',
+      'Develop and execute structured engineering test protocols incorporating installation, operational and performance qualification tests.',
+      'Evaluate equipment performance under upper and lower specification limits and representative component variation.',
+      'Characterize process behavior, identify critical process parameters and assess process robustness.',
+      'Identify potential failure modes, functional limitations and opportunities for process optimization.',
+      'Coordinate corrective actions and engineering improvements with suppliers prior to internal qualification and formal acceptance testing.',
+    ],
+    deliverables: 'Process integration protocols and test results, process characterization, critical process parameter identification, failure-mode assessments and engineering improvement actions.',
   },
   {
-    id: 'fat', title: 'Factory acceptance test (FAT)',
-    summary: 'Test every requirement at the supplier before shipment.',
-    role: 'After the supplier’s internal qualification, I run the FAT. I write the protocol myself: every requirement, test item, test method and acceptance criterion, with IQ, OQ and PQ tests, so each aspect of the machine is tested. Besides producing the product, the machine must integrate with our IT and MES infrastructure, SAP and other enterprise software, so I test those integrations too.',
-    deliver: 'FAT protocol with IQ, OQ and PQ tests, and its execution.',
+    id: 'fat', title: 'Factory Acceptance Testing',
+    tags: ['Requirements verification', 'FAT'],
+    lead: 'Formal verification of equipment compliance, functionality and performance prior to shipment.',
+    responsibilities: [
+      'Develop comprehensive, requirements-driven FAT protocols defining test methods, test conditions and acceptance criteria.',
+      'Lead the execution of installation, operational and performance qualification tests at the supplier facility.',
+      'Verify equipment functionality, assembly performance, inspection systems, process controls and safety mechanisms against established requirements.',
+      'Evaluate equipment integration with IT infrastructure, Manufacturing Execution Systems (MES), SAP and other enterprise manufacturing systems.',
+      'Assess acceptance test results and coordinate the resolution of identified technical nonconformities.',
+    ],
+    deliverables: 'FAT protocol, executed qualification test records, requirements verification evidence and technical nonconformity resolution.',
   },
   {
-    id: 'sat', title: 'Site acceptance test (SAT)',
-    summary: 'Repeat acceptance testing after the machine arrives on site.',
-    role: 'After the supplier ships the machine to our site, I write and execute the SAT protocol the same way, including IQ, OQ and PQ tests, before validation starts.',
-    deliver: 'SAT protocol with IQ, OQ and PQ tests, and its execution.',
+    id: 'sat', title: 'Site Acceptance Testing',
+    tags: ['Site integration', 'SAT', 'Validation readiness'],
+    lead: 'Verification of equipment functionality and performance within the intended manufacturing environment.',
+    responsibilities: [
+      'Develop and execute site-specific equipment acceptance test protocols following installation at the receiving manufacturing facility.',
+      'Perform installation, operational and performance qualification tests to verify equipment compliance and functionality.',
+      'Evaluate equipment performance and integration under actual site operating conditions.',
+      'Verify continued compliance with established technical, functional and process requirements following transportation and installation.',
+      'Establish equipment readiness for subsequent process validation activities.',
+    ],
+    deliverables: 'SAT protocol, executed qualification test records, site-specific verification evidence and equipment readiness assessment.',
   },
   {
-    id: 'validation', title: 'Validation, handover and mass production',
-    summary: 'Support validation and handover, transfer the knowledge, and support mass production.',
-    role: 'After SAT the machine is validated and handed over to mass production. I support validation and keep supporting mass production. I write the work instructions and train operators and maintenance staff, so all the knowledge is transferred.',
-    deliver: 'Work instructions, operator and maintenance training, and mass-production support.',
+    id: 'validation', title: 'Manufacturing Transfer & Production',
+    tags: ['Validation support', 'Knowledge transfer', 'Ramp-up'],
+    lead: 'Transition of qualified manufacturing equipment into validated and sustainable production operations.',
+    responsibilities: [
+      'Provide technical engineering support throughout process validation and manufacturing transfer.',
+      'Support equipment and process readiness assessments for mass production.',
+      'Develop manufacturing work instructions and operational documentation.',
+      'Lead technical knowledge transfer and training for production operators and maintenance personnel.',
+      'Provide ongoing engineering support for manufacturing operations, equipment troubleshooting and process performance improvement.',
+    ],
+    deliverables: 'Manufacturing work instructions, technical training, engineering knowledge transfer, validation support and ongoing production engineering support.',
   },
 ] as const;
 
@@ -103,7 +167,7 @@ export const skills = {
   groups: [
     { group: 'Equipment and process', items: ['Industrialization of automated assembly equipment', 'User requirement specification (URS)', 'Requirements traceability', 'Design review', 'Process integration and challenge testing', 'FAT and SAT', 'Equipment qualification and validation support', 'IT, MES and SAP integration testing', 'Root-cause investigation', 'Process improvement'] },
     { group: 'Quality and compliance', items: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Risk analysis into requirements'] },
-    { group: 'Automation technology', items: ['Control systems, PLC, HMI, SCADA and robotics: specification, design review and testing', 'CAD'] },
+    { group: 'Automation technology', note: 'Specification, design review and testing of control systems, PLC, HMI, SCADA and robotics.', items: ['Control systems', 'PLC', 'HMI', 'SCADA', 'Robotics', 'CAD'] },
     { group: 'Project and people', items: ['Project management (PMP)', 'Project planning: milestones, resources, risk', 'Supplier management', 'Cross-functional coordination', 'Senior-management reporting', 'Team lead for three engineers', 'Training and knowledge transfer'] },
     { group: 'Analysis', items: ['Design for Six Sigma (Green Belt)', 'Statistics', 'Measurement system analysis'] },
     { group: 'Languages', items: ['English (advanced)', 'Amharic (native)'] },

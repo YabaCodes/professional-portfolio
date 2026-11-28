@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdir,readFile,readdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {resolveContact,resolveResume} from '../src/lib/publication-gates.ts';
-import {hero,atAGlance,phases,trackRecord,practice,skills,contact as contactCopy} from '../src/lib/portfolio.ts';
+import {hero,atAGlance,process,phases,trackRecord,practice,skills,contact as contactCopy} from '../src/lib/portfolio.ts';
 
 const root=path.resolve('dist');
 const routes=[''];
@@ -44,14 +44,14 @@ if(prelaunch){
 assert.doesNotMatch(page,/href="\/professional-portfolio\/design-system\//,'Internal fixture link forbidden');
 
 // The approved copy renders exactly once, word for word.
-for(const words of [hero.titleLine,hero.headline,hero.introduction,practice.statement,practice.international,contactCopy.heading,contactCopy.introduction])
+for(const words of [hero.titleLine,hero.headline,hero.introduction,process.heading,...process.introduction,practice.statement,practice.international,contactCopy.heading,contactCopy.introduction])
  assert.ok(text.includes(words),'Approved copy missing: '+words.slice(0,60));
 for(const item of atAGlance)assert.ok(text.includes(item.label)&&text.includes(item.value),'At-a-glance item missing: '+item.label);
 for(const t of [...trackRecord.completed,...trackRecord.inProgress])assert.ok(text.includes(t.item),'Track record item missing: '+t.item);
 assert.equal((page.match(/data-phase="/g)??[]).length,8,'Exactly eight delivery phases');
 assert.deepEqual(phases.map(p=>p.id),['urs','srm','design','build','pi','fat','sat','validation'],'Standard phase order');
 for(const p of phases){
- for(const words of [p.title,p.summary,p.role,p.deliver])assert.ok(text.includes(words),'Phase copy missing: '+p.id+' '+words.slice(0,40));
+ for(const words of [p.title,p.tags.join(' · '),p.lead,...p.responsibilities,p.deliverables])assert.ok(text.includes(words),'Phase copy missing: '+p.id+' '+words.slice(0,40));
 }
 for(const group of skills.groups)for(const item of group.items)assert.ok(text.includes(item),'Skill missing: '+item);
 // Retired content must not return to the public page.
@@ -102,7 +102,7 @@ const blockers=[
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
  {id:'B05-LAUNCH',status:prelaunch?'owner-release-authorization-required':'authorized-'+release.approvalReference}
 ];
-const report={milestone:'PP-010 / launch v1.0.0',version:packageInfo.version,
+const report={milestone:'PP-011 / owner lifecycle wording',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
  websiteDeployedByThisWorkflow:false,approvedRecords:counts,primaryRoutes:routes.length,deliveryPhases:phases.length,
  releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-and-email-approved-for-public-repository',

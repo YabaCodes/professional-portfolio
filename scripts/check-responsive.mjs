@@ -108,7 +108,7 @@ try {
     await page.keyboard.press('Enter');
     assert.deepEqual(await openStates(),only(fat),'exclusive accordion');
     assert.equal(await page.locator('[data-phase="fat"] .phase-body').isVisible(),true);
-    assert.ok((await page.locator('[data-phase="fat"] .phase-body').innerText()).includes('IQ, OQ and PQ'));
+    assert.ok((await page.locator('[data-phase="fat"] .phase-body').innerText()).includes('installation, operational and performance qualification tests'));
     await page.waitForTimeout(100); // let colour transitions settle
     const dotColors = await page.locator('[data-phase] .step-dot').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).backgroundColor));
     assert.equal(dotColors[fat],'rgb(35, 66, 176)','open phase marked in cobalt');

@@ -35,22 +35,31 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   <section id="process" class="section-block section-ruled" aria-labelledby="process-heading" data-reveal>
     <div class="page-container">
       <h2 id="process-heading">{process.heading}</h2>
-      <p class="secondary-text reading-width section-intro">{process.introduction}</p>
-      <ol class="steps" aria-label="Machine delivery phases">
+      <div class="reading-width section-intro">
+        {process.introduction.map(text => <p class="secondary-text">{text}</p>)}
+      </div>
+      <ol class="steps" aria-label="Manufacturing equipment development phases">
         {phases.map((p, i) => (
           <li class="step" data-phase={p.id}>
             <details class="phase" name="phase" open={i === 0}>
               <summary class="phase-summary">
-                <span class="step-dot" aria-hidden="true">{i + 1}</span>
+                <span class="step-dot" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                 <span class="phase-text">
                   <span class="phase-title">{p.title}</span>
-                  <span class="phase-line">{p.summary}</span>
+                  <span class="phase-line">{p.tags.map((tag, j) => <>{j > 0 && <span class="tag-sep" aria-hidden="true"> · </span>}<span class="tag">{tag}</span></>)}</span>
                 </span>
                 <span class="phase-icon" aria-hidden="true"></span>
               </summary>
               <div class="phase-body">
-                <div><p class="body-label">What I do</p><p>{p.role}</p></div>
-                <div><p class="body-label">Deliverables</p><p>{p.deliver}</p></div>
+                <p class="phase-lead">{p.lead}</p>
+                <div>
+                  <p class="body-label">Technical responsibilities</p>
+                  <ul class="duty-list">{p.responsibilities.map(item => <li>{item}</li>)}</ul>
+                </div>
+                <div>
+                  <p class="body-label">Key deliverables</p>
+                  <p>{p.deliverables}</p>
+                </div>
               </div>
             </details>
           </li>
@@ -111,7 +120,10 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
       <div class="skill-groups">
         {skills.groups.map(group => (
           <div class="skill-group" data-skill-group={group.group}>
-            <h3>{group.group}</h3>
+            <div>
+              <h3>{group.group}</h3>
+              {'note' in group && <p class="skill-note">{group.note}</p>}
+            </div>
             <ul class="chip-row" aria-label={group.group}>
               {group.items.map(item => <li class="chip">{item}</li>)}
             </ul>
@@ -190,7 +202,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   /* Sections */
   .section-block { padding-block: var(--section-space); }
   .section-ruled { border-top: 1px solid var(--color-line); }
-  .section-intro { margin-top: 14px; }
+  .section-intro { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
 
   /* Six-to-eight phase stepper: native details, one open at a time, no script. */
   .steps { list-style: none; margin: 32px 0 0; padding: 0; max-width: 880px; }
@@ -198,7 +210,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   .step:not(:last-child)::before { content: ''; position: absolute; left: 16px; top: 50px; bottom: 0; width: 2px; border-radius: 2px; background: var(--color-line); transition: background-color var(--transition-duration); }
   .phase-summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 34px minmax(0, 1fr) 32px; gap: 14px; align-items: start; padding: 8px 0 4px; min-height: 44px; }
   .phase-summary::-webkit-details-marker { display: none; }
-  .step-dot { width: 34px; height: 34px; box-sizing: border-box; border-radius: 999px; border: 1.5px solid #C9D2DB; background: var(--color-white); color: var(--color-steel); font-size: .8125rem; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: background-color var(--transition-duration), color var(--transition-duration), border-color var(--transition-duration); }
+  .step-dot { width: 34px; height: 34px; box-sizing: border-box; border-radius: 999px; border: 1.5px solid #C9D2DB; background: var(--color-white); color: var(--color-steel); font-size: .8125rem; font-variant-numeric: tabular-nums; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: background-color var(--transition-duration), color var(--transition-duration), border-color var(--transition-duration); }
   .phase-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding-top: 3px; }
   .phase-title { font-size: 1.1875rem; line-height: 1.35; font-weight: 600; letter-spacing: -.01em; color: var(--color-ink); transition: color var(--transition-duration); }
   .phase-line { color: var(--color-steel); font-size: 1rem; line-height: 1.55; }
@@ -213,10 +225,16 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   .step:has(~ .step > details[open])::before { background: var(--color-cobalt); }
   .step:has(~ .step > details[open]) .step-dot { border-color: var(--color-cobalt); background: var(--color-cobalt-tint); color: var(--color-cobalt); }
   .phase-body { margin: 12px 0 6px 48px; padding: 18px; background: var(--color-cobalt-tint); border-radius: var(--radius-inner); display: grid; gap: 16px; }
-  .phase-body p { color: var(--color-ink); }
+  .phase-body p, .duty-list { color: var(--color-ink); }
+  .phase-body .phase-lead { font-weight: 500; }
   .phase-body .body-label { font-size: .875rem; font-weight: 600; color: var(--color-cobalt); margin-bottom: 6px; }
+  .duty-list { margin: 0; padding-left: 1.1em; list-style: disc; display: flex; flex-direction: column; gap: 6px; }
+  .tag { white-space: nowrap; }
+  .tag-sep { margin-inline: .2em; color: #8A96A3; }
+  .duty-list li::marker { color: var(--color-cobalt); }
   @media (min-width: 768px) {
-    .phase-body { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 28px; padding: 22px 24px; }
+    .phase-body { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 20px 28px; padding: 22px 24px; }
+    .phase-lead { grid-column: 1 / -1; }
   }
 
   /* Track record */
@@ -248,6 +266,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   .skill-groups { display: flex; flex-direction: column; margin-top: 16px; }
   .skill-group { display: grid; gap: 10px 32px; padding: 18px 0; border-bottom: 1px solid var(--color-line); }
   .skill-group:last-child { border-bottom: 0; }
+  .skill-note { margin-top: 4px; font-size: .875rem; line-height: 1.5; color: var(--color-steel); max-width: 40ch; }
   @media (min-width: 768px) { .skill-group { grid-template-columns: 14rem minmax(0, 1fr); } }
 
   /* Education, publications, patent */

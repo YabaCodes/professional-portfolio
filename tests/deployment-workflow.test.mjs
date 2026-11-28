@@ -31,9 +31,9 @@ test('manual-only release workflow includes the same critical content, asset and
  assert.match(release,/actions\/upload-pages-artifact@/);
  assert.match(release,/actions\/deploy-pages@/);
 });
-test('launch manifest is exactly the owner-approved v1.0.0 state; contact items unchanged',async()=>{
+test('release manifest is the owner-approved published state; contact items unchanged',async()=>{
  const [manifest,publicFacing]=await Promise.all([read('config/release.json'),read('config/public-facing.json')]);
- assert.deepEqual(JSON.parse(manifest),{publicationEnabled:true,approvalReference:'PP-010-001',releaseVersion:'1.0.0'});
+ assert.deepEqual(JSON.parse(manifest),{publicationEnabled:true,approvalReference:'PP-010-001',releaseVersion:'1.1.0'});
  assert.deepEqual(JSON.parse(publicFacing),{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
   email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
