@@ -9,7 +9,7 @@ export const hero = {
   name: 'Yeabsra Mekdim',
   titleLine: 'Senior Process Development Engineer (Team\u00A0Lead) · SHL Medical · Taiwan',
   headline: 'From Concept to Mass Production',
-  introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance. The automated assembly machines I have completed run from 20 to 60\u00A0parts per minute (ppm), and the two fully automated machines now in development run at 160\u00A0ppm.',
+  introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
 } as const;
 
 /** Whole years since a YYYY-MM start, rounded down, at the given date. */

@@ -116,3 +116,5 @@ PP-017 v1.5.2 deployed 2026-11-28 (run 46118778673).
 PP-018 phase opens in place 2026-11-28: v1.5.3. Acceptance: a tapped phase heading stays within 2 px of its position at 320–1440 px; all CI checks pass. Owner merge, then manual redeploy.
 PP-018 v1.5.3 deployed 2026-11-28 (run 46127265521).
 PP-019 feeding, WPC and machine rates 2026-11-28: v1.5.4. Acceptance: owner wording in the Technologies panels; rates in the hero summary and track record; all CI checks pass. Owner merge, then manual redeploy.
+PP-019 v1.5.4 deployed 2026-11-28 (run 46130877893).
+PP-020 rates in the track record only 2026-11-28: v1.5.5. Acceptance: hero summary without ppm; track record keeps 60, 20 and 160 ppm; all CI checks pass. Owner merge, then manual redeploy.
