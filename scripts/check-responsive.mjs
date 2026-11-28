@@ -174,6 +174,11 @@ try {
       return {lines,fits:r.getBoundingClientRect().width<=t.clientWidth+1,beside:g.left>=c.right};});
     if(width>=768) assert.ok(heroBox.lines===1&&heroBox.fits,'title on one line at '+width);
     if(width>=1024) assert.ok(heroBox.beside,'glance box beside the copy at '+width);
+    // Headings, subheadings and labels keep the main words capitalized (published titles of papers excluded).
+    const notTitleCase=await page.evaluate(()=>{const minor=new Set(['a','an','and','as','at','by','for','from','in','of','on','or','per','the','to','vs','with']);
+      return [...document.querySelectorAll('main h2, main h3:not(.record-title), .track-label, .body-label, .spot-label, .glance-machines dt, .spot-chip, .flow-title, .section-bar a, .site-header nav a')]
+        .map(e=>e.textContent.replace(/\s+/g,' ').trim()).filter(t=>t.split(' ').some((w,i)=>/^[a-z]/.test(w)&&(i===0||!minor.has(w))));});
+    assert.deepEqual(notTitleCase,[],'headings and labels in title case');
     // Type scale stays consistent: one size per role.
     const scale=await page.evaluate(()=>{const fs=sel=>[...new Set([...document.querySelectorAll(sel)].map(e=>getComputedStyle(e).fontSize))];
       return {h1:parseFloat(getComputedStyle(document.querySelector('h1')).fontSize),h2:fs('main h2:not(.practice-heading)'),panel:fs('.track-heading, .practice-heading'),

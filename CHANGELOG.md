@@ -1,6 +1,11 @@
 # Changelog
 
-## 1.5.4 — candidate
+## 1.5.5 — candidate
+- Machine rates (ppm) removed from the hero summary at the owner's request; they stay in the track record (completed: 60 ppm and 20 ppm; ongoing: 160 ppm).
+- Skills: the description under Automation Technology removed (no other group had one).
+- Title case for headings, subheadings and labels: skill groups, Technologies topics, Track Record, glance labels, "My Role", "Lifecycle Steps", "Technical Responsibilities", "Key Deliverables" and the "How I Work" menu link. New check keeps them in title case.
+
+## 1.5.4 — deployed 2026-11-28 (PR #31; run 46130877893)
 - Hero summary: completed automated assembly machines run from 20 to 60 ppm; the two fully automated machines in development run at 160 ppm. Track record: range up to 160 ppm; the two ongoing machines marked 160 ppm.
 - Technologies: feeding by bowl feeders and tray loaders, both integrable with an automated storage and retrieval system (ASRS) for automated feeding and replenishment; "pallet" becomes Work Piece Carrier (WPC); AS/RS becomes ASRS; final inspection reworded by the owner; new section introduction in the owner's words.
 

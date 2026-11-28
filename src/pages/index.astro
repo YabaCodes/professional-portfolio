@@ -88,11 +88,11 @@ const patents = (await getCollection('patents')).map(e => e.data);
               <div class="phase-body">
                 <p class="phase-lead">{p.lead}</p>
                 <div>
-                  <p class="body-label">Technical responsibilities</p>
+                  <p class="body-label">Technical Responsibilities</p>
                   <ul class="duty-list">{p.responsibilities.map(item => <li>{item}</li>)}</ul>
                 </div>
                 <div>
-                  <p class="body-label">Key deliverables</p>
+                  <p class="body-label">Key Deliverables</p>
                   <p>{p.deliverables}</p>
                 </div>
               </div>
@@ -164,7 +164,6 @@ const patents = (await getCollection('patents')).map(e => e.data);
           <div class="skill-group" data-skill-group={group.group}>
             <div>
               <h3>{group.group}</h3>
-              {'note' in group && <p class="skill-note">{group.note}</p>}
             </div>
             <ul class="chip-row" aria-label={group.group}>
               {group.items.map(item => <li class="chip">{item}</li>)}
@@ -359,7 +358,6 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .skill-groups { display: flex; flex-direction: column; margin-top: 16px; }
   .skill-group { display: grid; gap: 10px 32px; padding: 18px 0; border-bottom: 1px solid var(--color-line); }
   .skill-group:last-child { border-bottom: 0; }
-  .skill-note { margin-top: 4px; font-size: .875rem; line-height: 1.5; color: var(--color-steel); max-width: 40ch; }
   @media (min-width: 768px) { .skill-group { grid-template-columns: 14rem minmax(0, 1fr); } }
 
   /* Education, publications, patent */
