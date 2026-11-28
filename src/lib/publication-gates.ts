@@ -23,8 +23,8 @@ export function resolveResume(gate:ResumeGate):{label:string;assetPath:string}|n
  }
  if(gate.status!=='approved'||!nonempty(gate.label)||!nonempty(gate.approvalReference)||!nonempty(gate.assetPath))
   throw new Error('Résumé file requires explicit asset-level approval');
- if(!/^\/professional-portfolio\/[A-Za-z0-9_/-]+\.pdf$/.test(gate.assetPath)||
+ if(!/^\/[A-Za-z0-9_-][A-Za-z0-9_/-]*\.pdf$/.test(gate.assetPath)||
     gate.assetPath.includes('..')||gate.assetPath.includes('//'))
-  throw new Error('Résumé asset must be an approved PDF within the project base path');
+  throw new Error('Résumé asset must be an approved PDF within the site root');
  return {label:gate.label,assetPath:gate.assetPath};
 }

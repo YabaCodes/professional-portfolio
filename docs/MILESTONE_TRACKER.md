@@ -124,3 +124,5 @@ PP-021 v1.5.6 deployed 2026-11-28 (run 46154003631).
 PP-022 hero proportions 2026-11-28: v1.5.7. Acceptance: larger desktop portrait and name, title still on one line from 768 px; all CI checks pass. Owner merge, then manual redeploy.
 PP-022 v1.5.7 deployed 2026-11-29 (run 46161065133).
 PP-023 bio 2026-11-29: v1.5.8. Acceptance: two-paragraph bio as approved; meta and og description start with the role; all CI checks pass. Owner merge, then manual redeploy.
+PP-023 v1.5.8 deployed 2026-11-29 (run 46164630789).
+PP-024 custom domain 2026-11-29: v1.6.0. Acceptance: build for https://yeabsramekdim.com/ at the root; canonical, og:url and og:image on the domain; all CI checks and the release precondition check pass; after owner DNS and Pages settings, the domain serves over HTTPS and the old project address redirects. Owner merge, then manual redeploy.

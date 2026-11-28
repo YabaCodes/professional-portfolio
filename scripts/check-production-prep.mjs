@@ -33,7 +33,7 @@ assert.ok(prelaunch?pages.includes('design-system/index.html'):!pages.includes('
  'Design specimen must exist only in the prelaunch QA artifact');
 assert.ok(!assets.some(file=>/\.(?:pdf|docx|xlsx|csv|key|pem)$/i.test(file)) || !prelaunch,
  'Unapproved document or data assets must not be included in prelaunch output');
-const expectedBase='https://yabacodes.github.io/professional-portfolio/';
+const expectedBase='https://yeabsramekdim.com/';
 function tag(html,tagName,attrName,attrValue) {
  const nodes=html.match(new RegExp('<'+tagName+'\\b[^>]*>','gi'))??[];
  return nodes.find(node=>node.includes(attrName+'="'+attrValue+'"'))??null;
@@ -59,7 +59,7 @@ for(const page of contentPages){
   found.twitterCard==='summary_large_image'&&found.canonical===canonical&&found.ogUrl===canonical&&
   (prelaunch?found.robots==='noindex, nofollow':!found.robots);
  if(!valid)errors.push({route:page,problem:'Metadata, canonical URL, or indexing-state mismatch',actual:found});
- assert.ok(!/href="\/professional-portfolio\/design-system\//.test(html),page+' exposes internal design specimen navigation');
+ assert.ok(!/href="\/design-system\//.test(html),page+' exposes internal design specimen navigation');
  if(prelaunch)assert.match(html,/data-prelaunch-footer-notice/,page+' must carry prelaunch notice');
  else assert.doesNotMatch(html,/data-prelaunch-footer-notice/,page+' must omit prelaunch notice');
 }

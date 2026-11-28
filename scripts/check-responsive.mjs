@@ -9,7 +9,7 @@ const root = path.resolve('dist');
 const release = JSON.parse(await readFile('config/release.json','utf8'));
 const production = release.publicationEnabled === true;
 const publication = JSON.parse(await readFile('config/public-facing.json','utf8'));
-const base = '/professional-portfolio/';
+const base = '/';
 const sectionIds = ['process','machine','experience','skills','publications','contact'];
 const allowedHosts = ['doi.org','patents.google.com'];
 const types = {'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff'};

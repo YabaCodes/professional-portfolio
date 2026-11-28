@@ -4,7 +4,7 @@ import {readFile,mkdir,stat,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {chromium} from 'playwright';
 
-const root=path.resolve('dist'),base='/professional-portfolio/';
+const root=path.resolve('dist'),base='/';
 const types={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml',
  '.woff2':'font/woff2','.woff':'font/woff','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp'};
 const server=createServer(async(req,res)=>{
