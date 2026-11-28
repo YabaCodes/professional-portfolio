@@ -53,6 +53,18 @@
   .reading-width { max-width: var(--reading-width); }
   .secondary-text { color: var(--color-steel); }
   .panel { background: var(--color-mist); border-radius: var(--radius-panel); }
+  /* Drawing grid: engineering graph paper, 8 px minor and 40 px major lines. Set --grid-minor/--grid-major per surface. */
+  .drawing-grid {
+    --grid-minor: rgb(35 66 176 / .045);
+    --grid-major: rgb(35 66 176 / .085);
+    background-image:
+      linear-gradient(var(--grid-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+      linear-gradient(var(--grid-minor) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px);
+    background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+    background-position: -1px -1px;
+  }
   .button-row { display: flex; flex-wrap: wrap; gap: 12px; }
   .action-link, .ghost-link {
     display: inline-flex; min-height: 48px; min-width: 44px; align-items: center; justify-content: center;

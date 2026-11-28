@@ -33,10 +33,10 @@ test('manual-only release workflow includes the same critical content, asset and
 });
 test('release manifest is the owner-approved published state; contact items unchanged',async()=>{
  const [manifest,publicFacing]=await Promise.all([read('config/release.json'),read('config/public-facing.json')]);
- assert.deepEqual(JSON.parse(manifest),{publicationEnabled:true,approvalReference:'PP-010-001',releaseVersion:'1.3.0'});
+ assert.deepEqual(JSON.parse(manifest),{publicationEnabled:true,approvalReference:'PP-010-001',releaseVersion:'1.4.0'});
  assert.deepEqual(JSON.parse(publicFacing),{
   contact:{status:'approved',label:'Connect on LinkedIn',href:'https://www.linkedin.com/in/yabam',approvalReference:'PP-007B-LINKEDIN-001'},
-  email:{status:'approved',label:'Email me',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
+  email:{status:'approved',label:'Connect by Email',href:'mailto:yeabcb@gmail.com',approvalReference:'PP-008-EMAIL-001'},
   resume:{status:'pending',label:null,assetPath:null,approvalReference:null}
  });
 });

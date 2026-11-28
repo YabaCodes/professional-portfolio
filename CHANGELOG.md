@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.3.0 — candidate
+## 1.4.0 — candidate
+- Add the owner's portrait to the hero beside his name and title (cropped, metadata removed, served as responsive WebP).
+- New headline "From Concept to Mass Production", on one line on tablets and desktops; the glance box stays beside the copy.
+- Add colour and a subtle pattern: an engineering drawing grid (top of the hero, Equipment Layout section, contact panel), blue glance figures, a light-blue Working Standards panel and a deep-blue contact panel, all within the approved palette.
+- Contact buttons read "Connect on LinkedIn" and "Connect by Email" and share one style.
+
+## 1.3.0 — deployed 2026-11-28 (PR #25; run 46102675510)
 - Add a process-flow diagram (01–08) before the phase details; each box opens its phase.
 - Add the Equipment Layout section: an original schematic top view of an automated assembly machine with a closed-loop transfer system (ten stations, feeding all around, a single reject station before unloading), numbered callouts and eight topics linked to the lifecycle.
 - Remove the contact buttons from the hero; add a sticky section bar on phones and a sticky header on desktop.
