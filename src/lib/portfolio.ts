@@ -218,9 +218,9 @@ export const trackRecord = {
 } as const;
 
 export const practice = {
-  label: 'Working Standards',
-  statement: 'I apply good manufacturing practice, good documentation practice and our quality system, with standard project-management tools and continuous risk assessment.',
-  international: 'I work from Taiwan, and the work is international: most of our machines are built by suppliers in Germany, and some are installed at our sites in Switzerland and the US, so I travel to all three for machine testing, installation and other project activities.',
+  label: 'Working Standards & Global Operations',
+  statement: 'My work is governed by Good Manufacturing Practices (GMP), Good Documentation Practices (GDP), and established Quality Management System (QMS) requirements, complemented by structured project management methodologies and continuous risk assessment.',
+  international: 'Based in Taiwan, I operate within an international engineering and manufacturing environment, collaborating primarily with equipment suppliers in Germany and manufacturing sites in Switzerland and the United States. My responsibilities involve international travel to support equipment testing, installation, process integration, and project execution.',
   labels: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Project management (PMP)', 'Continuous risk assessment'],
 } as const;
 
