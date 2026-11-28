@@ -1,6 +1,9 @@
 # Changelog
 
-## 1.5.0 — candidate
+## 1.5.1 — candidate
+- Working Standards becomes "Working Standards & Global Operations", with the owner's own wording on GMP, GDP, QMS, project management and risk assessment, and on international collaboration and travel.
+
+## 1.5.0 — deployed 2026-11-28 (PR #27; run 46113573496)
 - Rename Equipment Layout to Assembly Automation Technologies (menu: Technologies) with a new introduction; add topic 9, MES integration, drawn as an MES box with a data link to the machine; topic 4 becomes Process monitoring and optimization.
 - Glance box: 4+ years of medical device assembly equipment development (counted from February 2022 at build time), 12 equipment projects completed (4 automated assembly machines, 8 manual assembly fixtures) and CapEx up to USD 10M per fully automated machine.
 - Track record: range of machines (low-volume semi-automated for clinical trials, design analysis and DV, to high-volume fully automated at 60 ppm) and completed items by type, including the SMART flexible robotic assembly line (20 ppm) and final assembly machines for QC batch release.
