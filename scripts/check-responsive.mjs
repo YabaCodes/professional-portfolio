@@ -129,8 +129,8 @@ try {
     await page.locator('[data-explorer] .spot-chip[data-spot="inspection"]').click();
     assert.equal(await page.locator('[data-spot-panel="inspection"]').isVisible(),true);
     assert.equal(await page.locator('[data-spot-panel="feeding"]').isVisible(),false);
-    assert.equal(await page.locator('[data-explorer] svg.layout:visible g.st.is-active').count(),3,'every station that inspects is highlighted');
-    assert.equal(await page.locator('[data-explorer] svg.layout:visible g.st.is-active[data-topics~="assembly"]').count(),3);
+    assert.equal(await page.locator('[data-explorer] svg.layout:visible g.st.is-active').count(),4,'every station that inspects, and the reject station, is highlighted');
+    assert.equal(await page.locator('[data-explorer] svg.layout:visible g.st.is-active[data-topics~="assembly"]').count(),1,'one assembly station also inspects');
     assert.equal(await page.locator('[data-explorer] svg.layout:visible').count(),1,'one drawing per screen size');
     await minTarget(page.locator('[data-explorer] button:visible, [data-explorer] .spot-steps a:visible'),'interactive control');
     assert.equal(await page.locator('.section-bar').isVisible(),mobile,'section bar only below 900px');

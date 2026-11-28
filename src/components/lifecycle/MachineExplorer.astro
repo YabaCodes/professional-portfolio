@@ -1,12 +1,13 @@
 ---
 /**
- * Equipment layout, drawn from the owner's sketch: a typical automated assembly machine with a
- * closed-loop transfer system. Pallets start at the feeding station (tray loader, bowl feeder),
- * pass assembly stations that combine handling and assembly (2) with control and inspection (3)
- * or process monitoring (4), a reject exit, and final inspection and unloading (5, 6) to the
- * tray unloader and labeling (7); guarding with access doors is safety (8). Original, generic
- * schematic: no real machine, supplier or product. Selecting a topic highlights every element
- * that serves it. A wide drawing on larger screens, a vertical one on phones. JS-free first state.
+ * Equipment layout, from the owner's sketch and corrections: a typical automated assembly machine
+ * with a closed-loop transfer system. Components are fed at stations all around the machine (bowl
+ * feeders, tray loaders); feeding stations also assemble (2) and may inspect (3) or monitor the
+ * process (4); a couple of stations are dedicated to control and inspection; final inspection (5)
+ * is followed by the single reject station, one station before unloading (6) to the tray unloader
+ * and labeling (7); guarding with access doors is safety (8). Original, generic schematic: no real
+ * machine, supplier or product. Selecting a topic highlights every element that serves it.
+ * A wide drawing on larger screens, a vertical one on phones. JS-free first state.
  */
 import { machine, phases, phaseShort } from '../../lib/portfolio';
 const index = Object.fromEntries(phases.map((p, i) => [p.id, i]));
@@ -14,100 +15,134 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 const ids: string[] = machine.spots.map(s => s.id);  // position + 1 = number shown on the drawing
 const topic = (n: number) => ids[n - 1];
 const first = ids[0];
-const on = (topics: string) => (topics.split(' ').includes(first) ? ' is-active' : '');
-// Stations in flow order: numbers are the topics each station serves.
-const stations = [[1], [2, 3], [2, 4], [2, 3], [2, 4], [2, 3], [2, 4], [5, 6]];
-const topicsOf = (nums: number[]) => nums.map(topic).join(' ');
-// Wide: top run left to right (S1-S4), bottom run right to left (S5-S8).
-const wide = stations.map((nums, i) => ({ nums, x: i < 4 ? 190 + i * 94 : 190 + (7 - i) * 94, y: i < 4 ? 56 : 180, w: 84, h: 56 }));
-// Tall: right column top to bottom (S1-S4), left column bottom to top (S5-S8).
-const tall = stations.map((nums, i) => ({ nums, x: i < 4 ? 236 : 106, y: i < 4 ? 130 + i * 100 : 130 + (7 - i) * 100, w: 58, h: 70 }));
-type Station = { nums: number[]; x: number; y: number; w: number; h: number };
-const minis = (s: Station, r: number) =>
-  s.nums.map((n, k) => ({ n, id: topic(n), cx: s.x + s.w / 2 + (s.nums.length === 1 ? 0 : (k === 0 ? -1 : 1) * (r + 3)), cy: s.y + s.h / 2, r }));
-const label = 'Schematic top view of an automated assembly machine with a closed-loop transfer system: a tray loader and a bowl feeder feed the first station; assembly stations combine handling and assembly with control and inspection or with process monitoring; one station rejects bad parts; the last station performs final inspection and unloading to a tray unloader, followed by labeling; guarding with access doors encloses the machine';
+const on = (topics: string) => (topics.split(' ').some(t => t === first) ? ' is-active' : '');
+type Feeder = 'tray' | 'bowl' | null;
+// Stations in flow order: topic numbers served, the feeder attached, and the reject station.
+const stations: { nums: number[]; feeder: Feeder; reject?: boolean }[] = [
+  { nums: [1], feeder: 'tray' },
+  { nums: [1, 2], feeder: 'bowl' },
+  { nums: [1, 2, 4], feeder: 'bowl' },
+  { nums: [3], feeder: null },
+  { nums: [1, 2, 3], feeder: 'tray' },
+  { nums: [1, 2, 4], feeder: 'bowl' },
+  { nums: [3], feeder: null },
+  { nums: [5], feeder: null },
+  { nums: [], feeder: null, reject: true },
+  { nums: [6], feeder: null },
+];
+const topicsOf = (st: (typeof stations)[number]) => (st.reject ? 'inspection qc' : st.nums.map(topic).join(' '));
+// Wide: top run left to right (S1-S5), bottom run right to left (S6-S10).
+const wide = stations.map((st, i) => ({ ...st, x: i < 5 ? 176 + i * 82 : 176 + (9 - i) * 82, y: i < 5 ? 94 : 216, w: 74, h: 58, top: i < 5 }));
+// Tall: right column top to bottom (S1-S5), left column bottom to top (S6-S10).
+const tall = stations.map((st, i) => ({ ...st, x: i < 5 ? 232 : 102, y: i < 5 ? 118 + i * 86 : 118 + (9 - i) * 86, w: 64, h: 66, right: i < 5 }));
+const minis = (s: { nums: number[]; x: number; y: number; w: number; h: number }, r: number) => {
+  const step = 2 * r + 3, start = -((s.nums.length - 1) * step) / 2;
+  return s.nums.map((n, k) => ({ n, id: topic(n), cx: s.x + s.w / 2 + start + k * step, cy: s.y + s.h / 2, r }));
+};
+const label = 'Schematic top view of an automated assembly machine with a closed-loop transfer system of ten stations: components are fed by bowl feeders and tray loaders at stations around the machine, where they are also assembled and in some cases inspected or process-monitored; two stations are dedicated to inspection; final inspection is followed by a single reject station and then unloading to a tray unloader and labeling; guarding with access doors encloses the machine';
 ---
 <div class="explorer" data-explorer>
   <figure class="explorer-figure">
     <!-- Wide drawing (tablet and desktop) -->
-    <svg class="layout layout-wide" viewBox="0 0 720 296" role="img" aria-label={label}>
+    <svg class="layout layout-wide" viewBox="0 0 720 350" role="img" aria-label={label}>
       <defs><marker id="arw-h" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" class="arrow-head" /></marker></defs>
-      <rect x="150" y="48" width="440" height="196" data-topics="safety" class={'guard' + on('safety')} />
-      <path d="M590 96h30a30 30 0 0 1-30 30M590 166h30a30 30 0 0 1-30 30" data-topics="safety" class={'door' + on('safety')} />
-      <g data-topics="safety" class={'mini' + on('safety')}><circle cx="590" cy="48" r="10" /><text x="590" y="51.5">8</text></g>
-      <rect x="176" y="118" width="388" height="56" rx="28" class="track" />
-      <rect x="190" y="132" width="360" height="28" rx="14" class="track-inner" />
-      {Array.from({ length: 9 }, (_, k) => <rect x={200 + k * 40} y="121" width="12" height="9" rx="2" class="pallet" />)}
-      {Array.from({ length: 9 }, (_, k) => <rect x={200 + k * 40} y="163" width="12" height="9" rx="2" class="pallet" />)}
-      <path d="M382 121l6 4.5-6 4.5M398 163l-6 4.5 6 4.5" class="flow-arrow" />
-      {wide.map(s => (
-        <g data-topics={topicsOf(s.nums)} class={'st' + on(topicsOf(s.nums))}>
-          <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" class="box" />
-          {minis(s, 11).map(m => <g data-topics={m.id} class={'mini' + on(m.id)}><circle cx={m.cx} cy={m.cy} r={m.r} /><text x={m.cx} y={m.cy + 3.5}>{m.n}</text></g>)}
-        </g>
-      ))}
-      <g data-topics="feeding" class={'ext' + on('feeding')}>
-        <rect x="30" y="40" width="90" height="30" rx="4" class="box" /><text x="75" y="59" class="label">Tray loader</text>
-        <circle cx="75" cy="104" r="16" class="box" /><path d="M66 104a9 9 0 0 1 18 0" class="thin" />
-        <text x="75" y="135" class="label small">Bowl feeder</text>
-        <path d="M120 55H170V76H188M91 104H170V96H188" class="link" marker-end="url(#arw-h)" />
-      </g>
-      <g data-topics="feeding" class={'mini' + on('feeding')}><circle cx="120" cy="40" r="10" /><text x="120" y="43.5">1</text></g>
+      <rect x="150" y="84" width="460" height="200" data-topics="safety" class={'guard' + on('safety')} />
+      <path d="M610 120h30a30 30 0 0 1-30 30M610 216h30a30 30 0 0 1-30 30" data-topics="safety" class={'door' + on('safety')} />
+      <g data-topics="safety" class={'mini' + on('safety')}><circle cx="610" cy="84" r="10" /><text x="610" y="87.5">8</text></g>
+      <rect x="176" y="160" width="408" height="48" rx="24" class="track" />
+      <rect x="190" y="172" width="380" height="24" rx="12" class="track-inner" />
+      {Array.from({ length: 10 }, (_, k) => <rect x={198 + k * 38} y="162" width="11" height="8" rx="2" class="pallet" />)}
+      {Array.from({ length: 10 }, (_, k) => <rect x={198 + k * 38} y="198" width="11" height="8" rx="2" class="pallet" />)}
+      <path d="M371 162l5 4-5 4M393 198l-5 4 5 4" class="flow-arrow" />
+      {wide.map(s => {
+        const cx = s.x + s.w / 2;
+        return (
+          <>
+            {s.feeder && (s.feeder === 'tray'
+              ? <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <rect x={s.x} y={s.top ? 28 : 296} width={s.w} height="28" rx="4" class="box" />
+                  <text x={cx} y={s.top ? 46 : 314} class="label small">Tray loader</text>
+                  <path d={s.top ? `M${cx} 56V92` : `M${cx} 296V276`} class="link" marker-end="url(#arw-h)" />
+                </g>
+              : <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <circle cx={cx} cy={s.top ? 44 : 312} r="12" class="box" />
+                  <path d={`M${cx - 7} ${s.top ? 44 : 312}a7 7 0 0 1 14 0`} class="thin" />
+                  <text x={cx} y={s.top ? 20 : 340} class="label small">Bowl feeder</text>
+                  <path d={s.top ? `M${cx} 56V92` : `M${cx} 300V276`} class="link" marker-end="url(#arw-h)" />
+                </g>)}
+            <g data-topics={topicsOf(s)} class={'st' + on(topicsOf(s))}>
+              <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" class="box" />
+              {s.reject && <text x={cx} y={s.y + s.h / 2 + 4} class="label">Reject</text>}
+              {minis(s, 9.5).map(m => <g data-topics={m.id} class={'mini' + on(m.id)}><circle cx={m.cx} cy={m.cy} r={m.r} /><text x={m.cx} y={m.cy + 3.5}>{m.n}</text></g>)}
+            </g>
+            {s.reject && <g data-topics="inspection qc" class={'ext' + on('inspection qc')}>
+              <path d={`M${cx} 274V300`} class="link" marker-end="url(#arw-h)" />
+              <rect x={cx - 26} y="302" width="52" height="26" rx="4" class="box" /><text x={cx} y="319" class="label small">Reject bin</text>
+            </g>}
+          </>
+        );
+      })}
       <g data-topics="unloading" class={'ext' + on('unloading')}>
-        <path d="M190 199H122" class="link" marker-end="url(#arw-h)" />
-        <rect x="30" y="182" width="90" height="34" rx="4" class="box" /><text x="75" y="203" class="label">Tray unloader</text>
+        <path d="M176 238H122" class="link" marker-end="url(#arw-h)" />
+        <rect x="20" y="220" width="100" height="34" rx="4" class="box" /><text x="70" y="241" class="label">Tray unloader</text>
       </g>
-      <g data-topics="unloading" class={'mini' + on('unloading')}><circle cx="120" cy="182" r="10" /><text x="120" y="185.5">6</text></g>
+      <g data-topics="unloading" class={'mini' + on('unloading')}><circle cx="120" cy="220" r="10" /><text x="120" y="223.5">6</text></g>
       <g data-topics="labeling" class={'ext' + on('labeling')}>
-        <path d="M75 216V228" class="link" marker-end="url(#arw-h)" />
-        <rect x="30" y="230" width="90" height="30" rx="4" class="box" /><text x="75" y="249" class="label">Labeling</text>
+        <path d="M70 254V266" class="link" marker-end="url(#arw-h)" />
+        <rect x="20" y="268" width="100" height="30" rx="4" class="box" /><text x="70" y="287" class="label">Labeling</text>
       </g>
-      <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="120" cy="230" r="10" /><text x="120" y="233.5">7</text></g>
-      <g data-topics="inspection qc" class={'ext' + on('inspection qc')}>
-        <path d="M420 236V256" class="link" marker-end="url(#arw-h)" />
-        <rect x="390" y="258" width="60" height="28" rx="4" class="box" /><text x="420" y="276" class="label">Reject</text>
-      </g>
+      <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="120" cy="268" r="10" /><text x="120" y="271.5">7</text></g>
     </svg>
 
     <!-- Tall drawing (phones), oriented like the owner's sketch -->
-    <svg class="layout layout-tall" viewBox="0 0 380 610" role="img" aria-label={label}>
+    <svg class="layout layout-tall" viewBox="0 86 380 510" role="img" aria-label={label}>
       <defs><marker id="arw-v" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" class="arrow-head" /></marker></defs>
-      <rect x="100" y="104" width="200" height="456" data-topics="safety" class={'guard' + on('safety')} />
-      <path d="M150 560v30a30 30 0 0 0 30-30M220 560v30a30 30 0 0 0 30-30" data-topics="safety" class={'door' + on('safety')} />
-      <g data-topics="safety" class={'mini' + on('safety')}><circle cx="300" cy="560" r="10" /><text x="300" y="563.5">8</text></g>
-      <rect x="172" y="122" width="54" height="420" rx="27" class="track" />
-      <rect x="186" y="136" width="26" height="392" rx="13" class="track-inner" />
-      {Array.from({ length: 9 }, (_, k) => <rect x="175" y={146 + k * 42} width="9" height="12" rx="2" class="pallet" />)}
-      {Array.from({ length: 9 }, (_, k) => <rect x="214" y={146 + k * 42} width="9" height="12" rx="2" class="pallet" />)}
-      <path d="M214 338l4.5 6 4.5-6M175 344l4.5-6 4.5 6" class="flow-arrow" />
-      {tall.map(s => (
-        <g data-topics={topicsOf(s.nums)} class={'st' + on(topicsOf(s.nums))}>
-          <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" class="box" />
-          {minis(s, 10).map(m => <g data-topics={m.id} class={'mini' + on(m.id)}><circle cx={m.cx} cy={m.cy} r={m.r} /><text x={m.cx} y={m.cy + 3.5}>{m.n}</text></g>)}
-        </g>
-      ))}
-      <g data-topics="feeding" class={'ext' + on('feeding')}>
-        <rect x="306" y="30" width="70" height="30" rx="4" class="box" /><text x="341" y="49" class="label small">Tray loader</text>
-        <path d="M341 60V150H296" class="link" marker-end="url(#arw-v)" />
-        <circle cx="341" cy="196" r="14" class="box" /><path d="M333 196a8 8 0 0 1 16 0" class="thin" />
-        <path d="M327 190H296" class="link" marker-end="url(#arw-v)" />
-        <text x="341" y="226" class="label small">Bowl feeder</text>
-      </g>
-      <g data-topics="feeding" class={'mini' + on('feeding')}><circle cx="376" cy="30" r="10" /><text x="376" y="33.5">1</text></g>
+      <rect x="96" y="96" width="208" height="460" data-topics="safety" class={'guard' + on('safety')} />
+      <path d="M140 556v30a30 30 0 0 0 30-30M226 556v30a30 30 0 0 0 30-30" data-topics="safety" class={'door' + on('safety')} />
+      <g data-topics="safety" class={'mini' + on('safety')}><circle cx="304" cy="556" r="10" /><text x="304" y="559.5">8</text></g>
+      <rect x="170" y="110" width="54" height="432" rx="27" class="track" />
+      <rect x="184" y="124" width="26" height="404" rx="13" class="track-inner" />
+      {Array.from({ length: 10 }, (_, k) => <rect x="173" y={132 + k * 40} width="8" height="11" rx="2" class="pallet" />)}
+      {Array.from({ length: 10 }, (_, k) => <rect x="213" y={132 + k * 40} width="8" height="11" rx="2" class="pallet" />)}
+      <path d="M213 310l4 5 4-5M173 315l4-5 4 5" class="flow-arrow" />
+      {tall.map(s => {
+        const cy = s.y + s.h / 2;
+        return (
+          <>
+            {s.feeder && (s.feeder === 'tray'
+              ? <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <rect x={s.right ? 310 : 6} y={cy - 15} width="64" height="30" rx="4" class="box" />
+                  <text x={s.right ? 342 : 38} y={cy + 4} class="label small">Tray loader</text>
+                  <path d={s.right ? `M310 ${cy}H298` : `M70 ${cy}H100`} class="link" marker-end="url(#arw-v)" />
+                </g>
+              : <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <circle cx={s.right ? 330 : 60} cy={cy} r="11" class="box" />
+                  <path d={`M${(s.right ? 330 : 60) - 6} ${cy}a6 6 0 0 1 12 0`} class="thin" />
+                  <text x={s.right ? 330 : 60} y={cy + 25} class="label small">Bowl feeder</text>
+                  <path d={s.right ? `M319 ${cy}H298` : `M71 ${cy}H100`} class="link" marker-end="url(#arw-v)" />
+                </g>)}
+            <g data-topics={topicsOf(s)} class={'st' + on(topicsOf(s))}>
+              <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" class="box" />
+              {s.reject && <text x={s.x + s.w / 2} y={cy + 4} class="label small">Reject</text>}
+              {minis(s, 8.5).map(m => <g data-topics={m.id} class={'mini' + on(m.id)}><circle cx={m.cx} cy={m.cy} r={m.r} /><text x={m.cx} y={m.cy + 3.5}>{m.n}</text></g>)}
+            </g>
+            {s.reject && <g data-topics="inspection qc" class={'ext' + on('inspection qc')}>
+              <path d={`M102 ${cy}H80`} class="link" marker-end="url(#arw-v)" />
+              <rect x="10" y={cy - 14} width="68" height="28" rx="4" class="box" /><text x="44" y={cy + 4} class="label small">Reject bin</text>
+            </g>}
+          </>
+        );
+      })}
       <g data-topics="unloading" class={'ext' + on('unloading')}>
-        <path d="M106 150H92" class="link" marker-end="url(#arw-v)" />
-        <rect x="6" y="126" width="84" height="40" rx="4" class="box" /><text x="48" y="150" class="label small">Tray unloader</text>
+        <path d="M102 140H90" class="link" marker-end="url(#arw-v)" />
+        <rect x="4" y="122" width="84" height="36" rx="4" class="box" /><text x="46" y="144" class="label small">Tray unloader</text>
       </g>
-      <g data-topics="unloading" class={'mini' + on('unloading')}><circle cx="90" cy="126" r="10" /><text x="90" y="129.5">6</text></g>
+      <g data-topics="unloading" class={'mini' + on('unloading')}><circle cx="88" cy="122" r="10" /><text x="88" y="125.5">6</text></g>
       <g data-topics="labeling" class={'ext' + on('labeling')}>
-        <path d="M48 166V180" class="link" marker-end="url(#arw-v)" />
-        <rect x="6" y="182" width="84" height="30" rx="4" class="box" /><text x="48" y="201" class="label small">Labeling</text>
+        <path d="M46 158V170" class="link" marker-end="url(#arw-v)" />
+        <rect x="4" y="172" width="84" height="28" rx="4" class="box" /><text x="46" y="190" class="label small">Labeling</text>
       </g>
-      <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="90" cy="182" r="10" /><text x="90" y="185.5">7</text></g>
-      <g data-topics="inspection qc" class={'ext' + on('inspection qc')}>
-        <path d="M106 378H82" class="link" marker-end="url(#arw-v)" />
-        <rect x="20" y="364" width="60" height="28" rx="4" class="box" /><text x="50" y="382" class="label small">Reject</text>
-      </g>
+      <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="88" cy="172" r="10" /><text x="88" y="175.5">7</text></g>
     </svg>
     <figcaption class="layout-caption">Schematic, not to scale. Not a specific machine.</figcaption>
   </figure>
