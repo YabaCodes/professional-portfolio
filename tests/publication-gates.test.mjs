@@ -9,7 +9,7 @@ test('contact and résumé never publish before item-level approval',()=>{
  for(const patch of [{href:'https://example.invalid'},{label:'Synthetic'},{approvalReference:'fixture'}]){
   assert.throws(()=>resolveContact({...pendingContact,...patch}),/Pending contact/);
  }
- for(const patch of [{assetPath:'/professional-portfolio/resume.pdf'},{label:'Synthetic'},{approvalReference:'fixture'}]){
+ for(const patch of [{assetPath:'/resume.pdf'},{label:'Synthetic'},{approvalReference:'fixture'}]){
   assert.throws(()=>resolveResume({...pendingResume,...patch}),/Pending résumé/);
  }
 });
@@ -19,10 +19,10 @@ test('approval schema fails closed on missing approval, dangerous URLs and non-P
   assert.throws(()=>resolveContact({...approved,href}),/approved professional email or profile/);
  assert.throws(()=>resolveContact({...approved,href:'mailto:fixture@example.invalid',approvalReference:''}),/exact item-level approval/);
  assert.deepEqual(resolveContact({...approved,href:'mailto:fixture@example.invalid'}),{label:'Synthetic contact',href:'mailto:fixture@example.invalid'});
- for(const assetPath of ['/public-resume.pdf','/professional-portfolio/resume.docx','/professional-portfolio/../private.pdf','javascript:alert(1)'])
+ for(const assetPath of ['resume.pdf','/resume.docx','/../private.pdf','//evil.example/resume.pdf','javascript:alert(1)'])
   assert.throws(()=>resolveResume({...approved,assetPath}),/approved PDF/);
- assert.throws(()=>resolveResume({...approved,assetPath:'/professional-portfolio/synthetic.pdf',approvalReference:''}),/asset-level approval/);
- assert.deepEqual(resolveResume({...approved,assetPath:'/professional-portfolio/synthetic.pdf'}),{label:'Synthetic contact',assetPath:'/professional-portfolio/synthetic.pdf'});
+ assert.throws(()=>resolveResume({...approved,assetPath:'/synthetic.pdf',approvalReference:''}),/asset-level approval/);
+ assert.deepEqual(resolveResume({...approved,assetPath:'/synthetic.pdf'}),{label:'Synthetic contact',assetPath:'/synthetic.pdf'});
 });
 
 test('exact LinkedIn link and email address are authorized public contact items; résumé remains unapproved',async()=>{

@@ -3,7 +3,7 @@ import { readdir,readFile,stat } from 'node:fs/promises';
 import path from 'node:path';
 import { gzipSync } from 'node:zlib';
 const root=path.resolve('dist');
-const base='/professional-portfolio/';
+const base='/';
 const state=JSON.parse(await readFile('config/release.json','utf8'));
 async function walk(dir) {
  const out=[];

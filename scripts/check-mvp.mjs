@@ -41,7 +41,7 @@ if(prelaunch){
  assert.doesNotMatch(page,/<meta[^>]+name="robots"[^>]+noindex/i,'Production page must not be noindexed');
  assert.doesNotMatch(page,/data-prelaunch-footer-notice|Development specimen|Not authorized for production deployment/i,'Production may not contain development labels');
 }
-assert.doesNotMatch(page,/href="\/professional-portfolio\/design-system\//,'Internal fixture link forbidden');
+assert.doesNotMatch(page,/href="\/design-system\//,'Internal fixture link forbidden');
 
 // The approved copy renders exactly once, word for word.
 for(const words of [hero.titleLine,hero.headline,...hero.introduction,process.heading,...process.introduction,practice.label,practice.statement,practice.international,contactCopy.heading,contactCopy.introduction])
@@ -97,7 +97,7 @@ async function collect(dir){
 }
 const assets=await collect(root);
 const pdfs=assets.filter(p=>/\.pdf$/i.test(p));
-assert.deepEqual(pdfs,approvedResume?[approvedResume.assetPath.replace(/^\/professional-portfolio\//,'')]:[],'Only an approved résumé PDF may be deployed');
+assert.deepEqual(pdfs,approvedResume?[approvedResume.assetPath.replace(/^\//,'')]:[],'Only an approved résumé PDF may be deployed');
 const pages=assets.filter(p=>p.endsWith('index.html')).sort();
 assert.deepEqual(pages,prelaunch?['design-system/index.html','index.html']:['index.html'],'One public page; the internal specimen only in prelaunch');
 if(prelaunch)assert.match(await html('design-system'),/noindex, nofollow/);
@@ -111,7 +111,7 @@ const blockers=[
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
  {id:'B05-LAUNCH',status:prelaunch?'owner-release-authorization-required':'authorized-'+release.approvalReference}
 ];
-const report={milestone:'PP-023 / bio',version:packageInfo.version,
+const report={milestone:'PP-024 / custom domain',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
  websiteDeployedByThisWorkflow:false,approvedRecords:counts,primaryRoutes:routes.length,deliveryPhases:phases.length,
  releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-and-email-approved-for-public-repository',

@@ -15,8 +15,8 @@ const resume=resolveResume(facing.resume);
 if(!contact||!email)throw new Error('Exact public contact and email authorizations are required before launch');
 // Résumé is optional since PP-010-001 (owner launched without one); if configured, its exact PDF must exist.
 if(resume){
- const rel=resume.assetPath.slice('/professional-portfolio/'.length);
- if(!rel||resume.assetPath!=='/professional-portfolio/'+rel)throw new Error('Invalid approved résumé asset path');
+ const rel=resume.assetPath.slice(1);
+ if(!rel||resume.assetPath!=='/'+rel)throw new Error('Invalid approved résumé asset path');
  await access(join('public',rel));
 }
 console.log('Release preconditions passed. Manual owner/employer authorization and protected environment review remain necessary.');

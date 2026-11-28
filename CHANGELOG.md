@@ -1,6 +1,9 @@
 # Changelog
 
-## 1.5.8 — candidate
+## 1.6.0 — candidate
+- Custom domain: the site is built for https://yeabsramekdim.com/ at the domain root (Astro `site` and `base`); canonical, og:url and the link-preview image now use the domain. Checks, link tests and the résumé path rule updated from `/professional-portfolio/` to the root.
+
+## 1.5.8 — deployed 2026-11-29 (PR #35; run 46164630789)
 - New two-paragraph bio under the name (owner's text, lightly edited and approved): programs across the full equipment development lifecycle, and interests in engineering, technical program management and operational excellence.
 - Search and link-preview description: "Senior Process Development Engineer and Team Lead at SHL Medical." followed by the first bio paragraph.
 
