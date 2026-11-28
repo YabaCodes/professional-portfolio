@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.5.1 — candidate
+## 1.5.2 — candidate
+- One type scale: page title 44 px > section headings 36 px > panel headings 22 px > item titles 19 px > body 17 px > interface 15 px > labels, meta and captions 14 px. Education and Publications headings now match other sections, in equal columns.
+- One spacing rhythm: 16 px under section headings, 32 px from introductions to content; panel padding 24 px on phones and 32 px on desktop (contact 40 px).
+- All paragraph text in the body colour (steel only for meta and captions); blue track-record counts.
+- New check: one size per text role, and the page title larger than section headings.
+
+## 1.5.1 — deployed 2026-11-28 (PR #28; run 46115528930)
 - Working Standards becomes "Working Standards & Global Operations", with the owner's own wording on GMP, GDP, QMS, project management and risk assessment, and on international collaboration and travel.
 
 ## 1.5.0 — deployed 2026-11-28 (PR #27; run 46113573496)

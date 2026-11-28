@@ -178,7 +178,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
   <section id="publications" class="section-block section-ruled" aria-labelledby="publications-heading" data-reveal>
     <div class="page-container credentials-grid">
       <div>
-        <h2 class="subhead" id="education-heading">Education and Certifications</h2>
+        <h2 id="education-heading">Education and Certifications</h2>
         <ul class="record-list" aria-labelledby="education-heading">
           {credentials.map(c => (
             <li data-credential-id={c.id}>
@@ -189,7 +189,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
         </ul>
       </div>
       <div>
-        <h2 class="subhead" id="publications-heading">Publications and Patent</h2>
+        <h2 id="publications-heading">Publications and Patent</h2>
         <ol class="record-list">
           {publications.map(p => (
             <li data-publication-id={p.id}>
@@ -248,7 +248,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .hero-title { max-width: 15ch; }
   .hero-intro { color: var(--color-body); font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); max-width: 56ch; }
   .hero-copy .button-row { margin-top: 8px; }
-  .glance { padding: 22px; display: flex; flex-direction: column; gap: 20px; background: var(--color-white); border: 1px solid #D5DCE3; box-shadow: 0 1px 0 rgb(21 25 30 / .03); }
+  .glance { padding: 24px; display: flex; flex-direction: column; gap: 20px; background: var(--color-white); border: 1px solid #D5DCE3; box-shadow: 0 1px 0 rgb(21 25 30 / .03); }
   .glance dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 18px; }
   .glance-facts { padding-top: 20px; border-top: 1px solid #D5DCE3; }
   .glance-wide { grid-column: 1 / -1; }
@@ -270,7 +270,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
     .hero-grid { grid-template-columns: minmax(0, 1.4fr) minmax(340px, 1fr); gap: 56px; }
     .hero-copy { container-type: inline-size; }
     .hero-title { white-space: nowrap; font-size: min(4rem, 7.1cqi); }
-    .glance { padding: 28px; gap: 24px; }
+    .glance { padding: 32px; gap: 24px; }
   }
 
   /* Sections */
@@ -278,8 +278,8 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .section-ruled { border-top: 1px solid var(--color-line); }
   /* Assembly Automation Technologies sits on a drawing sheet: mist with the drawing grid. */
   .section-sheet { background-color: var(--color-mist); border-bottom: 1px solid var(--color-line); }
-  .section-sheet .secondary-text { color: var(--color-body); }
-  .section-intro { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .section-intro { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .section-intro, .section-intro p { color: var(--color-body); }
 
   /* Six-to-eight phase stepper: native details, one open at a time, no script. */
   .steps { list-style: none; margin: 32px 0 0; padding: 0; max-width: 880px; }
@@ -316,20 +316,21 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .tag-sep { margin-inline: .2em; color: #8A96A3; }
   .duty-list li::marker { color: var(--color-cobalt); }
   @media (min-width: 768px) {
-    .phase-body { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 20px 28px; padding: 22px 24px; }
+    .phase-body { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 20px 28px; padding: 24px; }
     .phase-lead { grid-column: 1 / -1; }
   }
 
   /* Track record */
-  .track { margin-top: 28px; max-width: 880px; padding: 24px 22px; border: 1px solid #D5DCE3; border-radius: var(--radius-panel); }
-  .track-heading { font-size: 1.375rem; font-stretch: 92%; }
+  .track { margin-top: 32px; max-width: 880px; padding: 24px; border: 1px solid #D5DCE3; border-radius: var(--radius-panel); }
+  /* Panel headings (Track record, Working Standards): one style. */
+  .track-heading, .practice-heading { font-size: 1.375rem; line-height: 1.25; letter-spacing: -.01em; font-stretch: 92%; }
   .track-intro { margin-top: 8px; color: var(--color-body); max-width: 72ch; }
   .track-cols { display: grid; gap: 20px; margin-top: 16px; }
-  .track-label { font-size: .9375rem; line-height: 1.4; font-weight: 600; font-stretch: 100%; letter-spacing: 0; color: var(--color-cobalt); }
+  .track-label { font-size: .875rem; line-height: 1.4; font-weight: 600; font-stretch: 100%; letter-spacing: 0; color: var(--color-cobalt); }
   .track-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .track-list li { display: flex; gap: 12px; align-items: baseline; }
-  .track-count { flex-shrink: 0; min-width: 24px; font-size: 1.25rem; font-weight: 600; }
-  @media (min-width: 768px) { .track { padding: 28px; } .track-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
+  .track-count { flex-shrink: 0; min-width: 24px; font-size: 1.25rem; font-weight: 600; color: var(--color-cobalt); }
+  @media (min-width: 768px) { .track, .practice { padding: 32px; } .track-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
   @media (min-width: 1024px) {
     .track { max-width: none; }
     .track-intro { max-width: none; }
@@ -341,8 +342,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
   /* Practice */
   .practice-wrap { padding-block: var(--section-space); }
   .practice { background: var(--color-cobalt-tint); }
-  .practice { padding: clamp(24px, 4vw, 36px); display: flex; flex-direction: column; gap: 12px; }
-  .practice-heading { font-size: 1.375rem; }
+  .practice { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
   .practice-text { color: var(--color-body); max-width: 72ch; }
   .practice .chip-row { margin-top: 8px; }
 
@@ -364,9 +364,8 @@ const patents = (await getCollection('patents')).map(e => e.data);
 
   /* Education, publications, patent */
   .credentials-grid { display: grid; gap: 40px; }
-  @media (min-width: 1024px) { .credentials-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 56px; } }
-  .subhead { font-size: 1.375rem; }
-  .record-list { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  @media (min-width: 1024px) { .credentials-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; } }
+  .record-list { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
   .record-title { font-weight: 600; color: var(--color-ink); }
   .record-link { display: inline; text-decoration-color: #C9D2DB; }
   .record-link:hover { color: var(--color-cobalt); text-decoration-color: currentColor; }
@@ -374,7 +373,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
 
   /* Contact */
   .contact-wrap { padding-bottom: var(--section-space); }
-  .contact { padding: clamp(28px, 5vw, 48px); display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between;
+  .contact { padding: 28px; display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between;
     background-color: var(--color-cobalt-deep); color: var(--color-white); --grid-minor: rgb(255 255 255 / .035); --grid-major: rgb(255 255 255 / .08); }
   .contact h2 { color: var(--color-white); }
   .contact-intro { margin-top: 14px; color: var(--color-cobalt-tint); }
@@ -385,7 +384,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
   .contact .ghost-link:hover { background: rgb(255 255 255 / .1); color: var(--color-white); }
   /* Desktop contact: text across the panel, buttons stacked on the right. */
   @media (min-width: 1024px) {
-    .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px 56px; }
+    .contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px 56px; padding: 40px; }
     .contact .reading-width { max-width: none; }
     .contact .button-row { flex-direction: column; align-items: stretch; }
   }
