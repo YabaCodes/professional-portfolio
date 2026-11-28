@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdir,readFile,readdir,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {resolveContact,resolveResume} from '../src/lib/publication-gates.ts';
-import {hero,atAGlance,process,phases,trackRecord,practice,skills,contact as contactCopy} from '../src/lib/portfolio.ts';
+import {hero,atAGlance,process,phases,trackRecord,practice,skills,contact as contactCopy,machine} from '../src/lib/portfolio.ts';
 
 const root=path.resolve('dist');
 const routes=[''];
@@ -45,10 +45,13 @@ assert.doesNotMatch(page,/href="\/professional-portfolio\/design-system\//,'Inte
 
 // The approved copy renders exactly once, word for word.
 for(const words of [hero.titleLine,hero.headline,hero.introduction,process.heading,...process.introduction,practice.statement,practice.international,contactCopy.heading,contactCopy.introduction])
- assert.ok(text.includes(words),'Approved copy missing: '+words.slice(0,60));
+ assert.ok(text.includes(words.replace(/\s+/g,' ')),'Approved copy missing: '+words.slice(0,60));
 for(const item of [...atAGlance.machines,...atAGlance.facts])assert.ok(text.includes(item.label)&&text.includes(item.value)&&(!('detail' in item)||text.includes(item.detail)),'At-a-glance item missing: '+item.label);
 for(const t of [...trackRecord.completed,...trackRecord.inProgress])assert.ok(text.includes(t.item),'Track record item missing: '+t.item);
 assert.equal((page.match(/data-phase="/g)??[]).length,8,'Exactly eight delivery phases');
+for(const words of [machine.heading,machine.introduction,...machine.spots.flatMap(s=>[s.title,s.function,s.role])])
+ assert.ok(text.includes(words),'Interactive copy missing: '+words.slice(0,50));
+assert.equal((page.match(/data-flow="/g)??[]).length,8,'Eight process-flow boxes');
 assert.deepEqual(phases.map(p=>p.id),['urs','srm','design','build','pi','fat','sat','validation'],'Standard phase order');
 for(const p of phases){
  for(const words of [p.title,p.tags.join(' · '),p.lead,...p.responsibilities,p.deliverables])assert.ok(text.includes(words),'Phase copy missing: '+p.id+' '+words.slice(0,40));
@@ -102,7 +105,7 @@ const blockers=[
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
  {id:'B05-LAUNCH',status:prelaunch?'owner-release-authorization-required':'authorized-'+release.approvalReference}
 ];
-const report={milestone:'PP-012 / at-a-glance and countries',version:packageInfo.version,
+const report={milestone:'PP-013 / process flow and equipment layout',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
  websiteDeployedByThisWorkflow:false,approvedRecords:counts,primaryRoutes:routes.length,deliveryPhases:phases.length,
  releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-and-email-approved-for-public-repository',

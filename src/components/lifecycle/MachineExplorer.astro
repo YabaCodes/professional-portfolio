@@ -1,0 +1,222 @@
+---
+/**
+ * Equipment layout, from the owner's sketch and corrections: a typical automated assembly machine
+ * with a closed-loop transfer system. Components are fed at stations all around the machine (bowl
+ * feeders, tray loaders); feeding stations also assemble (2) and may inspect (3) or monitor the
+ * process (4); a couple of stations are dedicated to control and inspection; final inspection (5)
+ * is followed by the single reject station, one station before unloading (6) to the tray unloader
+ * and labeling (7); guarding with access doors is safety (8). Original, generic schematic: no real
+ * machine, supplier or product. Selecting a topic highlights every element that serves it.
+ * A wide drawing on larger screens, a vertical one on phones. JS-free first state.
+ */
+import { machine, phases, phaseShort } from '../../lib/portfolio';
+const index = Object.fromEntries(phases.map((p, i) => [p.id, i]));
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+const ids: string[] = machine.spots.map(s => s.id);  // position + 1 = number shown on the drawing
+const topic = (n: number) => ids[n - 1];
+const first = ids[0];
+const on = (topics: string) => (topics.split(' ').some(t => t === first) ? ' is-active' : '');
+type Feeder = 'tray' | 'bowl' | null;
+// Stations in flow order: topic numbers served, the feeder attached, and the reject station.
+const stations: { nums: number[]; feeder: Feeder; reject?: boolean }[] = [
+  { nums: [1], feeder: 'tray' },
+  { nums: [1, 2], feeder: 'bowl' },
+  { nums: [1, 2, 4], feeder: 'bowl' },
+  { nums: [3], feeder: null },
+  { nums: [1, 2, 3], feeder: 'tray' },
+  { nums: [1, 2, 4], feeder: 'bowl' },
+  { nums: [3], feeder: null },
+  { nums: [5], feeder: null },
+  { nums: [], feeder: null, reject: true },
+  { nums: [6], feeder: null },
+];
+const topicsOf = (st: (typeof stations)[number]) => (st.reject ? 'inspection qc' : st.nums.map(topic).join(' '));
+// Wide: top run left to right (S1-S5), bottom run right to left (S6-S10).
+const wide = stations.map((st, i) => ({ ...st, x: i < 5 ? 176 + i * 82 : 176 + (9 - i) * 82, y: i < 5 ? 94 : 216, w: 74, h: 58, top: i < 5 }));
+// Tall: right column top to bottom (S1-S5), left column bottom to top (S6-S10).
+const tall = stations.map((st, i) => ({ ...st, x: i < 5 ? 232 : 102, y: i < 5 ? 118 + i * 86 : 118 + (9 - i) * 86, w: 64, h: 66, right: i < 5 }));
+const minis = (s: { nums: number[]; x: number; y: number; w: number; h: number }, r: number) => {
+  const step = 2 * r + 3, start = -((s.nums.length - 1) * step) / 2;
+  return s.nums.map((n, k) => ({ n, id: topic(n), cx: s.x + s.w / 2 + start + k * step, cy: s.y + s.h / 2, r }));
+};
+const label = 'Schematic top view of an automated assembly machine with a closed-loop transfer system of ten stations: components are fed by bowl feeders and tray loaders at stations around the machine, where they are also assembled and in some cases inspected or process-monitored; two stations are dedicated to inspection; final inspection is followed by a single reject station and then unloading to a tray unloader and labeling; guarding with access doors encloses the machine';
+---
+<div class="explorer" data-explorer>
+  <figure class="explorer-figure">
+    <!-- Wide drawing (tablet and desktop) -->
+    <svg class="layout layout-wide" viewBox="0 0 720 350" role="img" aria-label={label}>
+      <defs><marker id="arw-h" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" class="arrow-head" /></marker></defs>
+      <rect x="150" y="84" width="460" height="200" data-topics="safety" class={'guard' + on('safety')} />
+      <path d="M610 120h30a30 30 0 0 1-30 30M610 216h30a30 30 0 0 1-30 30" data-topics="safety" class={'door' + on('safety')} />
+      <g data-topics="safety" class={'mini' + on('safety')}><circle cx="610" cy="84" r="10" /><text x="610" y="87.5">8</text></g>
+      <rect x="176" y="160" width="408" height="48" rx="24" class="track" />
+      <rect x="190" y="172" width="380" height="24" rx="12" class="track-inner" />
+      {Array.from({ length: 10 }, (_, k) => <rect x={198 + k * 38} y="162" width="11" height="8" rx="2" class="pallet" />)}
+      {Array.from({ length: 10 }, (_, k) => <rect x={198 + k * 38} y="198" width="11" height="8" rx="2" class="pallet" />)}
+      <path d="M371 162l5 4-5 4M393 198l-5 4 5 4" class="flow-arrow" />
+      {wide.map(s => {
+        const cx = s.x + s.w / 2;
+        return (
+          <>
+            {s.feeder && (s.feeder === 'tray'
+              ? <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <rect x={s.x} y={s.top ? 28 : 296} width={s.w} height="28" rx="4" class="box" />
+                  <text x={cx} y={s.top ? 46 : 314} class="label small">Tray loader</text>
+                  <path d={s.top ? `M${cx} 56V92` : `M${cx} 296V276`} class="link" marker-end="url(#arw-h)" />
+                </g>
+              : <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <circle cx={cx} cy={s.top ? 44 : 312} r="12" class="box" />
+                  <path d={`M${cx - 7} ${s.top ? 44 : 312}a7 7 0 0 1 14 0`} class="thin" />
+                  <text x={cx} y={s.top ? 20 : 340} class="label small">Bowl feeder</text>
+                  <path d={s.top ? `M${cx} 56V92` : `M${cx} 300V276`} class="link" marker-end="url(#arw-h)" />
+                </g>)}
+            <g data-topics={topicsOf(s)} class={'st' + on(topicsOf(s))}>
+              <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" class="box" />
+              {s.reject && <text x={cx} y={s.y + s.h / 2 + 4} class="label">Reject</text>}
+              {minis(s, 9.5).map(m => <g data-topics={m.id} class={'mini' + on(m.id)}><circle cx={m.cx} cy={m.cy} r={m.r} /><text x={m.cx} y={m.cy + 3.5}>{m.n}</text></g>)}
+            </g>
+            {s.reject && <g data-topics="inspection qc" class={'ext' + on('inspection qc')}>
+              <path d={`M${cx} 274V300`} class="link" marker-end="url(#arw-h)" />
+              <rect x={cx - 26} y="302" width="52" height="26" rx="4" class="box" /><text x={cx} y="319" class="label small">Reject bin</text>
+            </g>}
+          </>
+        );
+      })}
+      <g data-topics="unloading" class={'ext' + on('unloading')}>
+        <path d="M176 238H122" class="link" marker-end="url(#arw-h)" />
+        <rect x="20" y="220" width="100" height="34" rx="4" class="box" /><text x="70" y="241" class="label">Tray unloader</text>
+      </g>
+      <g data-topics="unloading" class={'mini' + on('unloading')}><circle cx="120" cy="220" r="10" /><text x="120" y="223.5">6</text></g>
+      <g data-topics="labeling" class={'ext' + on('labeling')}>
+        <path d="M70 254V266" class="link" marker-end="url(#arw-h)" />
+        <rect x="20" y="268" width="100" height="30" rx="4" class="box" /><text x="70" y="287" class="label">Labeling</text>
+      </g>
+      <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="120" cy="268" r="10" /><text x="120" y="271.5">7</text></g>
+    </svg>
+
+    <!-- Tall drawing (phones), oriented like the owner's sketch -->
+    <svg class="layout layout-tall" viewBox="0 86 380 510" role="img" aria-label={label}>
+      <defs><marker id="arw-v" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L8 4L0 8z" class="arrow-head" /></marker></defs>
+      <rect x="96" y="96" width="208" height="460" data-topics="safety" class={'guard' + on('safety')} />
+      <path d="M140 556v30a30 30 0 0 0 30-30M226 556v30a30 30 0 0 0 30-30" data-topics="safety" class={'door' + on('safety')} />
+      <g data-topics="safety" class={'mini' + on('safety')}><circle cx="304" cy="556" r="10" /><text x="304" y="559.5">8</text></g>
+      <rect x="170" y="110" width="54" height="432" rx="27" class="track" />
+      <rect x="184" y="124" width="26" height="404" rx="13" class="track-inner" />
+      {Array.from({ length: 10 }, (_, k) => <rect x="173" y={132 + k * 40} width="8" height="11" rx="2" class="pallet" />)}
+      {Array.from({ length: 10 }, (_, k) => <rect x="213" y={132 + k * 40} width="8" height="11" rx="2" class="pallet" />)}
+      <path d="M213 310l4 5 4-5M173 315l4-5 4 5" class="flow-arrow" />
+      {tall.map(s => {
+        const cy = s.y + s.h / 2;
+        return (
+          <>
+            {s.feeder && (s.feeder === 'tray'
+              ? <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <rect x={s.right ? 310 : 6} y={cy - 15} width="64" height="30" rx="4" class="box" />
+                  <text x={s.right ? 342 : 38} y={cy + 4} class="label small">Tray loader</text>
+                  <path d={s.right ? `M310 ${cy}H298` : `M70 ${cy}H100`} class="link" marker-end="url(#arw-v)" />
+                </g>
+              : <g data-topics="feeding" class={'ext' + on('feeding')}>
+                  <circle cx={s.right ? 330 : 60} cy={cy} r="11" class="box" />
+                  <path d={`M${(s.right ? 330 : 60) - 6} ${cy}a6 6 0 0 1 12 0`} class="thin" />
+                  <text x={s.right ? 330 : 60} y={cy + 25} class="label small">Bowl feeder</text>
+                  <path d={s.right ? `M319 ${cy}H298` : `M71 ${cy}H100`} class="link" marker-end="url(#arw-v)" />
+                </g>)}
+            <g data-topics={topicsOf(s)} class={'st' + on(topicsOf(s))}>
+              <rect x={s.x} y={s.y} width={s.w} height={s.h} rx="4" class="box" />
+              {s.reject && <text x={s.x + s.w / 2} y={cy + 4} class="label small">Reject</text>}
+              {minis(s, 8.5).map(m => <g data-topics={m.id} class={'mini' + on(m.id)}><circle cx={m.cx} cy={m.cy} r={m.r} /><text x={m.cx} y={m.cy + 3.5}>{m.n}</text></g>)}
+            </g>
+            {s.reject && <g data-topics="inspection qc" class={'ext' + on('inspection qc')}>
+              <path d={`M102 ${cy}H80`} class="link" marker-end="url(#arw-v)" />
+              <rect x="10" y={cy - 14} width="68" height="28" rx="4" class="box" /><text x="44" y={cy + 4} class="label small">Reject bin</text>
+            </g>}
+          </>
+        );
+      })}
+      <g data-topics="unloading" class={'ext' + on('unloading')}>
+        <path d="M102 140H90" class="link" marker-end="url(#arw-v)" />
+        <rect x="4" y="122" width="84" height="36" rx="4" class="box" /><text x="46" y="144" class="label small">Tray unloader</text>
+      </g>
+      <g data-topics="unloading" class={'mini' + on('unloading')}><circle cx="88" cy="122" r="10" /><text x="88" y="125.5">6</text></g>
+      <g data-topics="labeling" class={'ext' + on('labeling')}>
+        <path d="M46 158V170" class="link" marker-end="url(#arw-v)" />
+        <rect x="4" y="172" width="84" height="28" rx="4" class="box" /><text x="46" y="190" class="label small">Labeling</text>
+      </g>
+      <g data-topics="labeling" class={'mini' + on('labeling')}><circle cx="88" cy="172" r="10" /><text x="88" y="175.5">7</text></g>
+    </svg>
+    <figcaption class="layout-caption">Schematic, not to scale. Not a specific machine.</figcaption>
+  </figure>
+  <div class="explorer-side">
+    <ul class="spot-chips" aria-label="Topics of the machine">
+      {machine.spots.map((spot, i) => (
+        <li><button type="button" class:list={['spot-chip', { 'is-active': i === 0 }]} data-spot={spot.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+          <span class="chip-num" aria-hidden="true">{i + 1}</span>{spot.title}
+        </button></li>
+      ))}
+    </ul>
+    <div class="spot-panels" aria-live="polite">
+      {machine.spots.map((spot, i) => (
+        <div class="spot-panel" data-spot-panel={spot.id} hidden={i !== 0}>
+          <h3 class="spot-title">{spot.title}</h3>
+          <p class="spot-text">{spot.function}</p>
+          <p class="spot-label">My role</p>
+          <p class="spot-text">{spot.role}</p>
+          <p class="spot-label">Lifecycle steps</p>
+          <ul class="spot-steps">
+            {spot.phases.map(id => <li><a href={`#phase-${id}`}>{pad(index[id])} {phaseShort[id]}</a></li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+<style>
+  .explorer { margin-top: 28px; display: grid; gap: 24px; align-items: start; }
+  .explorer-figure { margin: 0; padding: 16px; border: 1px solid #D5DCE3; border-radius: var(--radius-panel); background: var(--color-white); }
+  .layout { display: block; width: 100%; height: auto; overflow: visible; }
+  .layout-wide { display: none; }
+  .layout-tall { max-width: 420px; margin-inline: auto; }
+  .layout-caption { margin-top: 8px; font-size: .8125rem; color: var(--color-steel); }
+  .track { fill: var(--color-mist); stroke: var(--color-ink); stroke-width: 1.2; }
+  .track-inner { fill: var(--color-white); stroke: #9AA5B1; stroke-width: 1; }
+  .pallet { fill: var(--color-white); stroke: var(--color-ink); stroke-width: 1; }
+  .flow-arrow { fill: none; stroke: var(--color-cobalt); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .box { fill: var(--color-white); stroke: var(--color-ink); stroke-width: 1.2; transition: fill .2s, stroke .2s; }
+  .thin { fill: none; stroke: #9AA5B1; stroke-width: 1; }
+  .link { fill: none; stroke: var(--color-steel); stroke-width: 1.3; transition: stroke .2s; }
+  .arrow-head { fill: var(--color-steel); }
+  .guard { fill: none; stroke: var(--color-ink); stroke-width: 2.4; transition: stroke .2s; }
+  .door { fill: none; stroke: var(--color-steel); stroke-width: 1; stroke-dasharray: 3 2; transition: stroke .2s; }
+  .label { font-size: 10.5px; fill: var(--color-ink); text-anchor: middle; }
+  .label.small { font-size: 9.5px; }
+  .mini circle { fill: var(--color-white); stroke: var(--color-cobalt); stroke-width: 1.3; transition: fill .2s; }
+  .mini text { font-size: 10px; font-weight: 600; fill: var(--color-cobalt); text-anchor: middle; transition: fill .2s; }
+  .mini.is-active circle { fill: var(--color-cobalt); }
+  .mini.is-active text { fill: var(--color-white); }
+  .st.is-active .box, .ext.is-active .box { fill: var(--color-cobalt-tint); stroke: var(--color-cobalt); stroke-width: 2; }
+  .ext.is-active .link { stroke: var(--color-cobalt); }
+  .guard.is-active { stroke: var(--color-cobalt); }
+  .door.is-active { stroke: var(--color-cobalt); stroke-width: 1.4; }
+  .spot-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .spot-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 999px; border: 1px solid #D5DCE3; background: var(--color-white); color: var(--color-ink); font: inherit; font-size: .9375rem; cursor: pointer; transition: background-color .2s, border-color .2s; }
+  .chip-num { width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; border: 1.4px solid var(--color-cobalt); color: var(--color-cobalt); font-size: .75rem; font-weight: 600; }
+  .spot-chip:hover { border-color: var(--color-cobalt); }
+  .spot-chip.is-active { background: var(--color-cobalt-tint); border-color: var(--color-cobalt); color: var(--color-cobalt-deep); }
+  .spot-chip.is-active .chip-num { background: var(--color-cobalt); color: var(--color-white); }
+  .spot-panels { margin-top: 16px; padding: 20px; border-radius: var(--radius-inner); background: var(--color-cobalt-tint); min-height: 14rem; }
+  .spot-title { font-size: 1.1875rem; }
+  .spot-text { margin-top: 6px; color: var(--color-ink); }
+  .spot-label { margin-top: 14px; font-size: .875rem; font-weight: 600; color: var(--color-cobalt); }
+  .spot-steps { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .spot-steps a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--color-white); color: var(--color-ink); text-decoration: none; font-size: .9375rem; font-weight: 500; }
+  .spot-steps a:hover { color: var(--color-cobalt); }
+  @media (min-width: 768px) {
+    .layout-wide { display: block; }
+    .layout-tall { display: none; }
+  }
+  @media (min-width: 1024px) {
+    .explorer-figure { padding: 24px; }
+    .explorer-side { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 24px; align-items: start; }
+    .spot-panels { margin-top: 0; }
+  }
+</style>

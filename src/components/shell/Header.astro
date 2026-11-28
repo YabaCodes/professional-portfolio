@@ -36,5 +36,5 @@ import { routeHref, sectionHref, sections } from '../../lib/site';
   .mobile-nav[open] .menu-toggle { background:var(--color-mist); }
   .mobile-links { position:absolute; inset-inline-end:0; top:calc(100% + 8px); width:min(240px,calc(100vw - 40px)); background:var(--color-white); border:1px solid var(--color-line); border-radius:var(--radius-inner); box-shadow:0 12px 32px rgb(21 25 30 / .12); padding:8px; z-index:5; }
   .mobile-links .nav-link { color:var(--color-ink); padding-inline:12px; border-radius:10px; }
-  @media(min-width:900px) { .desktop-nav {display:flex;} .mobile-nav {display:none;} }
+  @media(min-width:900px) { .desktop-nav {display:flex;} .mobile-nav {display:none;} .site-header { position: sticky; top: 0; z-index: 20; background: rgb(255 255 255 / .94); backdrop-filter: saturate(1.4) blur(8px); -webkit-backdrop-filter: saturate(1.4) blur(8px); } }
 </style>

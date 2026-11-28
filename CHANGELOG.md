@@ -1,6 +1,13 @@
 # Changelog
 
-## 1.2.0 — candidate
+## 1.3.0 — candidate
+- Add a process-flow diagram (01–08) before the phase details; each box opens its phase.
+- Add the Equipment Layout section: an original schematic top view of an automated assembly machine with a closed-loop transfer system (ten stations, feeding all around, a single reject station before unloading), numbered callouts and eight topics linked to the lifecycle.
+- Remove the contact buttons from the hero; add a sticky section bar on phones and a sticky header on desktop.
+- Plain section headings; clearer glance wording; skills trimmed to the owner's own items; fix stretched skill chips on desktop.
+- New original phase icons; small page script for opening phases from links, switching layout topics and marking the current section.
+
+## 1.2.0 — deployed 2026-11-28 (PR #24; run 46089002324)
 - Redesign the at-a-glance box: two large machine figures (11 developments completed: 3 automated and 8 manual assembly; 3 ongoing: automated assembly machines), then 4 countries (based in Taiwan; testing and installation in Germany, Switzerland and the US), PMP and the patent.
 - Name Taiwan as the owner's base in the international sentence; rename the track record's "In progress" to "Ongoing".
 

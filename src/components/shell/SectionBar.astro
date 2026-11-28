@@ -1,0 +1,19 @@
+---
+/** Phone and tablet: a slim bar of section links that sticks to the top after the hero. */
+import { sectionHref, sections } from '../../lib/site';
+---
+<nav class="section-bar" aria-label="Jump to section">
+  <ul>
+    {sections.map(s => <li><a href={sectionHref(s.id)} data-section-link={s.id}>{s.label}</a></li>)}
+  </ul>
+</nav>
+<style>
+  .section-bar { position: sticky; top: 0; z-index: 15; background: rgb(255 255 255 / .94); backdrop-filter: saturate(1.4) blur(8px); -webkit-backdrop-filter: saturate(1.4) blur(8px); border-block: 1px solid var(--color-line); }
+  ul { list-style: none; margin: 0; padding: 6px var(--page-gutter); display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  ul::-webkit-scrollbar { display: none; }
+  li { flex: none; }
+  a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px; color: var(--color-steel); text-decoration: none; font-size: .9375rem; font-weight: 500; transition: background-color .2s, color .2s; }
+  a:hover { color: var(--color-ink); }
+  a[aria-current='true'] { background: var(--color-cobalt-tint); color: var(--color-cobalt-deep); font-weight: 600; }
+  @media (min-width: 900px) { .section-bar { display: none; } }
+</style>

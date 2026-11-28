@@ -10,7 +10,7 @@ const release = JSON.parse(await readFile('config/release.json','utf8'));
 const production = release.publicationEnabled === true;
 const publication = JSON.parse(await readFile('config/public-facing.json','utf8'));
 const base = '/professional-portfolio/';
-const sectionIds = ['process','experience','skills','publications','contact'];
+const sectionIds = ['process','machine','experience','skills','publications','contact'];
 const allowedHosts = ['doi.org','patents.google.com'];
 const types = {'.html':'text/html; charset=utf-8','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff'};
 const server = createServer(async (req,res) => {
@@ -119,6 +119,25 @@ try {
     assert.equal(await page.locator('[data-phase="fat"] details').evaluate(n=>n.open),false);
     assert.equal(await page.locator('[data-track-record] li').count(),5,'track record items');
 
+    // Process flow: each box opens its phase; the equipment layout switches topics.
+    assert.equal(await page.locator('[data-flow]').count(),phases.length,'one flow box per phase');
+    await minTarget(page.locator('[data-flow]'),'process flow box');
+    await page.locator('[data-flow="sat"]').click();
+    await page.waitForTimeout(300);
+    assert.equal(await page.locator('#phase-sat details').evaluate(n=>n.open),true,'flow box opens its phase');
+    assert.equal(await page.locator('[data-spot-panel="feeding"]').isVisible(),true,'first layout topic shown by default');
+    await page.locator('[data-explorer] .spot-chip[data-spot="inspection"]').click();
+    assert.equal(await page.locator('[data-spot-panel="inspection"]').isVisible(),true);
+    assert.equal(await page.locator('[data-spot-panel="feeding"]').isVisible(),false);
+    assert.equal(await page.locator('[data-explorer] svg.layout:visible g.st.is-active').count(),4,'every station that inspects, and the reject station, is highlighted');
+    assert.equal(await page.locator('[data-explorer] svg.layout:visible g.st.is-active[data-topics~="assembly"]').count(),1,'one assembly station also inspects');
+    assert.equal(await page.locator('[data-explorer] svg.layout:visible').count(),1,'one drawing per screen size');
+    await minTarget(page.locator('[data-explorer] button:visible, [data-explorer] .spot-steps a:visible'),'interactive control');
+    assert.equal(await page.locator('.section-bar').isVisible(),mobile,'section bar only below 900px');
+    if (mobile) assert.deepEqual(await page.locator('.section-bar a').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href'))),sectionIds.map(id=>base+'#'+id));
+    assert.deepEqual(await scan(page),[]);
+    await page.evaluate(()=>window.scrollTo(0,0));
+
     // Résumé content.
     assert.equal(await page.locator('[data-record-id]').count(),3);
     assert.equal(await page.locator('[data-credential-id]').count(),4);
@@ -132,7 +151,7 @@ try {
     assert.equal(await contact.locator('[data-approved-email-link]').getAttribute('href'),publication.email.href);
     assert.equal(await contact.locator('[data-approved-email-link]').innerText(),publication.email.href.replace(/^mailto:/,''));
     await minTarget(contact.locator('a'),'contact');
-    await minTarget(page.locator('section[aria-labelledby="hero-heading"] a'),'hero action');
+    assert.equal(await page.locator('section[aria-labelledby="hero-heading"] a').count(),0,'hero holds no contact buttons; contact is at the end');
     assert.equal(await page.locator('main form, a[href^="tel:"]').count(),0);
     if (production && publication.resume.status === 'approved') assert.equal(await page.locator('[data-approved-resume-link]').getAttribute('href'),publication.resume.assetPath);
     else assert.equal(await page.locator('a[download], a[href$=".pdf"]').count(),0);

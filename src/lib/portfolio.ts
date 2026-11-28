@@ -6,20 +6,20 @@
  * Change only with fresh owner approval.
  */
 export const hero = {
-  titleLine: 'Senior Process Development Engineer (Team Lead) · SHL Medical · Taiwan',
+  titleLine: 'Senior Process Development Engineer (Team\u00A0Lead) · SHL Medical · Taiwan',
   headline: 'From requirements definition to mass production.',
   introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
 } as const;
 
 export const atAGlance = {
   machines: [
-    { value: '11', label: 'Machine developments completed', detail: '3 automated and 8 manual assembly' },
-    { value: '3', label: 'Machine developments ongoing', detail: 'Automated assembly machines' },
+    { value: '11', label: 'Equipment projects completed', detail: '3 automated assembly machines, 8 manual assembly fixtures' },
+    { value: '3', label: 'Equipment projects ongoing', detail: 'Automated assembly machines' },
   ],
   facts: [
     { value: '4 countries', label: 'Based in Taiwan; machine testing and installation in Germany, Switzerland and the US', wide: true },
     { value: 'PMP®', label: 'Project Management Professional', wide: false },
-    { value: '01', label: 'Granted US patent', wide: false },
+    { value: '1', label: 'Granted US patent', wide: false },
   ],
 } as const;
 
@@ -143,6 +143,52 @@ export const phases = [
   },
 ] as const;
 
+/** Short phase labels used by the equipment-layout links. */
+export const phaseShort = {
+  urs: 'Requirements', srm: 'Supplier', design: 'Design', build: 'Development',
+  pi: 'Integration', fat: 'FAT', sat: 'SAT', validation: 'Production',
+} as const;
+export type PhaseId = keyof typeof phaseShort;
+
+/**
+ * Equipment layout: schematic of a typical automated assembly machine with a closed-loop transfer
+ * system, drawn from the owner's sketch (PP-013): feeding from tray loader and bowl feeder,
+ * assembly stations combining handling and assembly with control and inspection or process
+ * monitoring, reject, final inspection and unloading to the tray unloader, labeling, and safety
+ * guarding. Generic; no real machine, supplier or product. "function" describes the area;
+ * "role" is the owner's responsibility, from his lifecycle text.
+ */
+export const machine = {
+  heading: 'Equipment Layout',
+  introduction: 'Schematic top view of a typical automated assembly machine with a closed-loop transfer system. Components are fed at stations all around the machine; the numbers in each station refer to the list. Select a topic to see what it does and what I specify and verify there.',
+  spots: [
+    { id: 'feeding', title: 'Feeding', phases: ['urs', 'fat', 'sat'],
+      function: 'A device has many components, so they are fed at stations all around the machine, from bowl feeders and tray loaders; tray loaders can be supplied by an automated storage and retrieval system (AS/RS).',
+      role: 'I define the feeding and detection requirements, including the tray loader interface, and verify them at FAT and SAT.' },
+    { id: 'assembly', title: 'Handling and assembly', phases: ['urs', 'pi'],
+      function: 'At the feeding stations, grippers and suction cups place each component on the pallet and the station assembles it, step by step.',
+      role: 'I translate the lab-developed assembly process and its parameters into assembly specifications, then challenge them at the upper and lower specification limits during process integration.' },
+    { id: 'inspection', title: 'Control and inspection', phases: ['urs', 'fat'],
+      function: 'Inspection takes place within assembly stations or at dedicated inspection stations, for example force-displacement monitoring and vision inspection; bad parts are removed at the reject station before unloading.',
+      role: 'I define the inspection and detection requirements from the assembly risk assessment and verify the inspection systems at FAT.' },
+    { id: 'monitoring', title: 'Process monitoring', phases: ['pi', 'fat', 'sat'],
+      function: 'Critical process parameters are monitored and recorded; the machine keeps audit trails and reports and communicates with MES.',
+      role: 'I identify the critical process parameters during process integration and verify their monitoring, the audit trails and the MES communication at FAT and SAT.' },
+    { id: 'qc', title: 'Final inspection', phases: ['urs', 'fat', 'sat'],
+      function: 'Final inspection confirms each assembled device; the single reject station, one or two stations before unloading, removes nonconforming devices.',
+      role: 'I define the acceptance criteria for final inspection and verify them, including rejection, at FAT and SAT.' },
+    { id: 'unloading', title: 'Unloading', phases: ['urs', 'fat'],
+      function: 'Good devices are unloaded from the pallets into trays by the tray unloader.',
+      role: 'I specify the unloading and tray-handling functions and verify the integration with the tray unloader.' },
+    { id: 'labeling', title: 'Labeling', phases: ['urs', 'fat', 'sat'],
+      function: 'Filled trays are labeled for identification and traceability and can be transferred to an AS/RS.',
+      role: 'I define the labeling and traceability requirements and verify them with MES at FAT and SAT.' },
+    { id: 'safety', title: 'Safety', phases: ['urs', 'design', 'fat'],
+      function: 'Guarding with access doors encloses the machine, and its safety functions protect operators and maintenance staff.',
+      role: 'I define the safety requirements in the URS, review machine safety in design reviews and verify the safety mechanisms at FAT.' },
+  ],
+} as const;
+
 export const trackRecord = {
   heading: 'Track record',
   completed: [
@@ -157,28 +203,29 @@ export const trackRecord = {
 } as const;
 
 export const practice = {
-  label: 'Throughout every project',
+  label: 'Working Standards',
   statement: 'I apply good manufacturing practice, good documentation practice and our quality system, with standard project-management tools and continuous risk assessment.',
   international: 'I work from Taiwan, and the work is international: most of our machines are built by suppliers in Germany, and some are installed at our sites in Switzerland and the US, so I travel to all three for machine testing, installation and other project activities.',
   labels: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Project management (PMP)', 'Continuous risk assessment'],
 } as const;
 
-export const experienceHeading = 'SHL Medical, Taiwan · since 2022';
+export const experienceHeading = 'Experience';
+export const experienceSubheading = 'SHL Medical, Taiwan · since 2022';
 
 export const skills = {
-  heading: 'What I bring to the project.',
+  heading: 'Skills',
   groups: [
     { group: 'Equipment and process', items: ['Industrialization of automated assembly equipment', 'User requirement specification (URS)', 'Requirements traceability', 'Design review', 'Process integration and challenge testing', 'FAT and SAT', 'Equipment qualification and validation support', 'IT, MES and SAP integration testing', 'Root-cause investigation', 'Process improvement'] },
     { group: 'Quality and compliance', items: ['GMP', 'Good documentation practice', 'ISO 13485', 'FDA regulations', 'Risk analysis into requirements'] },
     { group: 'Automation technology', note: 'Specification, design review and testing of control systems, PLC, HMI, SCADA and robotics.', items: ['Control systems', 'PLC', 'HMI', 'SCADA', 'Robotics', 'CAD'] },
-    { group: 'Project and people', items: ['Project management (PMP)', 'Project planning: milestones, resources, risk', 'Supplier management', 'Cross-functional coordination', 'Senior-management reporting', 'Team lead for three engineers', 'Training and knowledge transfer'] },
+    { group: 'Project and people', items: ['Project management (PMP)', 'Supplier management', 'Cross-functional coordination', 'Training and knowledge transfer'] },
     { group: 'Analysis', items: ['Design for Six Sigma (Green Belt)', 'Statistics', 'Measurement system analysis'] },
     { group: 'Languages', items: ['English (advanced)', 'Amharic (native)'] },
   ],
 } as const;
 
 export const contact = {
-  heading: 'Connect on engineering, technology and delivery.',
+  heading: 'Contact',
   introduction: 'Open to conversations about engineering leadership, manufacturing technology, new product introduction and complex technical programs.',
 } as const;
 

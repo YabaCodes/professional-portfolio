@@ -1,0 +1,16 @@
+---
+/** Original line icons for the eight lifecycle phases (24 px grid, stroke follows currentColor). */
+import type { PhaseId } from '../../lib/portfolio';
+interface Props { id: PhaseId; size?: number }
+const { id, size = 24 } = Astro.props;
+---
+<svg class="phase-icon-svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {id === 'urs' && <><path d="M7 3h7l4 4v14H7z" /><path d="M14 3v4h4" /><path d="M9.5 11h6M9.5 14.5h6M9.5 18h3.5" /></>}
+  {id === 'srm' && <><rect x="3.5" y="4.5" width="17" height="15" rx="2" /><path d="M3.5 9.5h17M9 4.5v15" /><path d="M12.2 14.6l1.9 1.9 3.6-4" /></>}
+  {id === 'design' && <><path d="M4.5 19.5V5l14.5 14.5z" /><path d="M8 16v-3.2l3.2 3.2z" /><path d="M4.5 9h1.8M4.5 13h1.8" /></>}
+  {id === 'build' && <><circle cx="12" cy="12" r="3" /><path d="M12 3.5v2.3M12 18.2v2.3M3.5 12h2.3M18.2 12h2.3M6 6l1.6 1.6M16.4 16.4L18 18M6 18l1.6-1.6M16.4 7.6L18 6" /><circle cx="12" cy="12" r="6.2" /></>}
+  {id === 'pi' && <><path d="M3 5.5h18M3 18.5h18" stroke-dasharray="2 2.4" /><path d="M3 12c1.8-3.6 3.6-3.6 5.4 0s3.6 3.6 5.4 0 3.6-3.6 5.4 0" /></>}
+  {id === 'fat' && <><rect x="5" y="4.5" width="14" height="16.5" rx="2" /><path d="M9 4.5V3h6v1.5" /><path d="M8.6 13l2.4 2.4 4.4-4.8" /></>}
+  {id === 'sat' && <><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" /><path d="M9.4 10.2l1.9 1.9 3.3-3.6" /></>}
+  {id === 'validation' && <><rect x="3.5" y="11" width="7" height="6.5" rx="1" /><rect x="13.5" y="11" width="7" height="6.5" rx="1" /><path d="M2 20.5h20" /><path d="M8 6.5h7.5m0 0L13 4m2.5 2.5L13 9" /></>}
+</svg>

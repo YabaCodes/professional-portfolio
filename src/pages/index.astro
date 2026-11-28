@@ -3,7 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { loadCatalog } from '../lib/content/catalog';
 import { identity } from '../lib/site';
-import { hero, atAGlance, process, phases, trackRecord, practice, experienceHeading, skills, contact, displayDate } from '../lib/portfolio';
+import { hero, atAGlance, process, phases, trackRecord, practice, experienceHeading, experienceSubheading, skills, contact, machine, displayDate } from '../lib/portfolio';
+import ProcessFlow from '../components/lifecycle/ProcessFlow.astro';
+import MachineExplorer from '../components/lifecycle/MachineExplorer.astro';
+import SectionBar from '../components/shell/SectionBar.astro';
 import { approvedContact, approvedEmail, approvedResume } from '../lib/publication';
 await loadCatalog();
 const career = (await getCollection('career')).map(e => e.data).sort((a, b) => b.start.localeCompare(a.start));
@@ -12,6 +15,7 @@ const credentials = (await getCollection('credentials')).map(e => e.data)
 const publications = (await getCollection('publications')).map(e => e.data).sort((a, b) => a.year - b.year || a.id.localeCompare(b.id));
 const patents = (await getCollection('patents')).map(e => e.data);
 const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
+
 ---
 <BaseLayout title={identity.name} description={identity.introduction} home>
   <section class="hero" aria-labelledby="hero-heading">
@@ -20,11 +24,6 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
         <p class="hero-kicker">{hero.titleLine}</p>
         <h1 id="hero-heading" class="hero-title">{hero.headline}</h1>
         <p class="hero-intro">{hero.introduction}</p>
-        <div class="button-row">
-          {approvedContact && <a class="action-link" href={approvedContact.href} data-hero-contact>{approvedContact.label}</a>}
-          {approvedEmail && <a class="ghost-link" href={approvedEmail.href} data-hero-email>{approvedEmail.label}</a>}
-          {approvedResume && <a class="ghost-link" href={approvedResume.assetPath} download data-hero-resume>{approvedResume.label}</a>}
-        </div>
       </div>
       <div class="panel glance" role="group" aria-label="At a glance">
         <dl class="glance-machines">
@@ -48,15 +47,18 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
     </div>
   </section>
 
+  <SectionBar />
+
   <section id="process" class="section-block section-ruled" aria-labelledby="process-heading" data-reveal>
     <div class="page-container">
       <h2 id="process-heading">{process.heading}</h2>
       <div class="reading-width section-intro">
         {process.introduction.map(text => <p class="secondary-text">{text}</p>)}
       </div>
+      <ProcessFlow />
       <ol class="steps" aria-label="Manufacturing equipment development phases">
         {phases.map((p, i) => (
-          <li class="step" data-phase={p.id}>
+          <li class="step" id={`phase-${p.id}`} data-phase={p.id}>
             <details class="phase" name="phase" open={i === 0}>
               <summary class="phase-summary">
                 <span class="step-dot" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
@@ -102,20 +104,26 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
     </div>
   </section>
 
+  <section id="machine" class="section-block section-ruled" aria-labelledby="machine-heading" data-reveal>
+    <div class="page-container">
+      <h2 id="machine-heading">{machine.heading}</h2>
+      <p class="secondary-text reading-width section-intro">{machine.introduction}</p>
+      <MachineExplorer />
+    </div>
+  </section>
+
   <section class="page-container practice-wrap" aria-labelledby="practice-heading" data-reveal>
     <div class="panel practice">
       <h2 id="practice-heading" class="practice-heading">{practice.label}</h2>
       <p class="practice-text">{practice.statement}</p>
       <p class="practice-text">{practice.international}</p>
-      <ul class="chip-row" aria-label="Standards and practices">
-        {practice.labels.map(label => <li class="chip chip-light">{label}</li>)}
-      </ul>
     </div>
   </section>
 
   <section id="experience" class="section-block section-ruled" aria-labelledby="experience-heading" data-reveal>
     <div class="page-container">
       <h2 id="experience-heading">{experienceHeading}</h2>
+      <p class="secondary-text section-intro">{experienceSubheading}</p>
       <ol class="role-list">
         {career.map(role => (
           <li class="role" data-record-id={role.id}>
@@ -152,7 +160,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
   <section id="publications" class="section-block section-ruled" aria-labelledby="publications-heading" data-reveal>
     <div class="page-container credentials-grid">
       <div>
-        <h2 class="subhead" id="education-heading">Education and certifications</h2>
+        <h2 class="subhead" id="education-heading">Education and Certifications</h2>
         <ul class="record-list" aria-labelledby="education-heading">
           {credentials.map(c => (
             <li data-credential-id={c.id}>
@@ -163,7 +171,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
         </ul>
       </div>
       <div>
-        <h2 class="subhead" id="publications-heading">Publications and patent</h2>
+        <h2 class="subhead" id="publications-heading">Publications and Patent</h2>
         <ol class="record-list">
           {publications.map(p => (
             <li data-publication-id={p.id}>
@@ -196,6 +204,9 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
     </div>
   </section>
 </BaseLayout>
+<script>
+  import '../scripts/interactions.ts';
+</script>
 
 <style>
   /* Hero */
@@ -230,7 +241,7 @@ const emailAddress = approvedEmail?.href.replace(/^mailto:/i, '') ?? null;
 
   /* Six-to-eight phase stepper: native details, one open at a time, no script. */
   .steps { list-style: none; margin: 32px 0 0; padding: 0; max-width: 880px; }
-  .step { position: relative; padding-bottom: 14px; }
+  .step { position: relative; padding-bottom: 14px; scroll-margin-top: 84px; }
   .step:not(:last-child)::before { content: ''; position: absolute; left: 16px; top: 50px; bottom: 0; width: 2px; border-radius: 2px; background: var(--color-line); transition: background-color var(--transition-duration); }
   .phase-summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 34px minmax(0, 1fr) 32px; gap: 14px; align-items: start; padding: 8px 0 4px; min-height: 44px; }
   .phase-summary::-webkit-details-marker { display: none; }

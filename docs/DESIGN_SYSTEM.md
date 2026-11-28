@@ -41,3 +41,7 @@ Owner-selected 2026-11-27 (PP-009-DESIGN-001). Calm, bright and precise, like a 
 | Cobalt tint | #E8ECFB | Open phase panel, completed phases |
 
 Type: Instrument Sans Variable (weight and width axes), self-hosted through Fontsource; headings 600 at 92 % width with tight tracking; body 16–17 px, line height 1.6. Shapes: pill buttons and chips, 22 px panels, 14 px inner panels, no shadows except the mobile menu. The delivery phases are a numbered stepper: earlier phases turn cobalt tint with a cobalt line, the open phase is solid cobalt. Numbers are used only because the phases are a sequence. Motion is unchanged from PP-008 and respects reduced motion. Contrast is checked by `npm run test:design`.
+
+## Diagrams — PP-013
+Diagrams are original line drawings in the Cleanroom palette: ink strokes 1–2 px, mist and white fills, cobalt for the selected item. The process flow uses the phase icons (24 px grid, 1.6 px stroke) and plain arrows. The equipment layout follows layout-drawing conventions: top view, guarding as a heavy outline with door swings, a closed-loop transfer track with pallets and direction arrows, stations as blocks carrying numbered balloons for every topic they serve, feeders and peripherals outside the guarding, and the caption "Schematic, not to scale. Not a specific machine." No decorative animation; motion is limited to responses to the visitor's actions and respects reduced motion.
+
