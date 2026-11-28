@@ -1,6 +1,10 @@
 # Changelog
 
-## 1.5.3 — candidate
+## 1.5.4 — candidate
+- Hero summary: completed automated assembly machines run from 20 to 60 ppm; the two fully automated machines in development run at 160 ppm. Track record: range up to 160 ppm; the two ongoing machines marked 160 ppm.
+- Technologies: feeding by bowl feeders and tray loaders, both integrable with an automated storage and retrieval system (ASRS) for automated feeding and replenishment; "pallet" becomes Work Piece Carrier (WPC); AS/RS becomes ASRS; final inspection reworded by the owner; new section introduction in the owner's words.
+
+## 1.5.3 — deployed 2026-11-28 (PR #30; run 46127265521)
 - Fix: opening a phase below an open one no longer pulls the tapped heading up and out of view (most visible on phones and in Safari). The tapped heading stays in place while the phase above closes, and its details open downward.
 
 ## 1.5.2 — deployed 2026-11-28 (PR #29; run 46118778673)

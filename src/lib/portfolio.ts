@@ -9,7 +9,7 @@ export const hero = {
   name: 'Yeabsra Mekdim',
   titleLine: 'Senior Process Development Engineer (Team\u00A0Lead) · SHL Medical · Taiwan',
   headline: 'From Concept to Mass Production',
-  introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
+  introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance. The automated assembly machines I have completed run from 20 to 60\u00A0parts per minute (ppm), and the two fully automated machines now in development run at 160\u00A0ppm.',
 } as const;
 
 /** Whole years since a YYYY-MM start, rounded down, at the given date. */
@@ -170,13 +170,13 @@ export type PhaseId = keyof typeof phaseShort;
  */
 export const machine = {
   heading: 'Assembly Automation Technologies',
-  introduction: 'The technologies I specify and verify on automated assembly machines, shown on a schematic top view of a typical machine with a closed-loop transfer system. The numbers in each station refer to the topics; select one to see what it covers and my role.',
+  introduction: 'An interactive schematic of a typical automated assembly machine with a closed-loop transfer system, illustrating the key automation technologies within my scope of engineering specification and verification. Select a numbered element to explore its functionality and my associated technical responsibilities.',
   spots: [
     { id: 'feeding', title: 'Feeding', phases: ['urs', 'fat', 'sat'],
-      function: 'A device has many components, so they are fed at stations all around the machine, from bowl feeders and tray loaders; tray loaders can be supplied by an automated storage and retrieval system (AS/RS).',
+      function: 'A device has many components, so they are fed at stations all around the machine, from bowl feeders and tray loaders. Both can be integrated with an automated storage and retrieval system (ASRS) for automated component feeding and replenishment.',
       role: 'I define the feeding and detection requirements, including the tray loader interface, and verify them at FAT and SAT.' },
     { id: 'assembly', title: 'Handling and assembly', phases: ['urs', 'pi'],
-      function: 'At the feeding stations, grippers and suction cups place each component on the pallet and the station assembles it, step by step.',
+      function: 'At the feeding stations, grippers and suction cups place each component on the Work Piece Carrier (WPC) and the station assembles it, step by step.',
       role: 'I translate the lab-developed assembly process and its parameters into assembly specifications, then challenge them at the upper and lower specification limits during process integration.' },
     { id: 'inspection', title: 'Control and inspection', phases: ['urs', 'fat'],
       function: 'Inspection takes place within assembly stations or at dedicated inspection stations, for example force-displacement monitoring and vision inspection; bad parts are removed at the reject station before unloading.',
@@ -185,13 +185,13 @@ export const machine = {
       function: 'Critical process parameters are monitored and recorded at the stations, and the data is used to make the process robust and optimize it.',
       role: 'I identify the critical process parameters during process integration, optimize the process within its boundaries and verify the monitoring at FAT and SAT.' },
     { id: 'qc', title: 'Final inspection', phases: ['urs', 'fat', 'sat'],
-      function: 'Final inspection confirms each assembled device; the single reject station, one or two stations before unloading, removes nonconforming devices.',
+      function: 'Final inspection confirms each assembled device meets the specified conditions; the reject station removes nonconforming devices.',
       role: 'I define the acceptance criteria for final inspection and verify them, including rejection, at FAT and SAT.' },
     { id: 'unloading', title: 'Unloading', phases: ['urs', 'fat'],
-      function: 'Good devices are unloaded from the pallets into trays by the tray unloader.',
+      function: 'Good devices are unloaded from the Work Piece Carriers (WPCs) into trays by the tray unloader.',
       role: 'I specify the unloading and tray-handling functions and verify the integration with the tray unloader.' },
     { id: 'labeling', title: 'Labeling', phases: ['urs', 'fat', 'sat'],
-      function: 'Filled trays are labeled for identification and traceability and can be transferred to an AS/RS.',
+      function: 'Filled trays are labeled for identification and traceability and can be transferred to the automated storage and retrieval system (ASRS).',
       role: 'I define the labeling and traceability requirements and verify them with MES at FAT and SAT.' },
     { id: 'safety', title: 'Safety', phases: ['urs', 'design', 'fat'],
       function: 'Guarding with access doors encloses the machine, and its safety functions protect operators and maintenance staff.',
@@ -204,7 +204,7 @@ export const machine = {
 
 export const trackRecord = {
   heading: 'Track record',
-  introduction: 'From low-volume semi-automated machines for clinical trials, design analysis and design verification (DV) to high-volume fully automated machines at 60\u00A0parts per minute (ppm), with CapEx up to USD\u00A010\u00A0million per fully automated machine.',
+  introduction: 'From low-volume semi-automated machines for clinical trials, design analysis and design verification (DV) to high-volume fully automated machines at up to 160\u00A0parts per minute (ppm), with CapEx up to USD\u00A010\u00A0million per fully automated machine.',
   completed: [
     { count: 1, item: 'High-volume fully automated assembly machine, 60\u00A0ppm' },
     { count: 1, item: 'Flexible robotic assembly line (SMART), 20\u00A0ppm' },
@@ -212,7 +212,7 @@ export const trackRecord = {
     { count: 8, item: 'Manual assembly fixtures' },
   ],
   inProgress: [
-    { count: 2, item: 'Fully automated assembly machines, approaching FAT' },
+    { count: 2, item: 'Fully automated assembly machines, 160\u00A0ppm, approaching FAT' },
     { count: 1, item: 'Automated assembly machine, in the final supplier response matrix stage' },
   ],
 } as const;
