@@ -112,3 +112,5 @@ PP-015 v1.5.0 deployed 2026-11-28 (run 46113573496).
 PP-016 working standards and global operations 2026-11-28: v1.5.1. Acceptance: owner's heading and two paragraphs verbatim; all CI checks pass. Owner merge, then manual redeploy.
 PP-016 v1.5.1 deployed 2026-11-28 (run 46115528930).
 PP-017 type and spacing consistency 2026-11-28: v1.5.2. Acceptance: one size per text role at every width (checked automatically), page title larger than section headings, consistent heading and panel spacing; all CI checks pass. Owner merge, then manual redeploy.
+PP-017 v1.5.2 deployed 2026-11-28 (run 46118778673).
+PP-018 phase opens in place 2026-11-28: v1.5.3. Acceptance: a tapped phase heading stays within 2 px of its position at 320–1440 px; all CI checks pass. Owner merge, then manual redeploy.

@@ -1,6 +1,9 @@
 # Changelog
 
-## 1.5.2 — candidate
+## 1.5.3 — candidate
+- Fix: opening a phase below an open one no longer pulls the tapped heading up and out of view (most visible on phones and in Safari). The tapped heading stays in place while the phase above closes, and its details open downward.
+
+## 1.5.2 — deployed 2026-11-28 (PR #29; run 46118778673)
 - One type scale: page title 44 px > section headings 36 px > panel headings 22 px > item titles 19 px > body 17 px > interface 15 px > labels, meta and captions 14 px. Education and Publications headings now match other sections, in equal columns.
 - One spacing rhythm: 16 px under section headings, 32 px from introductions to content; panel padding 24 px on phones and 32 px on desktop (contact 40 px).
 - All paragraph text in the body colour (steel only for meta and captions); blue track-record counts.
