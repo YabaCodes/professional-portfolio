@@ -3,7 +3,8 @@ import { hero } from './portfolio';
 export const identity = {
   name: 'Yeabsra Mekdim',
   positioning: 'Senior Process Development Engineer',
-  introduction: hero.introduction,
+  /** Search and link-preview description: role and employer first, then the first bio paragraph. */
+  introduction: 'Senior Process Development Engineer and Team Lead at SHL Medical. ' + hero.introduction[0],
 } as const;
 
 /** One-page résumé: navigation jumps to sections of the home page. */

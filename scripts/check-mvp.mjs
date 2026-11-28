@@ -44,11 +44,11 @@ if(prelaunch){
 assert.doesNotMatch(page,/href="\/professional-portfolio\/design-system\//,'Internal fixture link forbidden');
 
 // The approved copy renders exactly once, word for word.
-for(const words of [hero.titleLine,hero.headline,hero.introduction,process.heading,...process.introduction,practice.label,practice.statement,practice.international,contactCopy.heading,contactCopy.introduction])
+for(const words of [hero.titleLine,hero.headline,...hero.introduction,process.heading,...process.introduction,practice.label,practice.statement,practice.international,contactCopy.heading,contactCopy.introduction])
  assert.ok(text.includes(words.replace(/\s+/g,' ')),'Approved copy missing: '+words.slice(0,60));
 for(const item of [...atAGlance.machines,...atAGlance.facts])assert.ok(text.includes(item.label)&&text.includes(item.value)&&(!('detail' in item)||text.includes(item.detail)),'At-a-glance item missing: '+item.label);
 for(const t of [...trackRecord.completed,...trackRecord.inProgress])assert.ok(text.includes(t.item.replace(/\s+/g,' ')),'Track record item missing: '+t.item);
-assert.ok(!/ppm|parts per minute/i.test(hero.introduction),'machine rates belong in the track record, not the hero summary');
+assert.ok(!/ppm|parts per minute/i.test(hero.introduction.join(' ')),'machine rates belong in the track record, not the hero summary');
 assert.ok(text.includes(trackRecord.introduction.replace(/\s+/g,' ')),'Track record introduction missing');
 const {yearsSince}=await import('../src/lib/portfolio.ts');
 assert.equal(yearsSince('2022-02',new Date(2026,10,28)),4);assert.equal(yearsSince('2022-02',new Date(2027,0,31)),4);assert.equal(yearsSince('2022-02',new Date(2027,1,1)),5);
@@ -111,7 +111,7 @@ const blockers=[
  {id:'B04-QA',status:'manual-device-accessibility-performance-and-confidentiality-open'},
  {id:'B05-LAUNCH',status:prelaunch?'owner-release-authorization-required':'authorized-'+release.approvalReference}
 ];
-const report={milestone:'PP-022 / hero proportions',version:packageInfo.version,
+const report={milestone:'PP-023 / bio',version:packageInfo.version,
  mode:prelaunch?'prelaunch':'production-candidate',
  websiteDeployedByThisWorkflow:false,approvedRecords:counts,primaryRoutes:routes.length,deliveryPhases:phases.length,
  releaseEnabled:release.publicationEnabled,contactAssetState:'exact-LinkedIn-and-email-approved-for-public-repository',

@@ -9,7 +9,11 @@ export const hero = {
   name: 'Yeabsra Mekdim',
   titleLine: 'Senior Process Development Engineer (Team\u00A0Lead) · SHL Medical · Taiwan',
   headline: 'From Concept to Mass Production',
-  introduction: 'I lead automation projects from concept to production: specifying requirements, reviewing supplier designs, verifying and testing equipment, and transferring it to manufacturing on time and in compliance.',
+  /** Owner-approved bio (PP-023), two paragraphs. */
+  introduction: [
+    'I lead multidisciplinary engineering programs across the full equipment development lifecycle, from requirements engineering and supplier technical alignment through process integration and equipment qualification to mass production.',
+    'My professional interests lie at the intersection of engineering, technical program management and operational excellence, with a focus on delivering robust, scalable and compliant manufacturing solutions.',
+  ],
 } as const;
 
 /** Whole years since a YYYY-MM start, rounded down, at the given date. */

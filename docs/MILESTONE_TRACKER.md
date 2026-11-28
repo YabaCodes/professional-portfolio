@@ -122,3 +122,5 @@ PP-020 v1.5.5 deployed 2026-11-28 (run 46149224363).
 PP-021 link preview 2026-11-28: v1.5.6. Acceptance: link-preview.jpg 1200 x 630, under 300 KB, no EXIF; og:image absolute URL with width, height and alt; summary_large_image; all CI checks pass. Owner merge, then manual redeploy. Next: custom domain once the owner has bought one.
 PP-021 v1.5.6 deployed 2026-11-28 (run 46154003631).
 PP-022 hero proportions 2026-11-28: v1.5.7. Acceptance: larger desktop portrait and name, title still on one line from 768 px; all CI checks pass. Owner merge, then manual redeploy.
+PP-022 v1.5.7 deployed 2026-11-29 (run 46161065133).
+PP-023 bio 2026-11-29: v1.5.8. Acceptance: two-paragraph bio as approved; meta and og description start with the role; all CI checks pass. Owner merge, then manual redeploy.

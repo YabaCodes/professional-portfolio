@@ -32,7 +32,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
           </div>
         </div>
         <h1 id="hero-heading" class="hero-title">{hero.headline}</h1>
-        <p class="hero-intro">{hero.introduction}</p>
+        <div class="hero-intro">{hero.introduction.map(text => <p>{text}</p>)}</div>
       </div>
       <div class="panel glance" role="group" aria-label="At a glance">
         <dl class="glance-machines">
@@ -245,7 +245,7 @@ const patents = (await getCollection('patents')).map(e => e.data);
     .hero-name { font-size: 1.25rem; }
   }
   .hero-title { max-width: 15ch; }
-  .hero-intro { color: var(--color-body); font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); max-width: 56ch; }
+  .hero-intro { color: var(--color-body); font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); max-width: 56ch; display: flex; flex-direction: column; gap: 12px; }
   .hero-copy .button-row { margin-top: 8px; }
   .glance { padding: 24px; display: flex; flex-direction: column; gap: 20px; background: var(--color-white); border: 1px solid #D5DCE3; box-shadow: 0 1px 0 rgb(21 25 30 / .03); }
   .glance dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 18px; }

@@ -1,6 +1,10 @@
 # Changelog
 
-## 1.5.7 — candidate
+## 1.5.8 — candidate
+- New two-paragraph bio under the name (owner's text, lightly edited and approved): programs across the full equipment development lifecycle, and interests in engineering, technical program management and operational excellence.
+- Search and link-preview description: "Senior Process Development Engineer and Team Lead at SHL Medical." followed by the first bio paragraph.
+
+## 1.5.7 — deployed 2026-11-29 (PR #34; run 46161065133)
 - Desktop hero: larger portrait (184 px) and name (28 px), title line on two lines (role, then employer and place), so the identity block balances the glance box. Phones unchanged.
 
 ## 1.5.6 — deployed 2026-11-28 (PR #33; run 46154003631)
